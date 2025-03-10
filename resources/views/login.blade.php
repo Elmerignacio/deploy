@@ -39,10 +39,11 @@
                 <input class="w-full px-6 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-green-400" 
                        type="password" id="password" placeholder="Password">
             </div>
-            <!-- Login Button -->
-            <button class="w-[60%] bg-white text-green-800 font-bold py-3 rounded-lg hover:bg-green-400 transition duration-300">
-                Login
-            </button>
+
+         
+            <a class=" w-[100px] text-1xl bg-white text-green-800 font-bold px-9 py-3 rounded-lg hover:bg-green-400 transition duration-300" href="dashboard" >Login</a>
+          
+           
         </div>
         
 </body>
