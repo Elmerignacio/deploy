@@ -126,9 +126,13 @@
 
              <!--Payable-->
              <div class="relative">
-                <a href="payableManagement" id="" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
-                    <i class="fas fa-money-bill-wave"></i> PAYABLE MANAGEMENT
-                </a>
+                <button id="PayableButton" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
+                    <i class="fas fa-money-bill-wave"></i> PAYABLES
+                </button>
+                <div id="PayableMenu" class="absolute left-full top-0 w-48 bg-green-800 rounded shadow-md hidden z-10">
+                    <a href="#" class="block px-4 py-2 hover:bg-green-700">Add Payable</a>
+                    <a href="#" class="block px-4 py-2 hover:bg-green-700">Update Payable</a>
+                </div>
             </div>
 
             <!--Expenses-->
@@ -276,111 +280,110 @@
         </header>
         
         <!-- Content Area -->
-        <div class=" p-[50px] bg-[url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476576892_648669014486867_3927621611615304678_n.png?_nc_cat=107&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFItCpz8qmXnuup9gAOpSYUzZTtUua-yWrNlO1S5r7JaiVl8xtM4UqThCpkdz0MTSGAA0f9ieExtk10B8KKfVXa&_nc_ohc=xLOagArzb7QQ7kNvgEJnroi&_nc_oc=AdhjQj9y2mboNl6KzUsk9lrUe0KNLwrn4fmg5A9VtKMziNra6upezVMz7f_f8U4z0mAdX-eJ51GW4QApOiNxwu8d&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1gGe5DMkVYFrkSiGGVgoVGT0UzJVnAO7V8k_OfqW8KhnhA&oe=67DA6DD8')] bg-cover bg-center bg-no-repeat w-full col-start-1 col-end-13 row-start-2 row-end-13">
-           <div class="content-center">
-            
-                <div>
-                    <h2 class="text-lg font-bold">WELCOME! JUAN DELA CRUZ,</h2>
-                    <p class="text-gray-600 text-sm">DEPARTMENT TREASURER</p>
-                </div>
-    
-                <div class="grid lg:grid-cols-3 md:grid-cols-3 gap-4 mt-6">
-
-                    <div class="bg-green-500 text-white p-6 rounded-lg shadow-lg text-center ">
-                        <div class="flex justify-center mt-[15px]">
-                            <img src="https://scontent.fcgy1-2.fna.fbcdn.net/v/t1.15752-9/478304506_657320803628371_1979724036374650860_n.png?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeE_r0Cbp7WV8wxL_k3GCBkwUTyeHKcG5X1RPJ4cpwblfSPVz4wbtnbg2xQ_YYgpWF6BR00MCOWBimyVqK6wgdCY&_nc_ohc=FGxX-oFBmBkQ7kNvgFx08rl&_nc_oc=AdioXMLogQPTWLUg8eMB6R5SsDbwJ_OgGs-D3cIxKyi3r_yek5m0StXKhhFU8aoK7Jl7gTuUOFudR0Uhhwv9i2WK&_nc_zt=23&_nc_ht=scontent.fcgy1-2.fna&oh=03_Q7cD1gFoZHlqkJQ5DuNSISu6unMJXwIf1novf1034RzpPwu00Q&oe=67DA390F"
-                            class="w-[30%] h-[30%]" alt="Cash on Hand">
-                          
-                        <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">CASH ON HAND</p> 
-                        </div>
-                        <p class="text-3xl font-bold"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">₱0.00</p>
-                    </div>
-    
-                    <div class="bg-red-500 text-white p-6 rounded-lg shadow-lg text-center ">
-                        <div class="flex justify-center mt-[15px]">
-                            <img src="https://scontent.fcgy2-1.fna.fbcdn.net/v/t1.15752-9/481574582_3363874913752849_8300719159033548285_n.png?_nc_cat=100&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFDBs97aEM9rUPsvJFytt_X5NjT8FOe5Uzk2NPwU57lTKdYes4ga_YQw_wx58snXLUcH-BFRaoiMnJGwxdr9UXt&_nc_ohc=zMarWMJf44sQ7kNvgHVH1Qu&_nc_oc=AdjibbLaUUT2Munq58lH065JcPmGFYfPULvpPFgMKVYmkGRGsimd4yAFrxuJJdUU3fzdkdpDNamTiLXirJblisal&_nc_zt=23&_nc_ht=scontent.fcgy2-1.fna&oh=03_Q7cD1gFyMDi1JpxobuG-v8oSdZ1bYzGDYq61ssofNYY7LIYJiw&oe=67EE0ADD"
-                            class="w-[30%] h-[30%]" alt="Expenses">
-                          
-                        <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">EXPENSES</p> 
-                        </div>
-                        <p class="text-3xl font-bold"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">₱0.00</p>
-                    </div>
-    
-                    <div class="bg-yellow-500 text-white p-6 rounded-lg shadow-lg text-center ">
-                    <div class="flex justify-center mt-[15px]">
-                    <img src="https://scontent.fcgy1-2.fna.fbcdn.net/v/t1.15752-9/480440311_2015779438940893_3746088750876481447_n.png?_nc_cat=111&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFvcMBuzZshz9vZxAqaA6xQ42Gw-PQi4PzjYbD49CLg_MFnX156d_Bz_J4H_NTdozmDqL3P5g64A4fkavZifE5N&_nc_ohc=5nKqFTPzZPIQ7kNvgFp44YF&_nc_oc=AdgujOQpvfcVDq3iD3RtSN7C2f3NvjnZ_PqvU6ht6s8m_Ys1MdFOnv-BlXuHeqbTFA8A17AMNAnp2UWnVDzpEBNO&_nc_zt=23&_nc_ht=scontent.fcgy1-2.fna&oh=03_Q7cD1gHmy0e0FCkcTrwLXAu2kdrAIRSIEoF8CUJfza7TfEDD2A&oe=67DA233A"
-                    class="w-[20%] h-[20%]" alt="Receivables">
-                    
-                    <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">RECEIVABLE</p> 
-                    </div>
-                    <p class="text-3xl font-bold"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">₱172,000,000</p>
-                    </div>
-                 
-                    
-                   
-                </div>
-    
-
-            
-            <!-- Payables Table -->
-            <div class="mt-6 pb-5">
-                <h3 class="text-lg font-bold mb-4">STUDENTS PAYABLES</h3>
-                <table class="w-full border-collapse border border-gray-300">
-                    <thead class="bg-gray-200">
-                        <tr class="text-left">
-                            <th class="border border-gray-300 p-2">DESCRIPTION</th>
-                            <th class="border border-gray-300 p-2">AMOUNT</th>
-                            <th class="border border-gray-300 p-2">EXPECTED RECEIVABLE</th>
-                            <th class="border border-gray-300 p-2">DUE DATE</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="border border-gray-300 p-2">SEMESTRAL DUE</td>
-                            <td class="border border-gray-300 p-2">₱250.00</td>
-                            <td class="border border-gray-300 p-2">₱75,000.00</td>
-                            <td class="border border-gray-300 p-2">MAY 20, 2025</td>
-                        </tr>
-                        <tr>
-                            <td class="border border-gray-300 p-2">SINULOG FESTIVAL</td>
-                            <td class="border border-gray-300 p-2">₱300.00</td>
-                            <td class="border border-gray-300 p-2">₱90,000.00</td>
-                            <td class="border border-gray-300 p-2">JANUARY 10, 2025</td>
-                        </tr>
-                        <tr>
-                            <td class="border border-gray-300 p-2">FINES</td>
-                            <td class="border border-gray-300 p-2">₱25.00</td>
-                            <td class="border border-gray-300 p-2">₱7,500.00</td>
-                            <td class="border border-gray-300 p-2">MAY 20, 2025</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>	
-
-        </div>
-
+        <div class="max-w-screen-full mx-auto p-[50px] bg-cover bg-center bg-no-repeat w-full col-start-1 col-end-13 row-start-2 row-end-13"
+        style="background-image: url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476576892_648669014486867_3927621611615304678_n.png?_nc_cat=107&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFItCpz8qmXnuup9gAOpSYUzZTtUua-yWrNlO1S5r7JaiVl8xtM4UqThCpkdz0MTSGAA0f9ieExtk10B8KKfVXa&_nc_ohc=xLOagArzb7QQ7kNvgEJnroi&_nc_oc=AdhjQj9y2mboNl6KzUsk9lrUe0KNLwrn4fmg5A9VtKMziNra6upezVMz7f_f8U4z0mAdX-eJ51GW4QApOiNxwu8d&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1gGe5DMkVYFrkSiGGVgoVGT0UzJVnAO7V8k_OfqW8KhnhA&oe=67DA6DD8');">
         
+        <div class="content-center">
+ 
+            <!-- Class Info -->
+            <div class="flex flex-col justify-between mt-4 gap-2">
+              <h2 class="text-2xl sm:text-3xl font-semibold text-center md:text-left">STUDENT BALANCES</h2>
+                <div class="text-green-800 text-xl font-bold">3RD YEAR A</div>
+                <div class="text-sm text-gray-700">REPRESENTATIVE: WEA MAQUILING</div>
 
-
+                
+            </div>
+            
+        
+            <!-- Balance Info -->
+            <div class="flex space-x-2 mt-4 justify-end">              
+                <div class="bg-green-600 text-white px-6 py-3 rounded-lg text-center">
+                    <span class="text-xs block font-semibold">CASH ON HAND</span>
+                    <span class="text-lg font-bold">₱0.00</span>
+                </div>
+                <div class="bg-blue-600 text-white px-6 py-3 rounded-lg text-center">
+                    <span class="text-xs block font-semibold">REMITTED</span>
+                    <span class="text-lg font-bold">₱0.00</span>
+                </div>
+                <div class="bg-yellow-500 text-white px-6 py-3 rounded-lg text-center">
+                    <span class="text-xs block font-semibold">RECEIVABLE</span>
+                    <span class="text-lg font-bold">₱750.00</span>
+                </div>
+            </div>
+        
+            <!-- Student Table -->
+            <div class="mt-4 overflow-auto">
+              <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
+                  <thead>
+                      <tr class="bg-white text-black border border-black">
+                          <th class="p-2 border border-black bg-green-700"><input type="checkbox"></th>
+                          <th class="p-2 border border-black">DESCRIPTION</th>
+                          <th class="p-2 border border-black bg-green-700">AMOUNT</th>
+                          <th class="p-2 border border-black bg-yellow-500">EXPECTED RECEIVABLE</th>
+                          <th class="p-2 border border-black bg-red-700">DUE DATE</th>
+                          <th class="p-2 border border-black text-center">Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr class="border border-black">
+                          <td class="p-2 border border-black"><input type="checkbox"></td>
+                          <td class="p-2 border border-black">Semestral Due</td>
+                          <td class="p-2 border border-black">250</td>
+                          <td class="p-2 border border-black">75,000</td>
+                          <td class="p-2 border border-black">May 20 2025</td>
+                          <td class="px-6 py-4 border border-black text-center">
+                              <a href="#" class="px-3 py-1 text-red-700">Edit</a>
+                              <a href="#" class="px-3 py-1 text-blue-700 ml-2">Delete</a>
+                          </td>
+                      </tr>
+                      <tr class="border border-black">
+                          <td class="p-2 border border-black"><input type="checkbox"></td>
+                          <td class="p-2 border border-black">Sinulog Festival</td>
+                          <td class="p-2 border border-black">250</td>
+                          <td class="p-2 border border-black">75,000</td>
+                          <td class="p-2 border border-black">May 20 2025</td>
+                          <td class="px-6 py-4 border border-black text-center">
+                              <a href="#" class="px-3 py-1 text-red-700">Edit</a>
+                              <a href="#" class="px-3 py-1 text-blue-700 ml-2">Delete</a>
+                          </td>
+                      </tr>
+                      <tr class="border border-black">
+                          <td class="p-2 border border-black"><input type="checkbox"></td>
+                          <td class="p-2 border border-black">Sinulog Festival</td>
+                          <td class="p-2 border border-black">250</td>
+                          <td class="p-2 border border-black">75,000</td>
+                          <td class="p-2 border border-black">May 20 2025</td>
+                          <td class="px-6 py-4 border border-black text-center">
+                              <a href="#" class="px-3 py-1 text-red-700">Edit</a>
+                              <a href="#" class="px-3 py-1 text-blue-700 ml-2">Delete</a>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+        </div>
+        
+            
+    
     </div>
 
     <script>
-        const sidebar = document.querySelector('.sidebar');
-        const content = document.querySelector('.content-center');
-      
-        document.addEventListener('mousemove', function (event) {
-          if (event.clientX <= 5) {
-            sidebar.classList.add('open');
-            content.classList.add('content-with-sidebar');
-          }
-        });
-      
-        sidebar.addEventListener('mouseleave', function () {
-          sidebar.classList.remove('open');
-          content.classList.remove('content-with-sidebar');
-        });
-      </script>
-      
+      const sidebar = document.querySelector('.sidebar');
+      const content = document.querySelector('.content-center');
+    
+      document.addEventListener('mousemove', function (event) {
+        if (event.clientX <= 5) {
+          sidebar.classList.add('open');
+          content.classList.add('content-with-sidebar');
+        }
+      });
+    
+      sidebar.addEventListener('mouseleave', function () {
+        sidebar.classList.remove('open');
+        content.classList.remove('content-with-sidebar');
+      });
+    </script>
+    
 
 </body>
 </html>
