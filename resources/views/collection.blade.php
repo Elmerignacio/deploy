@@ -285,144 +285,196 @@
         
         <div class="content-center">
             
-            <!-- Header Section -->
-            <div class="mt-4">
-                <h2 class="text-2xl sm:text-3xl font-semibold text-center md:text-left">PAYABLE MANAGEMENT</h2>
+          <!-- Header Section -->
+
                 
-                <!-- Year -->
-                <div class="flex items-center space-x-2 mt-5">
-                    <select id="schoolYearFilter" class="border border-black rounded-md px-3 py-1 text-sm focus:ring-2 focus:ring-green-500">
-                        <option value="" selected>All School Years</option>
-                        <option value="2024-2025">2024-2025</option>
-                        <option value="2023-2024">2023-2024</option>
-                        <option value="2022-2023">2022-2023</option>
-                    </select>
-                </div>
+          <div class="mt-4">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-center md:text-left">COLLECTIONS</h2>
               
-                <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        const schoolYearFilter = document.getElementById("schoolYearFilter");
-                        const rows = document.querySelectorAll("tbody tr");
-                    
-                        schoolYearFilter.addEventListener("change", function () {
-                            const selectedYear = this.value;
-                            
-                            rows.forEach(row => {
-                                const dueDate = row.children[4].textContent.trim(); 
-                    
-                                if (selectedYear === "" || dueDate.includes(selectedYear)) {
-                                    row.style.display = "";
-                                } else {
-                                    row.style.display = "none";
-                                }
-                            });
-                        });
-                    });
-                    </script>
-
-            <!-- Search and Add User Button -->
-            <div class="flex flex-col md:flex-row items-center justify-between mt-4 space-y-2 md:space-y-0">
-                <div class="flex items-center border border-black rounded-lg p-2 w-full md:w-72">
-                    <input type="text" placeholder="Search..." class="w-full outline-none px-2"/>
-                    <button class="text-gray-500 hover:text-gray-700">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </div>
-                
-                <a href="/createPayable" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
-                    Add Payable <i class="fas fa-plus"></i>
-                </a>
+              <!-- Navigation Links -->
+              <div class="flex flex-col md:flex-row space-x-0 md:space-x-6 mt-4 border-b pb-2 text-sm text-center md:text-left">
+                <a href="#" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Payment</a>
+                <a href="#" class="text-[17px] text-gray-600">Remittance</a>
             </div>
+          </div>
 
+          <!-- Search and Add User Button -->
+          <div class="flex flex-col md:flex-row items-center justify-between mt-4 space-y-2 md:space-y-0">
+              <div class="flex items-center border border-black rounded-lg p-2 w-full md:w-72">
+                  <input type="text" placeholder="Search..." class="w-full outline-none px-2"/>
+                  <button class="text-gray-500 hover:text-gray-700">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                  </button>
+              </div>
+
+          </div>
+          <form action="saveData">
+          @csrf
+          <div class=" overflow-auto">
+            <!-- Student Table -->
             <div class="mt-4 overflow-auto">
                 <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
                     <thead>
-                        <tr class="bg-white text-black border border-black">
-                            <th class="p-2 border border-black"><input type="checkbox" id="selectAll"></th>
-                            <th class="p-2 border border-black">DESCRIPTION</th>
-                            <th class="p-2 border border-black bg-green-700">AMOUNT</th>
-                            <th class="p-2 border border-black bg-yellow-500">EXPECTED RECEIVABLE</th>
-                            <th class="p-2 border border-black bg-red-700">DUE DATE</th>
-                            <th class="p-2 border border-black text-center">Actions</th>
+                        <tr class="bg-green-700 text-white border border-black">
+                            <th class="p-2 border border-black">ID NUMBER</th>
+                            <th class="p-2 border border-black">FIRSTNAME</th>
+                            <th class="p-2 border border-black">LASTNAME</th>
+                            <th class="p-2 border border-black">YEAR AND BLOCK</th>
+                            <th class="p-2 border border-black">ROLE</th>
+                            <th class="p-2 border border-black">BALANCE</th>
                         </tr>
                     </thead>
                     <tbody id="usersTableBody">
-                        @foreach($Payables as $payable)
-                        <tr class="border border-black cursor-pointer" onclick="toggleCheckbox(event, this)">
-                            <td class="p-2 border border-black">
-                                <input type="checkbox" name="" value="" class="rowCheckbox">
-                            </td>
-                            <td class="p-2 border border-black">{{ $payable->description }}</td>
-                            <td class="p-2 border border-black">₱{{ number_format(floor($payable->input_amount), 2) }}</td>
-                            <td class="p-2 border border-black">₱{{ number_format(floor($payable->expected_receivable), 2) }}</td>
-                            <td class="p-2 border border-black">{{ $payable->dueDate }}</td>
-                            <td class="p-2 border border-black text-center">
-                                <button class="text-blue-700 px-2 py-1 rounded">Edit</button>
-                            </td>
-                        </tr>
+                        @php
+                            $grandTotalBalance = 0; 
+                        @endphp
+                        @foreach ($students as $student)
+                            @php
+                                $totalBalance = $payables->where('student', $student->id)->sum('amount');
+                                $grandTotalBalance += $totalBalance; 
+                            @endphp
+                            <tr class="border border-black cursor-pointer hover:bg-gray-200" 
+                                onclick="handleRowClick(
+                                    '{{ $student->id }}', 
+                                    '{{ strtoupper($student->firstname) }} {{ strtoupper($student->lastname) }}', 
+                                    '{{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}'
+                                )">
+                                <td class="p-2 border border-black">{{ $student->id }}</td>
+                                <td class="p-2 border border-black">{{ strtoupper($student->firstname) }}</td>
+                                <td class="p-2 border border-black">{{ strtoupper($student->lastname) }}</td>
+                                <td class="p-2 border border-black">{{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}</td>
+                                <td class="p-2 border border-black">{{ strtoupper($student->role) }}</td>
+                                <td class="p-2 border border-black">
+                                    {{ $totalBalance > 0 ? '₱' . number_format($totalBalance, 2) : '' }} 
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr class="font-bold">
+                            <td colspan="5" class="p-2 border border-black text-center">TOTAL BALANCE:</td>
+                            <td class="p-2 border border-black">{{ $grandTotalBalance > 0 ? '₱' . number_format($grandTotalBalance, 2) : 'N/A' }}</td>
+                        </tr>
+                    </tfoot>
                 </table>
+                
 
-                       <!-- Delete Button -->
-            <div class="mt-4 flex justify-end">
-                <button id="delete-button" class="text-white px-3 py-2 rounded mt-2 bg-red-700 ">Delete</button>
-            </div>
-            </div>
+            
+          </div>
+        </div>
 
+        <script>
+            function handleRowClick(studentId, fullName, yearBlock) {
+                console.log("Row clicked! Student ID:", studentId);
+            
+                document.getElementById("studentName").textContent = fullName;
+                document.getElementById("studentYearBlock").textContent = yearBlock;
+                document.getElementById("studentId").value = studentId; 
+            
+                fetch(`/get-student-payables/${studentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Payables Data:", data);
+                    const tbody = document.getElementById("payablesTableBody");
+                    tbody.innerHTML = "";
+            
+                    const remainingPayables = data.filter(payable => parseFloat(payable.amount) > 0);
+            
+                    if (remainingPayables.length > 0) {
+                        remainingPayables.forEach(payable => {
+                            let formattedAmount = parseFloat(payable.amount).toFixed(2);
+                            
+                            const row = `
+                                <tr>
+                                    <td class="p-2 border border-black">${payable.description}</td>
+                                    <td class="p-2 border border-black remaining-balance">₱${formattedAmount}</td>
+                                    <td class="p-2 border border-black">
+                                        <input type="number" name="amount_paid[]" class=" rounded-md p-1 w-20 amount-paid" min="0" step="0.01" oninput="updateTotals()">
+                                        <input type="hidden" name="payable_id[]" value="${payable.id}">
+                                        <input type="hidden" class="original-balance" value="${formattedAmount}">
+                                    </td>
+                                </tr>
+                            `;
+                            tbody.innerHTML += row;
+                        });
+            
+                        updateTotals(); 
+                    } else {
+                        tbody.innerHTML = `<tr><td colspan="3" class="p-2 border border-black text-red-500">No remaining balances</td></tr>`;
+                    }
+                })
+                .catch(error => console.error("Error fetching student payables:", error));
+            
+                document.getElementById("paymentModal").classList.remove("hidden");
+            }
+            
+            function updateTotals() {
+                let totalRemaining = 0;
+                let totalPaid = 0;
+            
+                document.querySelectorAll(".amount-paid").forEach((input, index) => {
+                    let originalBalance = parseFloat(document.querySelectorAll(".original-balance")[index].value);
+                    let paidAmount = parseFloat(input.value) || 0;
+                    let newBalance = originalBalance - paidAmount;
+            
+                    if (newBalance < 0) {
+                        input.value = originalBalance; 
+                        newBalance = 0;
+                    }
+            
+                    document.querySelectorAll(".remaining-balance")[index].textContent = `₱${newBalance.toFixed(2)}`;
+            
+                    totalRemaining += newBalance;
+                    totalPaid += paidAmount;
+                });
+            
+                document.getElementById("totalRemaining").textContent = `₱${totalRemaining.toFixed(2)}`;
+                document.getElementById("totalAmountPaid").textContent = `₱${totalPaid.toFixed(2)}`;
+            }
+            
+            function closeModal() {
+                document.getElementById("paymentModal").classList.add("hidden");
+            }
+            
+            document.getElementById("submitPayment").addEventListener("click", function (event) {
+                event.preventDefault(); 
+            
+                const formData = new FormData(document.getElementById("paymentForm"));
+            
+                fetch("/save-payment", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Payment saved successfully!");
+                        closeModal();
+                        location.reload(); 
+                    } else {
+                        alert("Error: " + data.error);
+                    }
+                })
+                .catch(error => console.error("Error saving payment:", error));
+            });
+            </script>
+          </div>
+
+        
+      </form>
+
+          
+      </div>
+      </div>
+  </div>
+           
      
             
-        </div>
+    
     </div>
 
 
-         <!-- Script for search -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const searchInput = document.querySelector("input[type='text']");
-            const table = document.querySelector("table");
-            const tbody = table.querySelector("tbody");
-            const rows = Array.from(tbody.querySelectorAll("tr"));
-        
-            // Search Function
-            searchInput.addEventListener("keyup", function () {
-                const filter = searchInput.value.toLowerCase();
-                rows.forEach(row => {
-                    const description = row.children[1].textContent.toLowerCase(); 
-                    if (description.includes(filter)) {
-                        row.style.display = "";
-                    } else {
-                        row.style.display = "none";
-                    }
-                });
-            });
-        
-            // Sorting Function
-            document.querySelectorAll("th").forEach((header, columnIndex) => {
-                header.addEventListener("click", function () {
-                    const isNumeric = columnIndex > 1 && columnIndex < 4; // Amount, Receivable, Due Date columns
-                    const direction = header.dataset.order === "asc" ? "desc" : "asc";
-                    header.dataset.order = direction;
-        
-                    const sortedRows = rows.sort((a, b) => {
-                        let valA = a.children[columnIndex].textContent.trim();
-                        let valB = b.children[columnIndex].textContent.trim();
-        
-                        if (isNumeric) {
-                            valA = parseFloat(valA.replace(/[₱,]/g, "")) || 0;
-                            valB = parseFloat(valB.replace(/[₱,]/g, "")) || 0;
-                        }
-        
-                        return direction === "asc" ? (valA > valB ? 1 : -1) : (valA < valB ? 1 : -1);
-                    });
-        
-                    tbody.innerHTML = "";
-                    sortedRows.forEach(row => tbody.appendChild(row));
-                });
-            });
-        });
-        </script>
-        
+
     <script>
       const sidebar = document.querySelector('.sidebar');
       const content = document.querySelector('.content-center');
@@ -440,34 +492,92 @@
       });
     </script>
     
-
-     <!--script for checkbox--->  
-     <script>
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
-            function toggleCheckbox(event, row) {
-                if (event.target.closest('.notClickable') || event.target.type === 'checkbox') {
-                    return;
-                }
-                let checkbox = row.querySelector('.rowCheckbox');
-                checkbox.checked = !checkbox.checked;
-            }
+            const searchInput = document.querySelector("input[type='text']");
+            const table = document.querySelector("table");
+            const tbody = table.querySelector("tbody");
+            const rows = Array.from(tbody.querySelectorAll("tr"));
         
-            document.getElementById('selectAll').addEventListener('change', function () {
-                let checkboxes = document.querySelectorAll('.rowCheckbox');
-                checkboxes.forEach(checkbox => checkbox.checked = this.checked);
-            });
+            searchInput.addEventListener("keyup", function () {
+                const filter = searchInput.value.toLowerCase().trim();
+                
+                rows.forEach(row => {
+                    let textContent = "";
+                    
+                    for (let i = 1; i < row.children.length - 1; i++) {
+                        textContent += row.children[i].textContent.toLowerCase() + " ";
+                    }
         
-            document.querySelectorAll('#usersTableBody tr').forEach(row => {
-                row.addEventListener('click', function (event) {
-                    toggleCheckbox(event, this);
+                    if (textContent.includes(filter)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
                 });
             });
+        
         });
-        </script>
+    </script>
 
+ <!-- PAYMENT MODAL -->
+ <div id="paymentModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-4xl">
+      
+      <form action="/save-payment" method="POST">
+          @csrf
+          <input type="hidden" name="student_id" id="studentId">
 
-    
-    
+          <!-- Header -->
+          <div class="flex justify-between items-center pb-2">
+              <h2 class="text-[25px] font-bold text-green-700">PAYMENT</h2>
+              <button type="button" onclick="closeModal()" class="text-red-500 font-bold text-2xl">&times;</button>
+          </div>
+
+          <!-- User Info -->
+          <div class="mt-2">
+              <p id="studentName" class="text-[25px] font-bold text-green-700">SELECT A STUDENT</p>
+              <p id="studentYearBlock" class="text-[19px] font-bold text-gray-600"></p>
+          </div>
+
+          <!-- Payment Table -->
+          <div class="flex items-center space-x-2 mt-4">
+            <input type="date" id="schoolYearFilter" class="border border-black rounded-md px-3 py-1 text-sm focus:ring-2 focus:ring-green-500">
+        </div>
+        
+      
+          <div class="mt-2">
+              <table class="w-full border border-black text-center text-sm">
+                  <thead>
+                      <tr class="bg-green-700 text-white">
+                          <th class="p-2 border border-black">DESCRIPTION</th>
+                          <th class="p-2 border border-black">REMAINING BALANCE</th>
+                          <th class="p-2 border border-black">AMOUNT PAID</th>
+                      </tr>
+                  </thead>
+                  <tbody id="payablesTableBody">
+                  </tbody>
+                  <tfoot>
+                    <tr class="bg-white font-bold">
+                        <td class="p-2 border border-black">TOTAL</td>
+                        <td class="p-2 border border-black" id="totalRemaining">₱0.00</td>
+                        <td class="p-2 border border-black" id="totalAmountPaid">₱0.00</td>
+                    </tr>
+                </tfoot>
+              </table>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="mt-4 text-center">
+            <button id="submitPayment" class="px-6 py-3 bg-green-700 text-white rounded-lg font-bold">
+                RECEIVE
+            </button>
+        </div>
+      </form>
+
+  </div>
+</div>
+
 
 
 </body>

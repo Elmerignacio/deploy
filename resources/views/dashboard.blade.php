@@ -114,14 +114,9 @@
 
         <!--Collections-->
         <div class="relative">
-            <button id="CollectionsButton" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
+            <a href="collection" id="" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
                 <i class="fas fa-wallet"></i> COLLECTIONS
-            </button>
-            <div id="CollectionsMenu" class="absolute left-full top-0 w-48 bg-green-800 rounded shadow-md hidden z-10">
-                <a href="#" class="block px-4 py-2 hover:bg-green-700">Payment</a>
-                <a href="#" class="block px-4 py-2 hover:bg-green-700">Remittance</a>
-                <a href="#" class="block px-4 py-2 hover:bg-green-700">Transaction History</a>
-            </div>
+            </a>
         </div>
 
              <!--Payable-->
@@ -151,7 +146,7 @@
 
                <!--User Management-->
                <div class="relative">
-                <a href="#" id="" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
+                <a href="manageUser" id="" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
                     <i class="fas fa-user-plus"></i> MANAGE USER
                 </a>
             </div>
@@ -268,10 +263,10 @@
 
         <!-- Header -->
         <header class=" flex justify-center items-center gap-2 text-white p-2 font-bold text-2xl col-start-1 col-end-13 row-start-1 row-end-1 
-        bg-[url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476890606_1033672748598390_7650911982562615150_n.png?_nc_cat=110&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFy1_KZh_695itxUzt0_gY0RFZEy8vZy05EVkTLy9nLTlH7dbaWvxAzT7Gn6DYNsphQT9JNl5Psj4BAN--vJp2_&_nc_ohc=0sAAJGN1f_gQ7kNvgGNgl7J&_nc_oc=AdiVMgLmUMt543oHrlDNO9AfLGhV-PfZw_q1he346zFOvGEq2jXNRyVAQAtgCA1VzaJ5LfSsfrz3yb360VHLEiti&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1gF4A4cEXnqRVF_618WPKwYHh5b-kbDDLi6LyNnq454rsA&oe=67DA46F6')] 
+        bg-[url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476890606_1033672748598390_7650911982562615150_n.png?_nc_cat=110&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFy1_KZh_695itxUzt0_gY0RFZEy8vZy05EVkTLy9nLTlH7dbaWvxAzT7Gn6DYNsphQT9JNl5Psj4BAN--vJp2_&_nc_ohc=Nlp8mHYnHukQ7kNvgEmVncN&_nc_oc=AdlPcZBtvuJkJogsg7qzXoO9A6DFM4RO09OXkl2x2xS0JQHeQLhSreyKRxTu3gK6d5KEXq4hs1TBSjTIPhj92_bM&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1wEhuwbuutFiXH_K8ERXeBqsC-aUuZ6ippYPOcZFOX-wtg&oe=68024476')] 
         bg-cover bg-center bg-no-repeat w-full">
             
-            <img class="w-[70px] h-[70px] rounded-full" src="https://scontent.fcgy1-2.fna.fbcdn.net/v/t1.15752-9/474751507_9312187378816358_8255926976147863753_n.png?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeHNhfrQrWyumfGMaXg_vvGCmDUZr_XEvpWYNRmv9cS-ld-qxLvleocJ_LK1dDwuJsfKyOCF8IPf6xoJwz11hpXG&_nc_ohc=7ORH9B0-XXcQ7kNvgHb4ypV&_nc_oc=AdjkEqy9pfnO2_AKxEI5dWnQFeo2lYtGBQ7WXm30ESfWBE6oQmOzSPFhmAlkk-00Ox16LIFZZvD0s5Mn_-m2w2TM&_nc_zt=23&_nc_ht=scontent.fcgy1-2.fna&oh=03_Q7cD1gE9RyE3_ugsZ5U1JosN8jmFE2ifU_HLZ0jdSsj6GYvhLw&oe=67DA3FED" alt="">
+            <img class="w-[70px] h-[70px] rounded-full" src="https://scontent.fmnl13-3.fna.fbcdn.net/v/t1.15752-9/474751507_9312187378816358_8255926976147863753_n.png?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeHNhfrQrWyumfGMaXg_vvGCmDUZr_XEvpWYNRmv9cS-ld-qxLvleocJ_LK1dDwuJsfKyOCF8IPf6xoJwz11hpXG&_nc_ohc=5pBQ3SlD48oQ7kNvgElqWc0&_nc_oc=AdnwQKQ5a2kaU2YIPj6Lac9Ce791hSq4onmzBx6XRQvF4P_4J6FTioFFp2fbIrfDHF6jaa5k09NL1sdzyuFV9dc8&_nc_zt=23&_nc_ht=scontent.fmnl13-3.fna&oh=03_Q7cD1wE1IFbRHyI2MMxUycKxRbya9GM46OiLApOkaP1cVcXpmA&oe=68023D6D" alt="">
             COLLEGE OF INFORMATION TECHNOLOGY FUND MANAGEMENT SYSTEM
         </header>
         
@@ -288,7 +283,7 @@
 
                     <div class="bg-green-500 text-white p-6 rounded-lg shadow-lg text-center ">
                         <div class="flex justify-center mt-[15px]">
-                            <img src="https://scontent.fcgy1-2.fna.fbcdn.net/v/t1.15752-9/478304506_657320803628371_1979724036374650860_n.png?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeE_r0Cbp7WV8wxL_k3GCBkwUTyeHKcG5X1RPJ4cpwblfSPVz4wbtnbg2xQ_YYgpWF6BR00MCOWBimyVqK6wgdCY&_nc_ohc=FGxX-oFBmBkQ7kNvgFx08rl&_nc_oc=AdioXMLogQPTWLUg8eMB6R5SsDbwJ_OgGs-D3cIxKyi3r_yek5m0StXKhhFU8aoK7Jl7gTuUOFudR0Uhhwv9i2WK&_nc_zt=23&_nc_ht=scontent.fcgy1-2.fna&oh=03_Q7cD1gFoZHlqkJQ5DuNSISu6unMJXwIf1novf1034RzpPwu00Q&oe=67DA390F"
+                            <img src="https://scontent.fmnl13-3.fna.fbcdn.net/v/t1.15752-9/478304506_657320803628371_1979724036374650860_n.png?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeE_r0Cbp7WV8wxL_k3GCBkwUTyeHKcG5X1RPJ4cpwblfSPVz4wbtnbg2xQ_YYgpWF6BR00MCOWBimyVqK6wgdCY&_nc_ohc=Z93o9pQtEtkQ7kNvgFxVI7j&_nc_oc=AdlwGb6wkI2KJAYssdGJLidpwKjXVHHiOvFRl5KlR9N6ofIJ-tGOtC5yzbx7r-LNrc-UEQmDqch02nqMAtegPUM9&_nc_zt=23&_nc_ht=scontent.fmnl13-3.fna&oh=03_Q7cD1wFFzlRZ5DnAnK5RN5IQefnzA7u9DNrYGnbtR9Axj3c34Q&oe=6801FE4F"
                             class="w-[30%] h-[30%]" alt="Cash on Hand">
                           
                         <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">CASH ON HAND</p> 
@@ -308,7 +303,7 @@
     
                     <div class="bg-yellow-500 text-white p-6 rounded-lg shadow-lg text-center ">
                     <div class="flex justify-center mt-[15px]">
-                    <img src="https://scontent.fcgy1-2.fna.fbcdn.net/v/t1.15752-9/480440311_2015779438940893_3746088750876481447_n.png?_nc_cat=111&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFvcMBuzZshz9vZxAqaA6xQ42Gw-PQi4PzjYbD49CLg_MFnX156d_Bz_J4H_NTdozmDqL3P5g64A4fkavZifE5N&_nc_ohc=5nKqFTPzZPIQ7kNvgFp44YF&_nc_oc=AdgujOQpvfcVDq3iD3RtSN7C2f3NvjnZ_PqvU6ht6s8m_Ys1MdFOnv-BlXuHeqbTFA8A17AMNAnp2UWnVDzpEBNO&_nc_zt=23&_nc_ht=scontent.fcgy1-2.fna&oh=03_Q7cD1gHmy0e0FCkcTrwLXAu2kdrAIRSIEoF8CUJfza7TfEDD2A&oe=67DA233A"
+                    <img src="https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/480440311_2015779438940893_3746088750876481447_n.png?_nc_cat=111&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFvcMBuzZshz9vZxAqaA6xQ42Gw-PQi4PzjYbD49CLg_MFnX156d_Bz_J4H_NTdozmDqL3P5g64A4fkavZifE5N&_nc_ohc=9XmWzCJWq_4Q7kNvgH2TYxC&_nc_oc=AdnrNUWjY67-iAzWggnpJOwRSymfUWt284vjnWQWYCzP6HNIsXejdSOT5nncGjB2m7EyFPhElN_c9WWKeenwRSdE&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1wGNVIL8CgW3ZBMHxo4xnoNqc1mitkBJb3WAzaOsrdJKwg&oe=680220BA"
                     class="w-[20%] h-[20%]" alt="Receivables">
                     
                     <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">RECEIVABLE</p> 

@@ -67,12 +67,10 @@
 
 .receive{
     transition: all 1s;
-
 }
 
 .receive:hover{
   transform: scale(1.09)
-  
 }
 
 
@@ -269,6 +267,9 @@
 
 
 </script>
+
+
+
         <!-- Header -->
         <header class=" flex justify-center items-center gap-2 text-white p-2 font-bold text-2xl col-start-1 col-end-13 row-start-1 row-end-1 
         bg-[url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476890606_1033672748598390_7650911982562615150_n.png?_nc_cat=110&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFy1_KZh_695itxUzt0_gY0RFZEy8vZy05EVkTLy9nLTlH7dbaWvxAzT7Gn6DYNsphQT9JNl5Psj4BAN--vJp2_&_nc_ohc=Nlp8mHYnHukQ7kNvgEmVncN&_nc_oc=AdlPcZBtvuJkJogsg7qzXoO9A6DFM4RO09OXkl2x2xS0JQHeQLhSreyKRxTu3gK6d5KEXq4hs1TBSjTIPhj92_bM&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1wEhuwbuutFiXH_K8ERXeBqsC-aUuZ6ippYPOcZFOX-wtg&oe=68024476')] 
@@ -279,147 +280,154 @@
         </header>
         
         
-<!-- Content Area -->
-<div class="p-[50px] flex flex-col items-center bg-[url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476576892_648669014486867_3927621611615304678_n.png?_nc_cat=107&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFItCpz8qmXnuup9gAOpSYUzZTtUua-yWrNlO1S5r7JaiVl8xtM4UqThCpkdz0MTSGAA0f9ieExtk10B8KKfVXa&_nc_ohc=xLOagArzb7QQ7kNvgEJnroi&_nc_oc=AdhjQj9y2mboNl6KzUsk9lrUe0KNLwrn4fmg5A9VtKMziNra6upezVMz7f_f8U4z0mAdX-eJ51GW4QApOiNxwu8d&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1gGe5DMkVYFrkSiGGVgoVGT0UzJVnAO7V8k_OfqW8KhnhA&oe=67DA6DD8')] bg-cover bg-center bg-no-repeat w-full col-start-1 col-end-13 row-start-2 row-end-13">
+        <!-- Content Area -->
+        <div class="max-w-screen-full mx-auto p-[50px] bg-cover bg-center bg-no-repeat w-full col-start-1 col-end-13 row-start-2 row-end-13"
+        style="background-image: url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476576892_648669014486867_3927621611615304678_n.png?_nc_cat=107&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFItCpz8qmXnuup9gAOpSYUzZTtUua-yWrNlO1S5r7JaiVl8xtM4UqThCpkdz0MTSGAA0f9ieExtk10B8KKfVXa&_nc_ohc=xLOagArzb7QQ7kNvgEJnroi&_nc_oc=AdhjQj9y2mboNl6KzUsk9lrUe0KNLwrn4fmg5A9VtKMziNra6upezVMz7f_f8U4z0mAdX-eJ51GW4QApOiNxwu8d&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1gGe5DMkVYFrkSiGGVgoVGT0UzJVnAO7V8k_OfqW8KhnhA&oe=67DA6DD8');">
+        
+        <div class="content-center">
+            
+            <!-- Header Section -->
+            <div class="mt-4">
+                <h2 class="text-2xl sm:text-3xl font-semibold text-center md:text-left">MANAGE USER</h2>
+                
+                <!-- Navigation Links -->
+                <div class="flex flex-col md:flex-row space-x-0 md:space-x-6 mt-4 border-b pb-2 text-sm text-center md:text-left">
+                    <a href="/manageUser" class="text-[17px] font-semibold">Active</a>
+                    <a href="/archiveUser" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Archive</a>
+                </div>
+                
+            </div>
 
-  <div class="bg-green-900 mt-[50px] text-white w-full max-w-2xl p-8 rounded-lg shadow-lg">
+            <!-- Search and Add User Button -->
+            <div class="flex flex-col md:flex-row items-center justify-between mt-4 space-y-2 md:space-y-0">
+                <div class="flex items-center border border-black rounded-lg p-2 w-full md:w-72">
+                    <input type="text" placeholder="Search..." class="w-full outline-none px-2"/>
+                    <button class="text-gray-500 hover:text-gray-700">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+                
+                <a href="/createUser" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
+                    Add Users <i class="fas fa-plus"></i>
+                </a>
+            </div>
+<form action=""></form>
+                @csrf
+                <div class="mt-4 overflow-auto">
+                  <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
+                    <thead>
+                        <tr class="bg-green-700 text-white border border-black">
+                            <th class="p-2 border border-black"><input type="checkbox" id="selectAll"></th>
+                            <th class="p-2 border border-black">FIRSTNAME</th>
+                            <th class="p-2 border border-black">LASTNAME</th>
+                            <th class="p-2 border border-black">GENDER</th>
+                            <th class="p-2 border border-black">YEAR AND BLOCK</th>
+                            <th class="p-2 border border-black">ROLE</th>
+                            <th class="p-2 border border-black">USERNAME</th>
+                            <th class="p-2 border border-black">STATUS</th>
+                            <th class="p-2 border border-black notClickable">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($archivedStudents as $archived)
+                        <tr class="border border-black cursor-pointer" onclick="toggleCheckbox(event, this)">
+                            <td class="p-2 border border-black">
+                                <input type="checkbox" name="archived[]" value="{{ $archived->id }}" class="rowCheckbox">
+                            </td>
+                            <td class="p-2 border border-black">{{ strtoupper($archived->firstname) }}</td>
+                            <td class="p-2 border border-black">{{ strtoupper($archived->lastname) }}</td>
+                            <td class="p-2 border border-black">{{ strtoupper($archived->gender) }}</td>
+                            <td class="p-2 border border-black">{{ strtoupper($archived->yearLevel) }} - {{ strtoupper($archived->block) }}</td>
+                            <td class="p-2 border border-black">{{ strtoupper($archived->role) }}</td>
+                            <td class="p-2 border border-black">{{ $archived->username }}</td>
+                            <td class="p-2 border border-black text-red-700">{{ strtoupper($archived->status) }}</td>
+                            <td class="p-2 border border-black notClickable">
+                                <a href="#" class="text-blue-700 px-2 py-1 rounded">EDIT</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                
+                    
+                </div>
+            
 
-      <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-bold text-center flex-1 ml-[30px]">CREATE PAYABLE</h3>
-          <a href="/payableManagement" class="text-lg ml-auto">
-              <i class="fas text-1xl fa-times hover:text-red-600"></i> 
-          </a>
-      </div>
 
-      @if(session('success'))
-      <p>{{session('success')}}</p>
-      @endif
+            </form>
+            
+            
+        </div>
+        </div>
+    </div>
 
 
-      <form action="savePayable" method="POST" class="space-y-4">
-        @csrf
-        <div>
-            <label class="block mb-1 text-sm font-semibold">DESCRIPTION:</label>
-            <input type="text" name="description" class="w-full p-2 rounded-md text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" required style="text-transform: uppercase;">
-        </div>
-        <div>
-            <label class="block mb-1 text-sm font-semibold">AMOUNT:</label>
-            <input type="number" name="amount" step="0.01" class="w-full p-2 rounded-md text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" required>
-        </div>
-        <div>
-            <label class="block mb-1 text-sm font-semibold">DUE DATE:</label>
-            <input type="date" name="dueDate" class="w-full p-2 rounded-md text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" required>
-        </div>
-        <div>
-            <label class="block mb-1 text-sm font-semibold">YEAR LEVEL:</label>
-            <select id="yearLevel" name="yearLevel" class="w-full p-2 rounded-md text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" required>
-                <option value="">SELECT YEAR LEVEL</option>
-                <option value="all">ALL YEAR LEVEL</option>
-                @foreach($yearLevels as $yearLevel)
-                    <option value="{{ $yearLevel->yearLevel }}">{{ strtoupper($yearLevel->yearLevel) }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div>
-            <label class="block mb-1 text-sm font-semibold">BLOCK:</label>
-            <select id="block" name="block" class="w-full p-2 rounded-md text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" required>
-                <option value="">SELECT BLOCK</option>
-                <option value="all">ALL BLOCK</option>
-            </select>
-        </div>
-        <div>
-            <label class="block mb-1 text-sm font-semibold">STUDENT:</label>
-            <select id="student" name="student" class="w-full p-2 rounded-md text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" required>
-                <option value="">SELECT STUDENT</option>
-                <option value="all">ALL STUDENTS</option>
-            </select>
-        </div>
-        <div class="text-center mt-5">
-            <button type="submit" class="bg-green-700 px-4 py-2 rounded-md hover:bg-green-600 text-white font-bold">ADD PAYABLE</button>
-        </div>
-    </form>
     
+   <!--script for checkbox--->  
+   <script>
+    function toggleCheckbox(event, row) {
+        if (event.target.closest('.notClickable')) {
+            return;
+        }
+
+        let checkbox = row.querySelector('.rowCheckbox');
+        checkbox.checked = !checkbox.checked;
+    }
+
+    document.getElementById('selectAll').addEventListener('change', function () {
+        let checkboxes = document.querySelectorAll('.rowCheckbox');
+        checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+    });
+</script>
+
+    <!--script for search--->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            let yearLevelDropdown = document.getElementById("yearLevel");
-            let blockDropdown = document.getElementById("block");
-            let studentDropdown = document.getElementById("student");
-    
-            yearLevelDropdown.addEventListener("change", function () {
-                let yearLevel = this.value;
-    
-                if (yearLevel) {
-                    fetch(`/get-students-and-blocks?yearLevel=${yearLevel}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            blockDropdown.innerHTML = '<option value="all">ALL BLOCK</option>';
-                            data.blocks.forEach(block => {
-                                blockDropdown.innerHTML += `<option value="${block.block}">${block.block.toUpperCase()}</option>`;
-                            });
-                            blockDropdown.dataset.students = JSON.stringify(data.students);
-    
-                            studentDropdown.innerHTML = '<option value="all">ALL STUDENTS</option>';
-                        })
-                        .catch(error => console.error("ERROR FETCHING DATA:", error));
-                } else {
-                    blockDropdown.innerHTML = '<option value="all">ALL BLOCK</option>';
-                    studentDropdown.innerHTML = '<option value="all">ALL STUDENTS</option>';
-                }
-            });
-    
-            blockDropdown.addEventListener("change", function () {
-                let selectedBlock = this.value;
-                let allStudents = JSON.parse(blockDropdown.dataset.students || "[]");
-    
-                studentDropdown.innerHTML = '<option value="all">ALL STUDENTS</option>';
-    
-                let filteredStudents = selectedBlock === "all"
-                    ? allStudents 
-                    : allStudents.filter(student => student.block === selectedBlock);
-    
-                filteredStudents.forEach(student => {
-                    studentDropdown.innerHTML += `<option value="${student.id}">${student.firstname.toUpperCase()} ${student.lastname.toUpperCase()}</option>`;
+            const searchInput = document.querySelector("input[type='text']");
+            const table = document.querySelector("table");
+            const tbody = table.querySelector("tbody");
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+        
+            searchInput.addEventListener("keyup", function () {
+                const filter = searchInput.value.toLowerCase().trim();
+                
+                rows.forEach(row => {
+                    let textContent = "";
+                    
+                    for (let i = 1; i < row.children.length - 1; i++) {
+                        textContent += row.children[i].textContent.toLowerCase() + " ";
+                    }
+        
+                    if (textContent.includes(filter)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
                 });
             });
+        
         });
+        </script>
+        
+    <script>
+      const sidebar = document.querySelector('.sidebar');
+      const content = document.querySelector('.content-center');
+    
+      document.addEventListener('mousemove', function (event) {
+        if (event.clientX <= 5) {
+          sidebar.classList.add('open');
+          content.classList.add('content-with-sidebar');
+        }
+      });
+    
+      sidebar.addEventListener('mouseleave', function () {
+        sidebar.classList.remove('open');
+        content.classList.remove('content-with-sidebar');
+      });
     </script>
     
 
-    <script>
-        const sidebar = document.querySelector('.sidebar');
-        const content = document.querySelector('.content-center');
-      
-        document.addEventListener('mousemove', function (event) {
-          if (event.clientX <= 5) {
-            sidebar.classList.add('open');
-            content.classList.add('content-with-sidebar');
-          }
-        });
-      
-        sidebar.addEventListener('mouseleave', function () {
-          sidebar.classList.remove('open');
-          content.classList.remove('content-with-sidebar');
-        });
-      </script>
 
-
-
-<!----->
-@csrf
-<div id="archiveModalFemale" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-96 h-[40%] border-2 border-green-700 flex flex-col justify-center">
-        <div class="flex flex-col items-center">
-            <img class="w-[38%] h-[100%] mb-10" src="https://scontent.fmnl13-4.fna.fbcdn.net/v/t1.15752-9/485131031_1620795031902453_7027382849760185764_n.png?_nc_cat=103&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeH_zfiJQQNtFSeRNVIoF9MRcL-UDDSQx7Jwv5QMNJDHsuqdgIj7bvuxQBiB0yPVvom_4t5NdsgziOPX0SbJgQti&_nc_ohc=ZcA7UiK6QlUQ7kNvgE6V1kc&_nc_oc=Adi1vlF52Hz4Js5YGgqwnBE17Dzd6VbdDjd9KMme-87UhLOG9YMwieqbS5RfTZQf3iCxOOugo1Zq6MCV4wijH8NR&_nc_zt=23&_nc_ht=scontent.fmnl13-4.fna&oh=03_Q7cD1wEqrSa09FPNBglSlaxFBgB8msrNnbC7hFTnMHYp56Ee5A&oe=68006626"
-             alt="Male Image">
-            <p class="text-red-600 text-center font-semibold">Are you sure you want to add this user?</p>   
-            <div class="flex mt-10 space-x-4">
-                <button type="button" class="cancelBtn bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700 transition">CANCEL</button>
-                <button type="button" class="confirmBtn bg-gray-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-gray-700">CONFIRM</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-      
+    
 </body>
 </html>

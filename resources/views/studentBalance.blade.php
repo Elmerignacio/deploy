@@ -272,10 +272,10 @@
 
         <!-- Header -->
         <header class=" flex justify-center items-center gap-2 text-white p-2 font-bold text-2xl col-start-1 col-end-13 row-start-1 row-end-1 
-        bg-[url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476890606_1033672748598390_7650911982562615150_n.png?_nc_cat=110&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFy1_KZh_695itxUzt0_gY0RFZEy8vZy05EVkTLy9nLTlH7dbaWvxAzT7Gn6DYNsphQT9JNl5Psj4BAN--vJp2_&_nc_ohc=0sAAJGN1f_gQ7kNvgGNgl7J&_nc_oc=AdiVMgLmUMt543oHrlDNO9AfLGhV-PfZw_q1he346zFOvGEq2jXNRyVAQAtgCA1VzaJ5LfSsfrz3yb360VHLEiti&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1gF4A4cEXnqRVF_618WPKwYHh5b-kbDDLi6LyNnq454rsA&oe=67DA46F6')] 
+        bg-[url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476890606_1033672748598390_7650911982562615150_n.png?_nc_cat=110&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFy1_KZh_695itxUzt0_gY0RFZEy8vZy05EVkTLy9nLTlH7dbaWvxAzT7Gn6DYNsphQT9JNl5Psj4BAN--vJp2_&_nc_ohc=Nlp8mHYnHukQ7kNvgEmVncN&_nc_oc=AdlPcZBtvuJkJogsg7qzXoO9A6DFM4RO09OXkl2x2xS0JQHeQLhSreyKRxTu3gK6d5KEXq4hs1TBSjTIPhj92_bM&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1wEhuwbuutFiXH_K8ERXeBqsC-aUuZ6ippYPOcZFOX-wtg&oe=68024476')] 
         bg-cover bg-center bg-no-repeat w-full">
             
-            <img class="w-[70px] h-[70px] rounded-full" src="https://scontent.fcgy1-2.fna.fbcdn.net/v/t1.15752-9/474751507_9312187378816358_8255926976147863753_n.png?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeHNhfrQrWyumfGMaXg_vvGCmDUZr_XEvpWYNRmv9cS-ld-qxLvleocJ_LK1dDwuJsfKyOCF8IPf6xoJwz11hpXG&_nc_ohc=7ORH9B0-XXcQ7kNvgHb4ypV&_nc_oc=AdjkEqy9pfnO2_AKxEI5dWnQFeo2lYtGBQ7WXm30ESfWBE6oQmOzSPFhmAlkk-00Ox16LIFZZvD0s5Mn_-m2w2TM&_nc_zt=23&_nc_ht=scontent.fcgy1-2.fna&oh=03_Q7cD1gE9RyE3_ugsZ5U1JosN8jmFE2ifU_HLZ0jdSsj6GYvhLw&oe=67DA3FED" alt="">
+            <img class="w-[70px] h-[70px] rounded-full" src="https://scontent.fmnl13-3.fna.fbcdn.net/v/t1.15752-9/474751507_9312187378816358_8255926976147863753_n.png?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeHNhfrQrWyumfGMaXg_vvGCmDUZr_XEvpWYNRmv9cS-ld-qxLvleocJ_LK1dDwuJsfKyOCF8IPf6xoJwz11hpXG&_nc_ohc=5pBQ3SlD48oQ7kNvgElqWc0&_nc_oc=AdnwQKQ5a2kaU2YIPj6Lac9Ce791hSq4onmzBx6XRQvF4P_4J6FTioFFp2fbIrfDHF6jaa5k09NL1sdzyuFV9dc8&_nc_zt=23&_nc_ht=scontent.fmnl13-3.fna&oh=03_Q7cD1wE1IFbRHyI2MMxUycKxRbya9GM46OiLApOkaP1cVcXpmA&oe=68023D6D" alt="">
             COLLEGE OF INFORMATION TECHNOLOGY FUND MANAGEMENT SYSTEM
         </header>
         
@@ -286,79 +286,79 @@
         <div class="content-center">
  
             <!-- Class Info -->
-            <div class="flex flex-col justify-between mt-4 gap-2">
-              <h2 class="text-2xl sm:text-3xl font-semibold text-center md:text-left">STUDENT BALANCES</h2>
-                <div class="text-green-800 text-xl font-bold">3RD YEAR A</div>
-                <div class="text-sm text-gray-700">REPRESENTATIVE: WEA MAQUILING</div>
-
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
+                <h2 class="text-2xl sm:text-3xl font-semibold text-center md:text-left">STUDENT BALANCES</h2>
                 
+                <div class="flex flex-col md:items-end mt-4 md:mt-0">
+       
+                </div>
             </div>
             
-        
-            <!-- Balance Info -->
-            <div class="flex space-x-2 mt-4 justify-end">              
-                <div class="bg-green-600 text-white px-6 py-3 rounded-lg text-center">
-                    <span class="text-xs block font-semibold">CASH ON HAND</span>
-                    <span class="text-lg font-bold">₱0.00</span>
+      
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <!-- Search Bar -->
+                <div class="w-full md:w-72 flex items-center border border-black rounded-lg p-2 mt-10 md:mt-20 lg:mt-32">
+                    <input type="text" placeholder="Search..." class="w-full outline-none px-2" />
                 </div>
-                <div class="bg-blue-600 text-white px-6 py-3 rounded-lg text-center">
-                    <span class="text-xs block font-semibold">REMITTED</span>
-                    <span class="text-lg font-bold">₱0.00</span>
-                </div>
-                <div class="bg-yellow-500 text-white px-6 py-3 rounded-lg text-center">
-                    <span class="text-xs block font-semibold">RECEIVABLE</span>
-                    <span class="text-lg font-bold">₱750.00</span>
+                
+                <!-- Representative & Table Section -->
+                <div class="w-full md:w-auto flex flex-col items-start space-y-4">
+                    <div class="text-center md:text-left">
+                        <h3 class="text-green-800 text-2xl font-bold">3RD YEAR A</h3>
+                        <p class="text-sm text-gray-700">Representative: <span class="font-medium">WEA MAQUILING</span></p>
+                    </div>
+            
+                    <!-- Table -->
+                    <div class="w-full overflow-x-auto">
+                        <table class="w-full md:w-auto border border-black shadow-lg rounded-lg">
+                            <thead>
+                                <tr class="bg-gray-800 text-white text-xs md:text-base">
+                                    <th class="p-3 border border-black bg-green-700">CASH ON HAND</th>
+                                    <th class="p-3 border border-black bg-blue-700">REMITTED</th>
+                                    <th class="p-3 border border-black bg-yellow-500">RECEIVABLE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white text-black text-center text-sm md:text-lg font-semibold">
+                                    <td class="p-3 border border-black">₱0.00</td>
+                                    <td class="p-3 border border-black">₱0.00</td>
+                                    <td class="p-3 border border-black">₱750.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+            
+           
         
             <!-- Student Table -->
             <div class="mt-4 overflow-auto">
               <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
                   <thead>
-                      <tr class="bg-white text-black border border-black">
-                          <th class="p-2 border border-black bg-green-700"><input type="checkbox"></th>
-                          <th class="p-2 border border-black">DESCRIPTION</th>
-                          <th class="p-2 border border-black bg-green-700">AMOUNT</th>
-                          <th class="p-2 border border-black bg-yellow-500">EXPECTED RECEIVABLE</th>
-                          <th class="p-2 border border-black bg-red-700">DUE DATE</th>
-                          <th class="p-2 border border-black text-center">Actions</th>
+                      <tr class="bg-green-700 text-white  border border-black">
+                          <th class="p-2 border border-black">ID NUMBER</th>
+                          <th class="p-2 border border-black">FIRSTNAME</th>
+                          <th class="p-2 border border-black ">LASTNAME</th>
+                          <th class="p-2 border border-black">BALANCE</th>
                       </tr>
                   </thead>
-                  <tbody>
-                      <tr class="border border-black">
-                          <td class="p-2 border border-black"><input type="checkbox"></td>
-                          <td class="p-2 border border-black">Semestral Due</td>
-                          <td class="p-2 border border-black">250</td>
-                          <td class="p-2 border border-black">75,000</td>
-                          <td class="p-2 border border-black">May 20 2025</td>
-                          <td class="px-6 py-4 border border-black text-center">
-                              <a href="#" class="px-3 py-1 text-red-700">Edit</a>
-                              <a href="#" class="px-3 py-1 text-blue-700 ml-2">Delete</a>
-                          </td>
-                      </tr>
-                      <tr class="border border-black">
-                          <td class="p-2 border border-black"><input type="checkbox"></td>
-                          <td class="p-2 border border-black">Sinulog Festival</td>
-                          <td class="p-2 border border-black">250</td>
-                          <td class="p-2 border border-black">75,000</td>
-                          <td class="p-2 border border-black">May 20 2025</td>
-                          <td class="px-6 py-4 border border-black text-center">
-                              <a href="#" class="px-3 py-1 text-red-700">Edit</a>
-                              <a href="#" class="px-3 py-1 text-blue-700 ml-2">Delete</a>
-                          </td>
-                      </tr>
-                      <tr class="border border-black">
-                          <td class="p-2 border border-black"><input type="checkbox"></td>
-                          <td class="p-2 border border-black">Sinulog Festival</td>
-                          <td class="p-2 border border-black">250</td>
-                          <td class="p-2 border border-black">75,000</td>
-                          <td class="p-2 border border-black">May 20 2025</td>
-                          <td class="px-6 py-4 border border-black text-center">
-                              <a href="#" class="px-3 py-1 text-red-700">Edit</a>
-                              <a href="#" class="px-3 py-1 text-blue-700 ml-2">Delete</a>
-                          </td>
-                      </tr>
-                  </tbody>
+                  <tbody id="usersTableBody">
+                    @foreach ($students as $student)
+                        @php
+                            $totalBalance = $payables->where('student', $student->id)->sum('amount');
+                        @endphp
+                        <tr class="border border-black cursor-pointer" onclick="toggleCheckbox(event, this)">
+                            <td class="p-2 border border-black">{{ $student->id }}</td>
+                            <td class="p-2 border border-black">{{ strtoupper($student->firstname) }}</td>
+                            <td class="p-2 border border-black">{{ strtoupper($student->lastname) }}</td>
+                            <td class="p-2 border border-black">
+                                {{ $totalBalance > 0 ? '₱' . number_format($totalBalance, 2) : 'N/A' }} 
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                
               </table>
           </div>
         </div>
@@ -384,6 +384,37 @@
       });
     </script>
     
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.querySelector("input[type='text']");
+            const table = document.querySelector("table");
+            const tbody = table.querySelector("tbody");
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+        
+            searchInput.addEventListener("keyup", function () {
+                const filter = searchInput.value.toLowerCase().trim();
+                
+                rows.forEach(row => {
+                    let textContent = "";
+                    
+                    for (let i = 1; i < row.children.length - 1; i++) {
+                        textContent += row.children[i].textContent.toLowerCase() + " ";
+                    }
+        
+                    if (textContent.includes(filter)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+        
+        });
+    </script>
+
+
+
+
 
 </body>
 </html>

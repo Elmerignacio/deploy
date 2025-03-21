@@ -271,10 +271,10 @@
 </script>
         <!-- Header -->
         <header class=" flex justify-center items-center gap-2 text-white p-2 font-bold text-2xl col-start-1 col-end-13 row-start-1 row-end-1 
-        bg-[url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476890606_1033672748598390_7650911982562615150_n.png?_nc_cat=110&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFy1_KZh_695itxUzt0_gY0RFZEy8vZy05EVkTLy9nLTlH7dbaWvxAzT7Gn6DYNsphQT9JNl5Psj4BAN--vJp2_&_nc_ohc=0sAAJGN1f_gQ7kNvgGNgl7J&_nc_oc=AdiVMgLmUMt543oHrlDNO9AfLGhV-PfZw_q1he346zFOvGEq2jXNRyVAQAtgCA1VzaJ5LfSsfrz3yb360VHLEiti&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1gF4A4cEXnqRVF_618WPKwYHh5b-kbDDLi6LyNnq454rsA&oe=67DA46F6')] 
+        bg-[url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476890606_1033672748598390_7650911982562615150_n.png?_nc_cat=110&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFy1_KZh_695itxUzt0_gY0RFZEy8vZy05EVkTLy9nLTlH7dbaWvxAzT7Gn6DYNsphQT9JNl5Psj4BAN--vJp2_&_nc_ohc=Nlp8mHYnHukQ7kNvgEmVncN&_nc_oc=AdlPcZBtvuJkJogsg7qzXoO9A6DFM4RO09OXkl2x2xS0JQHeQLhSreyKRxTu3gK6d5KEXq4hs1TBSjTIPhj92_bM&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1wEhuwbuutFiXH_K8ERXeBqsC-aUuZ6ippYPOcZFOX-wtg&oe=68024476')] 
         bg-cover bg-center bg-no-repeat w-full">
             
-            <img class="w-[70px] h-[70px] rounded-full" src="https://scontent.fcgy1-2.fna.fbcdn.net/v/t1.15752-9/474751507_9312187378816358_8255926976147863753_n.png?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeHNhfrQrWyumfGMaXg_vvGCmDUZr_XEvpWYNRmv9cS-ld-qxLvleocJ_LK1dDwuJsfKyOCF8IPf6xoJwz11hpXG&_nc_ohc=7ORH9B0-XXcQ7kNvgHb4ypV&_nc_oc=AdjkEqy9pfnO2_AKxEI5dWnQFeo2lYtGBQ7WXm30ESfWBE6oQmOzSPFhmAlkk-00Ox16LIFZZvD0s5Mn_-m2w2TM&_nc_zt=23&_nc_ht=scontent.fcgy1-2.fna&oh=03_Q7cD1gE9RyE3_ugsZ5U1JosN8jmFE2ifU_HLZ0jdSsj6GYvhLw&oe=67DA3FED" alt="">
+            <img class="w-[70px] h-[70px] rounded-full" src="https://scontent.fmnl13-3.fna.fbcdn.net/v/t1.15752-9/474751507_9312187378816358_8255926976147863753_n.png?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeHNhfrQrWyumfGMaXg_vvGCmDUZr_XEvpWYNRmv9cS-ld-qxLvleocJ_LK1dDwuJsfKyOCF8IPf6xoJwz11hpXG&_nc_ohc=5pBQ3SlD48oQ7kNvgElqWc0&_nc_oc=AdnwQKQ5a2kaU2YIPj6Lac9Ce791hSq4onmzBx6XRQvF4P_4J6FTioFFp2fbIrfDHF6jaa5k09NL1sdzyuFV9dc8&_nc_zt=23&_nc_ht=scontent.fmnl13-3.fna&oh=03_Q7cD1wE1IFbRHyI2MMxUycKxRbya9GM46OiLApOkaP1cVcXpmA&oe=68023D6D" alt="">
             COLLEGE OF INFORMATION TECHNOLOGY FUND MANAGEMENT SYSTEM
         </header>
         
@@ -291,71 +291,134 @@
                 </div>
     
                 
-                <form class="space-y-4">
-                    <div>
-                        <label class="block mb-1 text-sm font-semibold">FIRSTNAME:</label>
-                        <input type="text" class="w-full p-2 rounded-md text-black">
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-semibold">MIDDLENAME:</label>
-                        <input type="text" class="w-full p-2 rounded-md text-black">
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-semibold">LASTNAME:</label>
-                        <input type="text" class="w-full p-2 rounded-md text-black">
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-semibold">GENDER:</label>
-                        <div class="flex items-center space-x-4">
-                            <label class="flex items-center space-x-1">
-                                <input type="radio" name="gender" class="accent-green-500">
-                                <span>MALE</span>
-                            </label>
-                            <label class="flex items-center space-x-1">
-                                <input type="radio" name="gender" class="accent-green-500">
-                                <span>FEMALE</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="flex space-x-2">
-                        <div class="w-2/3">
-                            <label class="block mb-1 text-sm font-semibold">YEAR LEVEL:</label>
-                            <input type="text" class="w-full p-2 rounded-md text-black">
-                        </div>
-                        <div class="w-1/3">
-                            <label class="block mb-1 text-sm font-semibold">BLOCK:</label>
-                            <input type="text" class="w-full p-2 rounded-md text-black">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-semibold">USER ROLE:</label>
-                        <select class="w-full p-2 rounded-md text-black">
-                            <option value="" disabled selected>SELECT A ROLE</option>
-                            <option>STUDENT</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-semibold">USERNAME:</label>
-                        <input type="text" class="w-full p-2 rounded-md text-black">
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-semibold">PASSWORD:</label>
-                        <input type="password" class="w-full p-2 rounded-md text-black">
-                    </div>
-                    <div class="text-center">
-                        <button class="bg-green-700 px-4 py-2 rounded-md hover:bg-green-600">ADD USER</button>
-                    </div>
-                </form>
-            </div>
-            
-
+    <form action="saveData" method="POST" id="userForm" class="space-y-4">
+    @csrf 
+    <div>
+        <label class="block mb-1 text-sm font-semibold">ID NUMBER:</label>
+        <input name="id" type="number" class="w-full p-2 rounded-md text-black uppercase" required id="idNumber" style="text-transform: uppercase;">
+    </div>
+    <div>
+        <label class="block mb-1 text-sm font-semibold">FIRSTNAME:</label>
+        <input name="firstname" type="text" class="w-full p-2 rounded-md text-black uppercase" required style="text-transform: uppercase;">
+    </div>
+    <div>
+        <label class="block mb-1 text-sm font-semibold">LASTNAME:</label>
+        <input name="lastname" type="text" class="w-full p-2 rounded-md text-black uppercase" required id="lastName" style="text-transform: uppercase;">
+    </div>
+    <div>
+        <label class="block mb-1 text-sm font-semibold">GENDER:</label>
+        <div class="flex items-center space-x-4">
+            <label class="flex items-center space-x-1">
+                <input type="radio" name="gender" value="MALE" class="accent-green-500" required>
+                <span>MALE</span>
+            </label>
+            <label class="flex items-center space-x-1">
+                <input type="radio" name="gender" value="FEMALE" class="accent-green-500" required>
+                <span>FEMALE</span>
+            </label>
         </div>
-
-        
-
-
+    </div>
+    <div class="flex space-x-2">
+        <div class="w-[50%]">
+            <label class="block mb-1 text-sm font-semibold">YEAR LEVEL:</label>
+            <select name="yearLevel" class="w-full p-2 rounded-md text-black uppercase" required style="text-transform: uppercase;">
+                <option value="" disabled selected>SELECT YEAR LEVEL</option>
+                <option value="1st Year">1ST YEAR</option>
+                <option value="2nd Year">2ND YEAR</option>
+                <option value="3rd Year">3RD YEAR</option>
+                <option value="4th Year">4TH YEAR</option>
+            </select>
+        </div>
+        <div class="w-[50%]">
+            <label class="block mb-1 text-sm font-semibold">BLOCK:</label>
+            <input name="block" type="text" class="w-full p-2 rounded-md text-black uppercase" required style="text-transform: uppercase;">
+        </div>
+    </div>
+    <div>
+        <label class="block mb-1 text-sm font-semibold">USER ROLE:</label>
+        <select name="role" id="roleSelect" class="w-full p-2 rounded-md text-black uppercase" required>
+            <option value="STUDENT" selected>STUDENT</option>
+        </select>
+    </div>
+    <script>
+        document.getElementById('roleSelect').addEventListener('mousedown', function(event) {
+            event.preventDefault(); 
+        });
+    </script>
+    <div>
+        <label class="block mb-1 text-sm font-semibold">USERNAME:</label>
+        <input name="username" type="text" class="w-full p-2 rounded-md text-black uppercase" required id="username" readonly style="text-transform: uppercase;">
+    </div>
+    <div>
+        <label class="block mb-1 text-sm font-semibold">PASSWORD:</label>
+        <input name="password" type="text" class="w-full p-2 rounded-md text-black uppercase" required id="password" style="text-transform: uppercase;">
+    </div>
+    <div class="text-center">
+        <button type="button" id="addUserBtn" class="bg-green-700 px-4 py-2 rounded-md hover:bg-green-600">ADD USER</button>
     </div>
 
+                
+     <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const searchInput = document.querySelector("input[type='text']");
+                        const table = document.querySelector("table");
+                        const tbody = table.querySelector("tbody");
+                        const rows = Array.from(tbody.querySelectorAll("tr"));
+                    
+                        // Search Function
+                        searchInput.addEventListener("keyup", function () {
+                            const filter = searchInput.value.toLowerCase();
+                            rows.forEach(row => {
+                                const description = row.children[1].textContent.toLowerCase(); 
+                                if (description.includes(filter)) {
+                                    row.style.display = "";
+                                } else {
+                                    row.style.display = "none";
+                                }
+                            });
+                        });
+                    
+                        // Sorting Function
+                        document.querySelectorAll("th").forEach((header, columnIndex) => {
+                            header.addEventListener("click", function () {
+                                const isNumeric = columnIndex > 1 && columnIndex < 4; // Amount, Receivable, Due Date columns
+                                const direction = header.dataset.order === "asc" ? "desc" : "asc";
+                                header.dataset.order = direction;
+                    
+                                const sortedRows = rows.sort((a, b) => {
+                                    let valA = a.children[columnIndex].textContent.trim();
+                                    let valB = b.children[columnIndex].textContent.trim();
+                    
+                                    if (isNumeric) {
+                                        valA = parseFloat(valA.replace(/[₱,]/g, "")) || 0;
+                                        valB = parseFloat(valB.replace(/[₱,]/g, "")) || 0;
+                                    }
+                    
+                                    return direction === "asc" ? (valA > valB ? 1 : -1) : (valA < valB ? 1 : -1);
+                                });
+                    
+                                tbody.innerHTML = "";
+                                sortedRows.forEach(row => tbody.appendChild(row));
+                            });
+                        });
+                    });
+     </script>
+
+     <script>
+                    document.getElementById("idNumber").addEventListener("input", function() {
+                        document.getElementById("username").value = this.value; // Set username = ID number
+                    });
+                
+                    document.getElementById("lastName").addEventListener("input", function() {
+                        document.getElementById("password").value = this.value; // Set password = Last Name
+                    });
+     </script>
+
+    </div>
+    </div>
+    </div>
+
+    <!--Script for sidebar-->
     <script>
         const sidebar = document.querySelector('.sidebar');
         const content = document.querySelector('.content-center');
@@ -371,7 +434,204 @@
           sidebar.classList.remove('open');
           content.classList.remove('content-with-sidebar');
         });
-      </script>
-      
+    </script>
+
+
+
+<!---Male User-->
+    @csrf
+    <div id="archiveModalMale" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96 h-[40%] border-2 border-green-700 flex flex-col justify-center">
+            <div class="flex flex-col items-center">
+                <img class="w-[38%] h-[100%] mb-10" src="https://scontent.fmnl13-3.fna.fbcdn.net/v/t1.15752-9/483860626_1828319857723075_667721797827619347_n.png?_nc_cat=100&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeGQ28kD1CFxfVEp1rdMtHp8P-jzcsu8cQE_6PNyy7xxAbInbSKwilFwhl7FwsuvTKnnlC432UQ4VUFlSo3ahh8N&_nc_ohc=cCXonyAZeDEQ7kNvgEOAaiQ&_nc_oc=AdgGF4XYH6RqviyAeonzTUU2WQD5Oq8qq0I1_mTzDlBATahAR8ToskOYtca5zNmuFwo0RtjnZfxzflS3UKgXk7YS&_nc_zt=23&_nc_ht=scontent.fmnl13-3.fna&oh=03_Q7cD1wGy_Y6zMtZoV08krifuxxFPJVz9FXIienKnXPuyKsSe4A&oe=68006A22"
+                 alt="Male Image">
+                <p class="text-red-600 text-center font-semibold">Are you sure you want to add this user?</p>   
+                <div class="flex mt-10 space-x-4">
+                    <button type="button" class="cancelBtn bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700 transition">CANCEL</button>
+                    <button type="button" class="confirmBtn bg-gray-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-gray-700">CONFIRM</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="successModalMale" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+        <div class="relative bg-white p-6 rounded-lg shadow-lg w-96 h-[40%] border-2 border-green-700 flex flex-col justify-center">
+            <div class="flex flex-col items-center">
+                <img class="w-[38%] h-auto mb-10" src="https://scontent.fmnl13-3.fna.fbcdn.net/v/t1.15752-9/483860626_1828319857723075_667721797827619347_n.png?_nc_cat=100&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeGQ28kD1CFxfVEp1rdMtHp8P-jzcsu8cQE_6PNyy7xxAbInbSKwilFwhl7FwsuvTKnnlC432UQ4VUFlSo3ahh8N&_nc_ohc=cCXonyAZeDEQ7kNvgEOAaiQ&_nc_oc=AdgGF4XYH6RqviyAeonzTUU2WQD5Oq8qq0I1_mTzDlBATahAR8ToskOYtca5zNmuFwo0RtjnZfxzflS3UKgXk7YS&_nc_zt=23&_nc_ht=scontent.fmnl13-3.fna&oh=03_Q7cD1wFvRgdT3pkayPwyOcYC3Aw7_Uwhs1zMn2RYLbZWt6TCHQ&oe=680031E2" alt="Archive Box" class="w-16 h-16 mb-4">
+                
+                <!-- Checkmark SVG -->
+                <div class="absolute mt-[85px]  transform -translate-x-1/2 checkmark-animate">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-20 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 10-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+    
+                <p class="text-green-600 text-center font-semibold">New account has  been successfully added! </p>   
+                <div class="flex mt-10 space-x-4">
+                    <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-gray-700">
+                        CONFIRM
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const archiveModal = document.getElementById("archiveModalMale");
+        const successModal = document.getElementById("successModalMale");        
+        const confirmButton = archiveModal.querySelector(".confirmBtn");
+        const cancelButton = archiveModal.querySelector(".cancelBtn");
+        const successConfirmButton = successModal.querySelector("button[type='submit']");
+
+    
+        confirmButton.addEventListener("click", function () {
+            successModalMale.classList.add("hidden");
+        });
+
+
+        confirmButton.addEventListener("click", function () {
+            archiveModalMale.classList.add("hidden");
+            successModalMale.classList.remove("hidden");
+        });
+
+        
+
+        cancelButton.addEventListener("click", function () {
+            archiveModal.classList.add("hidden");
+        });
+    
+        successConfirmButton.addEventListener("click", function () {
+            successModal.classList.add("hidden");
+        });
+    });
+    </script>
+
+<style>
+    @keyframes checkmark {
+        0% { opacity: 0; transform: scale(0.5); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    .checkmark-animate {
+        animation: checkmark 0.3s ease-out forwards;
+    }
+</style>
+
+
+<!---Female User-->
+@csrf
+<div id="archiveModalFemale" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96 h-[40%] border-2 border-green-700 flex flex-col justify-center">
+        <div class="flex flex-col items-center">
+            <img class="w-[38%] h-[100%] mb-10" src="https://scontent.fmnl13-4.fna.fbcdn.net/v/t1.15752-9/485131031_1620795031902453_7027382849760185764_n.png?_nc_cat=103&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeH_zfiJQQNtFSeRNVIoF9MRcL-UDDSQx7Jwv5QMNJDHsuqdgIj7bvuxQBiB0yPVvom_4t5NdsgziOPX0SbJgQti&_nc_ohc=ZcA7UiK6QlUQ7kNvgE6V1kc&_nc_oc=Adi1vlF52Hz4Js5YGgqwnBE17Dzd6VbdDjd9KMme-87UhLOG9YMwieqbS5RfTZQf3iCxOOugo1Zq6MCV4wijH8NR&_nc_zt=23&_nc_ht=scontent.fmnl13-4.fna&oh=03_Q7cD1wEqrSa09FPNBglSlaxFBgB8msrNnbC7hFTnMHYp56Ee5A&oe=68006626"
+             alt="Male Image">
+            <p class="text-red-600 text-center font-semibold">Are you sure you want to add this user?</p>   
+            <div class="flex mt-10 space-x-4">
+                <button type="button" class="cancelBtn bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700 transition">CANCEL</button>
+                <button type="button" class="confirmBtn bg-gray-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-gray-700">CONFIRM</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="successModalFemale" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+ <div class="relative bg-white p-6 rounded-lg shadow-lg w-96 h-[40%] border-2 border-green-700 flex flex-col justify-center">
+        <div class="flex flex-col items-center">
+            <img class="w-[38%] h-auto mb-10" src="https://scontent.fmnl13-4.fna.fbcdn.net/v/t1.15752-9/485131031_1620795031902453_7027382849760185764_n.png?_nc_cat=103&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeH_zfiJQQNtFSeRNVIoF9MRcL-UDDSQx7Jwv5QMNJDHsuqdgIj7bvuxQBiB0yPVvom_4t5NdsgziOPX0SbJgQti&_nc_ohc=ZcA7UiK6QlUQ7kNvgE6V1kc&_nc_oc=Adi1vlF52Hz4Js5YGgqwnBE17Dzd6VbdDjd9KMme-87UhLOG9YMwieqbS5RfTZQf3iCxOOugo1Zq6MCV4wijH8NR&_nc_zt=23&_nc_ht=scontent.fmnl13-4.fna&oh=03_Q7cD1wEqrSa09FPNBglSlaxFBgB8msrNnbC7hFTnMHYp56Ee5A&oe=68006626"
+            alt="Archive Box" class="w-16 h-16 mb-4">
+            
+            <!-- Checkmark SVG -->
+            <div class="absolute mt-[85px]  transform -translate-x-1/2 checkmark-animate">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-20 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 10-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd" />
+                </svg>
+            </div>
+
+            <p class="text-green-600 text-center font-semibold">New account has  been successfully added! </p>   
+            <div class="flex mt-10 space-x-4">
+                <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-gray-700">
+                    CONFIRM
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const archiveModal = document.getElementById("archiveModalFemale");
+        const successModal = document.getElementById("successModalFemale");        
+        const confirmButton = archiveModal.querySelector(".confirmBtn");
+        const cancelButton = archiveModal.querySelector(".cancelBtn");
+        const successConfirmButton = successModal.querySelector("button[type='submit']");
+    
+   
+
+        confirmButton.addEventListener("click", function () {
+            successModalFemale.classList.add("hidden");
+        });
+
+        confirmButton.addEventListener("click", function () {
+            archiveModalFemale.classList.add("hidden");
+            successModalFemale.classList.remove("hidden");
+        });
+
+        
+
+        cancelButton.addEventListener("click", function () {
+            archiveModal.classList.add("hidden");
+        });
+    
+        successConfirmButton.addEventListener("click", function () {
+            successModal.classList.add("hidden");
+        });
+    });
+    </script>
+
+<style>
+    @keyframes checkmark {
+        0% { opacity: 0; transform: scale(0.5); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    .checkmark-animate {
+        animation: checkmark 0.3s ease-out forwards;
+    }
+</style>
+
+<script>
+    document.getElementById("addUserBtn").addEventListener("click", function () {
+        // Kuhaa ang value sa gender
+        var selectedGender = document.querySelector('input[name="gender"]:checked');
+    
+        if (selectedGender) {
+            var gender = selectedGender.value;
+            
+            // Ipakita ang sakto nga modal base sa gender
+            if (gender === "MALE") {
+                document.getElementById("archiveModalMale").classList.remove("hidden");
+            } else if (gender === "FEMALE") {
+                document.getElementById("archiveModalFemale").classList.remove("hidden");
+            }
+        }
+    });
+    
+    // Function para itago ang modal kung i-click ang CANCEL
+    document.querySelectorAll(".cancelBtn").forEach(button => {
+        button.addEventListener("click", function () {
+            document.getElementById("archiveModalMale").classList.add("hidden");
+            document.getElementById("archiveModalFemale").classList.add("hidden");
+        });
+    });
+    </script>
+
+</form>
+
+
+
+
+
 </body>
 </html>
