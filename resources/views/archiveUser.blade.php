@@ -86,7 +86,7 @@
     
     <div class="relative">
         <div  class="w-full py-3 rounded text-left px-4 flex gap-4 items-center mt-4">
-            <div class="w-10 h-10 bg-[url('https://assets.rappler.com/2E744426792D49FBB61F8454EA4978B3/img/908E7DC94C264D7EBC29D394A80A8B69/coco-martin-ang-probinsiyano-001.jpg')] rounded-full bg-center bg-cover"></div>
+            <div class="w-10 h-10 bg-[url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476576892_648669014486867_3927621611615304678_n.png?_nc_cat=107&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFItCpz8qmXnuup9gAOpSYUzZTtUua-yWrNlO1S5r7JaiVl8xtM4UqThCpkdz0MTSGAA0f9ieExtk10B8KKfVXa&_nc_ohc=2UtHA-UnI08Q7kNvgGpTMTv&_nc_oc=Adl8rjmaAbiCOJKlj9iPHqpUP3QmbtahCLqIMwzgn5XwMSVP-81Z5ULUQyzx08H46nxQhDj7wqdpo7CJdAEnbg2H&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1wFur8UdpohB6NESdevD8qBfvbh8X_0X24oJ7JtlH--tCg&oe=6804D618')] rounded-full bg-center bg-cover"></div>
             <div>
                 <p class="font-bold text-sm">JUAN DELA CRUZ</p>
             </div>
@@ -114,25 +114,16 @@
 
         <!--Collections-->
         <div class="relative">
-            <button id="CollectionsButton" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
+            <a href="collection" id="" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
                 <i class="fas fa-wallet"></i> COLLECTIONS
-            </button>
-            <div id="CollectionsMenu" class="absolute left-full top-0 w-48 bg-green-800 rounded shadow-md hidden z-10">
-                <a href="#" class="block px-4 py-2 hover:bg-green-700">Payment</a>
-                <a href="#" class="block px-4 py-2 hover:bg-green-700">Remittance</a>
-                <a href="#" class="block px-4 py-2 hover:bg-green-700">Transaction History</a>
-            </div>
+            </a>
         </div>
 
              <!--Payable-->
              <div class="relative">
-                <button id="PayableButton" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
-                    <i class="fas fa-money-bill-wave"></i> PAYABLES
-                </button>
-                <div id="PayableMenu" class="absolute left-full top-0 w-48 bg-green-800 rounded shadow-md hidden z-10">
-                    <a href="#" class="block px-4 py-2 hover:bg-green-700">Add Payable</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-green-700">Update Payable</a>
-                </div>
+                <a href="payableManagement" id="" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
+                    <i class="fas fa-money-bill-wave"></i> PAYABLE MANAGEMENT
+                </a>
             </div>
 
             <!--Expenses-->
@@ -155,7 +146,7 @@
 
                <!--User Management-->
                <div class="relative">
-                <a href="#" id="" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
+                <a href="manageUser" id="" class="w-full py-3 rounded text-left px-4 hover:bg-green-700 flex gap-4 items-center">
                     <i class="fas fa-user-plus"></i> MANAGE USER
                 </a>
             </div>
@@ -166,10 +157,9 @@
                     <i class="fas fa-sign-out-alt"></i> LOGOUT
                 </a>
             </div>
-        
-
     </nav>
 </aside>
+
 
 <div class="sidebar-trigger"></div>
 
@@ -282,7 +272,7 @@
         
         <!-- Content Area -->
         <div class="max-w-screen-full mx-auto p-[50px] bg-cover bg-center bg-no-repeat w-full col-start-1 col-end-13 row-start-2 row-end-13"
-        style="background-image: url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476576892_648669014486867_3927621611615304678_n.png?_nc_cat=107&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFItCpz8qmXnuup9gAOpSYUzZTtUua-yWrNlO1S5r7JaiVl8xtM4UqThCpkdz0MTSGAA0f9ieExtk10B8KKfVXa&_nc_ohc=xLOagArzb7QQ7kNvgEJnroi&_nc_oc=AdhjQj9y2mboNl6KzUsk9lrUe0KNLwrn4fmg5A9VtKMziNra6upezVMz7f_f8U4z0mAdX-eJ51GW4QApOiNxwu8d&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1gGe5DMkVYFrkSiGGVgoVGT0UzJVnAO7V8k_OfqW8KhnhA&oe=67DA6DD8');">
+        style="background-image: url('https://scontent.fcgy1-3.fna.fbcdn.net/v/t1.15752-9/476576892_648669014486867_3927621611615304678_n.png?_nc_cat=107&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFItCpz8qmXnuup9gAOpSYUzZTtUua-yWrNlO1S5r7JaiVl8xtM4UqThCpkdz0MTSGAA0f9ieExtk10B8KKfVXa&_nc_ohc=2UtHA-UnI08Q7kNvgGpTMTv&_nc_oc=Adl8rjmaAbiCOJKlj9iPHqpUP3QmbtahCLqIMwzgn5XwMSVP-81Z5ULUQyzx08H46nxQhDj7wqdpo7CJdAEnbg2H&_nc_zt=23&_nc_ht=scontent.fcgy1-3.fna&oh=03_Q7cD1wFur8UdpohB6NESdevD8qBfvbh8X_0X24oJ7JtlH--tCg&oe=6804D618');">
         
         <div class="content-center">
             
