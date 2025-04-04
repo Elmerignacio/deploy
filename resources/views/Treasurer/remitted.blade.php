@@ -34,37 +34,39 @@
                             <th class="p-2 border border-black">COLLECTED BY</th>
                             <th class="p-2 border border-black">AMOUNT</th>
                             <th class="p-2 border border-black">STATUS</th>
+                            <th class="p-2 border border-black">ROLE</th> 
                         </tr>
                     </thead>
                     <tbody x-data="{ selectedId: null, selectedDate: '' }">
                         @php
-                            // Group the remittances by date and collected_by
                             $groupedRemittances = $remittances->groupBy(function($remittance) {
-                                return \Carbon\Carbon::parse($remittance->date)->format('Y-m-d') . '-' . $remittance->firstname . ' ' . $remittance->lastname;
+                                return \Carbon\Carbon::parse($remittance->date)->format('Y-m-d') . '-' . $remittance->firstname . ' ' . $remittance->lastname . '-' . $remittance->status;
                             });
                         @endphp
                     
                         @foreach ($groupedRemittances as $group => $remittanceGroup)
                             @php
                                 $totalAmount = $remittanceGroup->sum('paid');
-                                $remittance = $remittanceGroup->first(); // Get the first record to display the date and collector
+                                $remittance = $remittanceGroup->first(); 
                             @endphp
                             <tr class="border border-black hover:bg-gray-200 cursor-pointer"
-                            @click="selectedId = '{{ $remittance->id }}'; selectedDate = '{{ \Carbon\Carbon::parse($remittance->date)->format('F d, Y') }}'; showDetails = true; studentId = '{{ $remittance->id }}'; filterPayables('{{ \Carbon\Carbon::parse($remittance->date)->format('Y-m-d') }}'); console.log(selectedDate)"
+                                @click="selectedId = '{{ $remittance->id }}'; selectedDate = '{{ \Carbon\Carbon::parse($remittance->date)->format('F d, Y') }}'; showDetails = true; studentId = '{{ $remittance->id }}'; filterPayables('{{ \Carbon\Carbon::parse($remittance->date)->format('Y-m-d') }}'); console.log(selectedDate)"
                                 :class="selectedId === '{{ $remittance->id }}' ? 'bg-gray-300' : ''">
                                 <td class="p-2 border border-black">{{ \Carbon\Carbon::parse($remittance->date)->format('F d, Y') }}</td>
-                                <td class="p-2 border border-black">{{ $remittance->firstname }} {{ $remittance->lastname ?? 'WALAY SULOD' }}</td>
+                                <td class="p-2 border border-black">{{ $remittance->collectedBy }}</td>
                                 <td class="p-2 border border-black">{{ number_format($totalAmount, 2) }}</td>
                                 <td class="p-2 border border-black font-bold {{ 
                                     strtoupper($remittance->status) === 'PENDING' ? 'text-orange-600' : 
                                     (strtoupper($remittance->status) === 'REMITTED' ? 'text-blue-600' : 'text-green-600') }}">
                                     {{ strtoupper($remittance->status) }}
                                 </td>
+                                <td class="p-2 border border-black">{{ $remittance->role }}</td> 
                             </tr>
                         @endforeach
                     </tbody>
                     
                 </table>
+                
                 
               </div>
             </form>
@@ -95,6 +97,8 @@
 
 
 
+
+
          <div 
          x-show="showDetails"
          x-transition:enter="transition duration-300 transform"
@@ -118,14 +122,22 @@
 
     <div class="flex flex-col w-full md:w-auto">
         <div>
-            <p class="text-[20px] font-bold text-green-700">
-                {{ $remittance->firstname }} {{ $remittance->lastname }}
-            </p>
-            <p class="text-[20px] font-bold text-green-700">
-                {{ $remittance->yearLevel }} - {{ $remittance->block }}
-            </p>
-            <p class="text-[15px] font-bold" x-text="selectedDate"></p>
-
+            <div class="flex flex-col w-full md:w-auto">
+                @if(isset($remittance)) 
+                    <div>
+                        <p class="text-[20px] font-bold text-green-700">
+                            {{$remittance->collectedBy}} 
+                        </p>
+                        <p class="text-[20px] font-bold text-green-700">
+                            {{ $remittance->yearLevel }} - {{ $remittance->block }}
+                        </p>
+                        <p class="text-[15px] font-bold" x-text="selectedDate"></p>
+                    </div>
+                @else
+                    <p class="text-red-500">No remittance data available.</p>
+                @endif
+            </div>
+            
         </div>
 
 
@@ -151,39 +163,38 @@
     </div>
 
 </div>
-        <!-- Payment Table -->
-        <div class="mt-5">
-            <table class="w-full border border-black text-center text-sm">
-                <thead>
-                    <tr class="bg-green-700 text-white">
-                        <th class="p-2 border border-black">FIRSTNAME</th>
-                        <th class="p-2 border border-black">LASTNAME</th>
-                        <th class="p-2 border border-black">DESCRIPTION</th>
-                        <th class="p-2 border border-black">AMOUNT PAID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($remittances as $remittance)
-                    <tr data-student-id="{{ $remittance->id }}" 
-                        data-remittance-date="{{ \Carbon\Carbon::parse($remittance->date)->format('Y-m-d') }}"
-                        @click="handleClick('{{ $remittance->id }}', '{{ $remittance->firstname }} {{ $remittance->lastname }}', '{{ $remittance->year_level ?? 'N/A' }} {{ $remittance->block ?? 'N/A' }}', '{{ \Carbon\Carbon::parse($remittance->date)->format('Y-m-d') }}')">
-                        <td class="p-2 border border-black">{{ $remittance->firstname ?? 'N/A' }}</td>
-                        <td class="p-2 border border-black">{{ $remittance->lastname ?? 'N/A' }}</td>
-                        <td class="p-2 border border-black">{{ $remittance->description ?? 'No Description' }}</td>
-                        <td class="p-2 border border-black">₱{{ number_format($remittance->paid ?? 0, 2) }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr class="bg-white font-bold">
-                        <td class="p-2 border border-black">TOTAL</td>
-                        <td class="p-2 border border-black"></td>
-                        <td class="p-2 border border-black"></td>
-                        <td class="p-2 border border-black">₱{{ number_format($remittances->sum('paid'), 2) }}</td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+      <!-- Payment Table -->
+<div class="mt-5">
+    <table class="w-full border border-black text-center text-sm">
+        <thead>
+            <tr class="bg-green-700 text-white">
+                <th class="p-2 border border-black">DESCRIPTION</th>
+                <th class="p-2 border border-black">AMOUNT</th>
+                <th class="p-2 border border-black">AMOUNT PAID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($remittances as $remittance)
+            <tr data-student-id="{{ $remittance->id }}">
+                <td class="p-2 border border-black">{{ $remittance->description ?? 'No Description' }}</td>
+                <td class="p-2 border border-black">
+                    ₱{{ number_format($remittance->amount ?? 0, 2) }} 
+                </td>
+                <td class="p-2 border border-black">₱{{ number_format($remittance->paid ?? 0, 2) }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+        
+        <tfoot>
+            <tr class="bg-white font-bold">
+                <td class="p-2 border border-black">TOTAL</td>
+                <td class="p-2 border border-black"></td>
+                <td class="p-2 border border-black">₱{{ number_format($remittances->sum('paid'), 2) }}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
 
     <!-- Submit Button -->
     <div class="mt-4 text-center">
@@ -205,6 +216,8 @@
 }
 
     </script>
+
+
 
 
 </x-trea-components.sidebar>

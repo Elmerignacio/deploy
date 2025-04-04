@@ -6,77 +6,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-
-
 class TreasurerController extends Controller
 {
 
-public function showLoginForm()
-    {
-        return view('Treasurer/login'); // Show the login page
-}
-public function authenticate(Request $request)
-{
-    $credentials = $request->validate([
-        'username' => 'required|string',
-        'password' => 'required|string',
-    ]);
-
-    $user = DB::table('createuser')
-    ->select('IDNumber', 'username', 'role', 'firstname', 'lastname', 'yearLevel', 'block', 'gender', 'password')
-    ->where('username', $credentials['username'])
-    ->first();
-
-    if (!$user) {
-        return back()->withErrors(['loginError' => 'User not found.']);
-    }
-
-    if (!Hash::check($credentials['password'], $user->password)) {
-        return back()->withErrors(['loginError' => 'Incorrect password.']);
-    }
-
-    Auth::loginUsingId($user->IDNumber);
-
-
-    session([
-        'IDNumber'  => $user->IDNumber,
-        'username'  => $user->username,
-        'role'      => $user->role,
-        'firstname' => $user->firstname,  
-        'lastname'  => $user->lastname,    
-        'yearLevel' => $user->yearLevel,  
-        'block'     => $user->block,
-        'gender'    => $user->gender,
-        'password'  => $user->password 
-    ]);
-    
-
-    if ($user->role === 'TREASURER') {
-        return redirect()->route('dashboard'); 
-    }   
-    if ($user->role === 'REPRESENTATIVE') {
-        return redirect()->route('repdashboard'); 
-    }
-
-    return redirect()->route('login')->withErrors(['loginError' => 'Unauthorized access.']);
-}
 
 public function dashboard() {
-    $firstname = session('firstname', 'Guest'); 
-    $lastname = session('lastname', '');
-    $role = session('role', 'Guest');
-    return view('treasurer.dashboard', compact('firstname', 'lastname', 'role'));
-}
+        $firstname = session('firstname', 'Guest'); 
+        $lastname = session('lastname', '');
+        $role = session('role', 'Guest');
+        
+        $totalAmount = DB::table('createpayable')->sum('amount');
+        
+        $Payables = DB::table('createpayable')
+        ->select(
+            'description', 
+            'dueDate', 
+            'balance as input_balance', 
+            DB::raw('COUNT(id) as student_count'),
+            DB::raw('(balance * COUNT(id)) as expected_receivable') 
+        )
+        ->groupBy('description', 'dueDate', 'balance') 
+        ->get();
 
-public function logout(Request $request)
-{
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
-
-    return redirect()->route('login')->with('success', 'You have been logged out.');
-}
-
+    
+        return view('treasurer.dashboard', compact('firstname', 'lastname', 'role', 'totalAmount', 'Payables'));
+    }
+    
 
 
 public function getUserInfo(Request $request)
@@ -93,7 +48,6 @@ function expense() {
 }
 
 function saveUser(Request $req) {
-    // Convert only specific fields to uppercase
     $firstNameUpper = strtoupper(trim($req->firstname));
     $lastNameUpper = strtoupper(trim($req->lastname));
     $genderUpper = strtoupper(trim($req->gender));
@@ -125,25 +79,25 @@ function Manageuser() {
 
 function Payablemanagement() {
     $yearLevels = DB::table('createuser')
-    ->select('yearLevel')
-    ->distinct()
-    ->orderByRaw("FIELD(yearLevel, '1st year', '2nd year', '3rd year', '4th year')")
-    ->get();
+        ->select('yearLevel')
+        ->distinct()
+        ->orderByRaw("FIELD(yearLevel, '1st year', '2nd year', '3rd year', '4th year')")
+        ->get();
 
     $Payables = DB::table('createpayable')
-    ->select(
-    'description', 
-             'dueDate', 
-              'amount as input_amount', 
-                  DB::raw('COUNT(id) as student_count'),
-              DB::raw('(amount * COUNT(id)) as expected_receivable')  
-            )
-            ->groupBy('description', 'dueDate', 'amount')
-            ->get();
+        ->select(
+            'description', 
+            'dueDate', 
+            'balance as input_balance', // Changed 'amount' to 'balance'
+            DB::raw('COUNT(id) as student_count'),
+            DB::raw('(balance * COUNT(id)) as expected_receivable') // Using 'balance' instead of 'amount'
+        )
+        ->groupBy('description', 'dueDate', 'balance') // Grouping by 'balance'
+        ->get();
 
-        return view('Treasurer/payableManagement', compact('Payables','yearLevels' ));
+    return view('Treasurer/payableManagement', compact('Payables', 'yearLevels'));
+}
 
-    }
     
     public function Studentbalance() {
         $students = DB::table('createuser')
@@ -171,7 +125,6 @@ function Payablemanagement() {
             ->orderBy('block')
             ->get();
     
-        // Store representatives with correct key format
         $representatives = [];
         foreach ($students as $student) {
             if (strtolower($student->role) === 'representative') { 
@@ -274,12 +227,14 @@ function savePayable(Request $req) {
             DB::table('createpayable')->insert([
                 'description' => $descriptionUpper,
                 'amount' => $amount,
+                'balance' => $amount,
                 'dueDate' => $dueDate,
                 'yearLevel' => $yearLevelUpper,
                 'block' => $blockUpper,
                 'IDNumber' => $stud->IDNumber,
                 'studentName' => $fullName,
-                'role' => $role 
+                'role' => $role,
+
             ]);
         }
     }
@@ -313,6 +268,7 @@ public function archiveUsers(Request $request) {
             'block' => $student->block,
             'username' => $student->username,
             'password' => $student->password,
+            'status' => 'DEACTIVATED', 
         ]);
     }
 
@@ -335,7 +291,7 @@ public function savePayment(Request $req) {
     $student_id = $req->student_id;
     $payable_ids = $req->payable_id;
     $amounts_paid = $req->amount_paid;
-    $date = $req->date;  
+    $date = $req->date;
 
     if (!$student_id || !$payable_ids || !$amounts_paid || !$date) {
         return back()->with('error', 'All fields are required.');
@@ -344,13 +300,8 @@ public function savePayment(Request $req) {
     $payable_ids = is_array($payable_ids) ? $payable_ids : [$payable_ids];
     $amounts_paid = is_array($amounts_paid) ? $amounts_paid : [$amounts_paid];
 
-    // Get the logged-in user's details from the session
-    $student = (object) session()->only(['firstname', 'lastname', 'role', 'yearLevel', 'block']);
-    
-    // Check if the student is valid
-    if (!$student) {
-        return back()->with('error', 'Student not found.');
-    }
+    $collectedBy = session('firstname') . ' ' . session('lastname');
+    $collectorRole = session('role'); 
 
     foreach ($payable_ids as $index => $payable_id) {
         $payable = DB::table('createpayable')->where('id', $payable_id)->first();
@@ -362,67 +313,74 @@ public function savePayment(Request $req) {
                 continue;
             }
 
-            if ($amount_paid > $payable->amount) {
+            if ($amount_paid > $payable->balance) {
                 return back()->with('error', 'Amount paid exceeds payable amount.');
             }
 
-            $newBalance = $payable->amount - $amount_paid;
+            // Update the remaining balance in createpayable
+            $newBalance = $payable->balance - $amount_paid;
             DB::table('createpayable')->where('id', $payable_id)->update([
                 'amount' => $newBalance
             ]);
 
             $description = $payable->description;
+            $studentName = $payable->studentName;
 
-            // Check if the remittance already exists using the logged-in user's name
-            $existingRemittance = DB::table('remittance')
-                ->where('firstname', $student->firstname)
-                ->where('lastname', $student->lastname)
-                ->where('description', $description)
-                ->where('date', $date)
-                ->first();
+            $nameParts = explode(' ', trim($studentName), 2);
+            $firstname = $nameParts[0] ?? 'N/A';
+            $lastname = $nameParts[1] ?? 'N/A';
 
-            if ($existingRemittance) {
-                DB::table('remittance')
-                    ->where('id', $existingRemittance->id)
-                    ->update([
-                        'paid' => $existingRemittance->paid + $amount_paid
-                    ]);
-            } else {
-                DB::table('remittance')->insert([
-                    'firstname' => $student->firstname,
-                    'lastname' => $student->lastname,
-                    'yearLevel' => $student->yearLevel,
-                    'block' => $student->block,
-                    'description' => $description,
-                    'paid' => $amount_paid,
-                    'status' => 'Remitted',
-                    'date' => $date,
-                    'role' => $student->role
-                ]);
-            }
+            // Determine status based on role
+            $status = ($collectorRole === 'REPRESENTATIVE') ? 'PENDING' : 'REMITTED';
+
+            // Always insert a new row regardless of role
+            DB::table('remittance')->insert([
+                'firstname' => $firstname,
+                'lastname' => $lastname,
+                'yearLevel' => $payable->yearLevel,
+                'block' => $payable->block,
+                'description' => $description,
+                'paid' => $amount_paid,
+                'status' => $status,
+                'date' => $date,
+                'role' => $payable->role,
+                'collectedBy' => $collectedBy
+            ]);
         }
     }
 
-    return redirect()->back()->with('success', 'Success');
+    return redirect()->back()->with('success', 'Payment saved successfully.');
 }
 
+
 function Remitted() {
-
-
     $remittances = DB::table('remittance')
         ->leftJoin('createuser', function ($join) {
             $join->on('remittance.yearLevel', '=', 'createuser.yearLevel')
-                ->on('remittance.block', '=', 'createuser.block')
-                ->where('createuser.role', '=', 'REPRESENTATIVE'); 
+                 ->on('remittance.block', '=', 'createuser.block')
+                 ->where('createuser.role', '=', 'REPRESENTATIVE');
         })
         ->select('remittance.*', 'remittance.firstname', 'remittance.lastname')
         ->orderBy('remittance.date', 'asc')
         ->get();
+    $balances = DB::table('createpayable')
+        ->select('balance', 'description', 'yearLevel', 'block')
+        ->get();
+
+    foreach ($remittances as $remittance) {
+        $matchingAmount = $balances->firstWhere(function ($payable) use ($remittance) {
+            return $payable->description === $remittance->description
+                && $payable->yearLevel === $remittance->yearLevel
+                && $payable->block === $remittance->block;
+        });
+
+        $remittance->balance = $matchingAmount ? $matchingAmount->balance : 0;
+    }
 
     $representative = DB::table('createuser')
-        ->where('role', 'REPRESENTATIVE') 
+        ->where('role', 'REPRESENTATIVE')
         ->select('firstname', 'lastname', 'yearLevel', 'block')
-        ->first(); 
+        ->first();
 
     return view('Treasurer/remitted', compact('remittances', 'representative'));
 }
@@ -443,17 +401,31 @@ public function userDetails()
 }
 
 
-//Representative
+public function showLedger($id)
+{
+    $student = DB::table('createuser')
+        ->where('IDNumber', $id)
+        ->first();
 
-public function RepDashboard() {
-    $firstname = session('firstname', 'Guest'); 
-    $lastname = session('lastname', '');
-    $role = session('role', 'Guest');
+    $payables = DB::table('createpayable')
+        ->where('IDNumber', $id)
+        ->select('description', DB::raw('COALESCE(SUM(amount), 0) as total_balance'))
+        ->groupBy('description', 'IDNumber')
+        ->get();
 
+    $settledPayables = DB::table('remittance')
+        ->where('role', 'student')
+        ->where('lastname', $student->lastname)
+        ->where('yearLevel', $student->yearLevel)
+        ->where('block', $student->block)
+        ->get();
 
-    return view('representative.repdashboard', compact('firstname', 'lastname', 'role'));
+    \Log::info('Settled Payables:', $settledPayables->toArray());
 
+    return view('Treasurer.studentLedger', compact('student', 'payables', 'settledPayables'));
 }
+
+
 
 
 public function saveUserImage(Request $request)

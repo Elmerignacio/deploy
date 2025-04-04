@@ -33,7 +33,6 @@
                     <th class="p-2 border border-black">FIRSTNAME</th>
                     <th class="p-2 border border-black">LASTNAME</th>
                     <th class="p-2 border border-black">YEAR AND BLOCK</th>
-                    <th class="p-2 border border-black">BALANCE</th>
                   </tr>
                 </thead>
                 <tbody id="usersTableBody" x-data="{ activeRow: null }">
@@ -54,18 +53,11 @@
                             <td class="p-2 border border-black">
                                 {{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}
                             </td>
-                            <td class="p-2 border border-black">
-                                {{ $totalBalance > 0 ? '₱' . number_format($totalBalance, 2) : '' }} 
-                            </td>
                         </tr>
                     @endforeach
                 </tbody>
                 
                 <tfoot>
-                    <tr class="font-bold">
-                        <td colspan="4" class="p-2 border border-black text-center">TOTAL BALANCE:</td>
-                        <td class="p-2 border border-black">{{ $grandTotalBalance > 0 ? '₱' . number_format($grandTotalBalance, 2) : 'N/A' }}</td>
-                    </tr>
                 </tfoot>
               </table>
                  

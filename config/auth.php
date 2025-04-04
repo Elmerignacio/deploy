@@ -60,11 +60,10 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
-        ],
-
+    'users' => [
+        'driver' => 'database',
+        'table' => 'createuser',  // Make sure this is your actual table name in the database
+    ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -109,6 +108,7 @@ return [
     | confirmation screen. By default, the timeout lasts for three hours.
     |
     */
+    
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 

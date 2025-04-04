@@ -34,9 +34,9 @@
           <img src="{{ asset('images/receive.png') }}"
         class="w-[20%] h-[20%]" alt="Receivables">
         
-        <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">RECEIVABLE</p> 
+        <p class="font-bold text-[20px] flex place-items-center mt-2" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">RECEIVABLE</p>
         </div>
-        <p class="text-3xl font-bold"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">₱172,000,000</p>
+        <p class="text-3xl font-bold" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">₱{{ number_format($totalAmount, 2) }}</p>
         </div>  
     </div>
 
@@ -46,36 +46,41 @@
 <div class="mt-6 pb-5">
     <h3 class="text-lg font-bold mb-4">STUDENTS PAYABLES</h3>
     <table class="w-full border-collapse border border-gray-300">
-        <thead class="bg-gray-200">
+        <thead class="bg-green-500">
             <tr class="text-left">
                 <th class="border border-gray-300 p-2">DESCRIPTION</th>
                 <th class="border border-gray-300 p-2">AMOUNT</th>
                 <th class="border border-gray-300 p-2">EXPECTED RECEIVABLE</th>
+                <th class="border border-gray-300 p-2">AMOUNT RECEIVED</th>
+                <th class="border border-gray-300 p-2">RECEIVABLE</th>
                 <th class="border border-gray-300 p-2">DUE DATE</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td class="border border-gray-300 p-2">SEMESTRAL DUE</td>
-                <td class="border border-gray-300 p-2">₱250.00</td>
-                <td class="border border-gray-300 p-2">₱75,000.00</td>
-                <td class="border border-gray-300 p-2">MAY 20, 2025</td>
+        <tbody id="usersTableBody">
+            @foreach($Payables as $payable)
+            <tr class="border border-black"
+                @click="selectedPayable = {
+                    description: '{{ $payable->description }}',
+                    amount: '{{ number_format(floor($payable->input_balance), 2) }}',
+                    dueDate: '{{ $payable->dueDate }}',
+                    yearLevel: '{{ $payable->yearLevel ?? '' }}',
+                    block: '{{ $payable->block ?? '' }}',
+                    name: '{{ $payable->name ?? '' }}'
+                }; showDetails = true">
+                <td class="p-2 border border-black">{{ $payable->description }}</td>
+                <td class="p-2 border border-black">₱{{ number_format(floor($payable->input_balance), 2) }}</td>
+                <td class="p-2 border border-black">₱{{ number_format(floor($payable->expected_receivable), 2) }}</td>
+                <td class="p-2 border border-black"></td>
+                <td class="p-2 border border-black"></td>
+                <td class="p-2 border border-black">{{ \Carbon\Carbon::parse($payable->dueDate)->format('F d, Y') }}</td>
             </tr>
-            <tr>
-                <td class="border border-gray-300 p-2">SINULOG FESTIVAL</td>
-                <td class="border border-gray-300 p-2">₱300.00</td>
-                <td class="border border-gray-300 p-2">₱90,000.00</td>
-                <td class="border border-gray-300 p-2">JANUARY 10, 2025</td>
-            </tr>
-            <tr>
-                <td class="border border-gray-300 p-2">FINES</td>
-                <td class="border border-gray-300 p-2">₱25.00</td>
-                <td class="border border-gray-300 p-2">₱7,500.00</td>
-                <td class="border border-gray-300 p-2">MAY 20, 2025</td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
-</div>	
+</div>
+
+
+
 </div>
 
 </x-trea-components.sidebar>

@@ -49,9 +49,10 @@
                         $totalBalance = $payables[$student->IDNumber]->total_balance ?? 0;
                         $grandTotal += $totalBalance;
                     @endphp
-                    <tr class="border border-black cursor-pointer student-row" 
+                    <tr class="border border-black cursor-pointer student-row hover:bg-gray-200" 
                         data-yearlevel="{{ strtoupper($student->yearLevel) }}" 
-                        data-block="{{ strtoupper($student->block) }}">
+                        data-block="{{ strtoupper($student->block) }}"
+                        onclick="routeToStudentLedger('{{ $student->IDNumber }}')">
                         <td class="p-2 border border-black">{{ $student->IDNumber }}</td>
                         <td class="p-2 border border-black">{{ strtoupper($student->lastname) }}</td>
                         <td class="p-2 border border-black">{{ strtoupper($student->firstname) }}</td>
@@ -68,6 +69,14 @@
                     </tr>
                 @endforelse
             </tbody>
+            
+            
+            <script>
+                function routeToStudentLedger(idNumber) {
+                    window.location.href = "/student-ledger/" + idNumber; 
+                }
+            </script>
+            
         </x-trea-components.table>
     </div>
 

@@ -33,48 +33,37 @@
             });
         </script>
         
-        <a href="/dashboard" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
+        <a href="#" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
             <i class="fas fa-home text-2xl flex-shrink-0"></i>
             <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
                 DASHBOARD
             </span>
         </a>
-        <a href="/studentBalance" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
+        <a href="#" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
             <i class="fas fa-user-graduate text-2xl flex-shrink-0"></i>
             <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
                 STUDENT BALANCES
             </span>
         </a>
-        <a href="/collection" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
+        <a href="#" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
             <i class="fas fa-wallet text-2xl flex-shrink-0"></i>
             <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
                 COLLECTIONS
             </span>
         </a>
-        <a href="/payableManagement" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
+        <a href="#" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
             <i class="fas fa-file-invoice-dollar text-2xl flex-shrink-0"></i>
             <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
                 PAYABLE MANAGEMENT
             </span>
         </a>
-        <a href="/expense" class="flex items-center p-1 text-white hover:bg-green-500 rounded-md">
+        <a href="#" class="flex items-center p-1 text-white hover:bg-green-500 rounded-md">
             <i class="fas fa-money-check-alt text-2xl flex-shrink-0"></i>
             <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
                 EXPENSES
             </span>
         </a>
-        <a href="#" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
-            <i class="fas fa-chart-pie text-2xl flex-shrink-0"></i>
-            <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
-                REPORTS
-            </span>
-        </a>
-        <a href="/manageUser" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
-            <i class="fas fa-users-cog text-2xl flex-shrink-0"></i>
-            <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
-                USER MANAGEMENT
-            </span>
-        </a>
+
         <a href="{{ route('logout') }}" class="flex items-center p-2 text-white hover:bg-red-600 rounded-md"
         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
          <i class="fas fa-sign-out-alt text-2xl flex-shrink-0"></i>

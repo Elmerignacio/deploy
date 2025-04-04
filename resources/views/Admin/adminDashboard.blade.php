@@ -1,7 +1,7 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-<x-Repre-components.sidebar>
+<x-Add-components.sidebar>
     
     <div>
         <h2 class="text-3xl font-bold">{{$firstname}} {{$lastname}}</h2>
@@ -12,7 +12,7 @@
 
         <div class="bg-green-500 text-white p-6 rounded-lg shadow-lg text-center ">
             <div class="flex justify-center mt-[15px]">
-               <img src="{{ asset('images/cashonhand.png') }}"
+                <img src="{{ asset('images/cashonhand.png') }}"
                 class="w-[30%] h-[30%]" alt="Cash on Hand">
               
             <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">CASH ON HAND</p> 
@@ -25,20 +25,17 @@
                 <img src="{{ asset('images/money.png') }}"
                 class="w-[30%] h-[30%]" alt="Expenses">
               
-            <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">DEPARTMENT
-                EXPENSES
-                </p> 
+            <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">EXPENSES</p> 
             </div>
             <p class="text-3xl font-bold"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">₱0.00</p>
         </div>
 
         <div class="bg-yellow-500 text-white p-6 rounded-lg shadow-lg text-center ">
         <div class="flex justify-center mt-[15px]">
-    <img src="{{ asset('images/receive.png') }}"
-       class="w-[20%] h-[20%]" alt="Receivables">
+            <img src="{{ asset('images/receive.png') }}"
+            class="w-[20%] h-[20%]" alt="Receivables">
         
-        <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">3A
-            RECEIVABLES</p> 
+        <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">RECEIVABLE</p> 
         </div>
         <p class="text-3xl font-bold"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">₱172,000,000</p>
         </div>  
@@ -48,7 +45,7 @@
 
 <!-- Payables Table -->
 <div class="mt-6 pb-5">
-    <h3 class="text-lg font-bold mb-4">PAYABLES</h3>
+    <h3 class="text-lg font-bold mb-4">STUDENTS PAYABLES</h3>
     <table class="w-full border-collapse border border-gray-300">
         <thead class="bg-green-500">
             <tr class="text-left">
@@ -82,7 +79,7 @@
 </div>	
 </div>
 
-</x-Repre-components.sidebar>
+</x-Add-components.sidebar>
 </x-trea-components.content>
         
        
