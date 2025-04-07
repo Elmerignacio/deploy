@@ -1,16 +1,13 @@
-
 <x-trea-components.layout />
 <x-trea-components.header />
 
-<x-trea-components.content>
-    <x-trea-components.sidebar>
-
+<x-Repre-components.sidebar>
         <div class="mt-4" x-data="remittanceComponent()">
             <x-trea-components.content-header>COLLECTIONS</x-trea-components.content-header>
 
             <x-trea-components.nav-link>
-                <a href="collection" class="text-[17px] text-gray-600">Payment</a>
-                <a href="remitted" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Remittance</a>
+                <a href="/representative/collection" class="text-[17px] text-gray-600">Payment</a>
+                <a href="/representatve/remitted" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Remittance</a>
                 <a href="#" class="text-[17px] text-gray-600">Cash on hand</a>
             </x-trea-components.nav-link>
 
@@ -33,30 +30,36 @@
                             </thead>
                             <tbody>
                                 @php
-                                    $groupedRemittances = $remittances->groupBy(function($remittance) {
+                                    $groupedRemittances = $remittances->unique('id')->groupBy(function($remittance) {
                                         return \Carbon\Carbon::parse($remittance->date)->format('Y-m-d') . '-' . $remittance->collectedBy;
                                     });
                                 @endphp
-                            
+                        
                                 @foreach ($groupedRemittances as $group => $remittanceGroup)
                                     @php
-                                        $totalAmount = $remittanceGroup->sum('paid');
-                                        $remittance = $remittanceGroup->first(); 
-                                        $payableCount = $remittanceGroup->count();
-                                        $descriptions = $remittanceGroup->pluck('description')->unique();
+                                        $remittance = $remittanceGroup->first();
+                                        $payableCount = $remittanceGroup->count(); 
+                                        $descriptions = $remittanceGroup->pluck('description')->unique(); 
+                        
+                                        $totalPaid = $remittanceGroup->sum('paid'); // Sum of all paid amounts
+                                        $totalCollected = $remittanceGroup->sum('amountCollected'); // Sum of the collected amount
                                     @endphp
+                        
                                     <tr class="border border-black hover:bg-gray-200 cursor-pointer"
                                         @click="openModal({
                                             id: '{{ $remittance->id }}',
                                             date: '{{ \Carbon\Carbon::parse($remittance->date)->format('F d, Y') }}',
                                             collectedBy: '{{ $remittance->collectedBy }}',
-                                            totalAmount: {{ $totalAmount }},
+                                            totalPaid: {{ $totalPaid }},
+                                            totalCollected: {{ $totalCollected }}, // Added totalCollected to the modal data
                                             payableCount: {{ $payableCount }},
                                             descriptions: @js($descriptions)
                                         })">
                                         <td class="p-2 border border-black">{{ \Carbon\Carbon::parse($remittance->date)->format('F d, Y') }}</td>
                                         <td class="p-2 border border-black">{{ $remittance->collectedBy }}</td>
-                                        <td class="p-2 border border-black">{{ number_format($totalAmount, 2) }}</td>
+                                        <td class="p-2 border border-black">
+                                            {{ number_format($totalPaid + $totalCollected, 2) }}  <!-- Show the total of paid and collected amounts -->
+                                        </td>
                                         <td class="p-2 border border-black font-bold {{
                                             strtoupper($remittance->status) === 'PENDING' ? 'text-orange-600' :
                                             (strtoupper($remittance->status) === 'REMITTED' ? 'text-blue-600' : 'text-green-600') }}">
@@ -65,6 +68,8 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+                            
+                            
                         </table>
                     </div>
                 </div>
@@ -108,40 +113,41 @@
             </div>
 
         
-                <div x-data="{ descriptions: @entangle('descriptions'), remittances: @entangle('remittances') }">
+             
+                
+                <!-- Payable Table -->
+                <div x-show="showPayableDetails" class="mt-4">
                     <table class="w-full text-sm text-center border border-black">
-              <thead>
-                    <tr class="bg-green-700 text-white">
-                        <th class="p-2 border border-black">Description</th>
-                        <th class="p-2 border border-black">Amount</th>
-                        <th class="p-2 border border-black">Amount Paid</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template x-for="desc in descriptions" :key="desc">
-                        <tr class="cursor-pointer hover:bg-green-100" @click="fetchStudents(desc)">
-                            <td class="p-2 border border-black" x-text="desc"></td>
-                            <td class="p-2 border border-black" x-text="getBalance(desc)"></td>
-                            <td class="p-2 border border-black" x-text=""></td>
-                        </tr>
-                    </template>
-            
-            
-    </table>
-    <div class="mt-4 text-left">
-        <button 
-            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md transition duration-200"
-            @click="receiveCash"
-        >
-            Receive
-        </button>                       
-    </div>
-</div>
-
+                        <thead>
+                            <tr class="bg-green-700 text-white">
+                                <th class="p-2 border border-black">Description</th>
+                                <th class="p-2 border border-black">Amount</th>
+                                <th class="p-2 border border-black">Amount Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template x-for="desc in descriptions" :key="desc">
+                                <tr class="cursor-pointer hover:bg-green-100" @click="fetchStudents(desc)">
+                                    <td class="p-2 border border-black" x-text="desc"></td>
+                                    <td class="p-2 border border-black" x-text="getBalance(desc)"></td>
+                                    <td class="p-2 border border-black" x-text="getPaid(desc)"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                    <div class="mt-4 text-left">
+                        <button 
+                            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md transition duration-200"
+                            @click="receiveCash"
+                        >
+                            Receive
+                        </button>                       
+                    </div>
+                </div>
             </div>
         </div>
         
-    
+
 <style>
 @keyframes checkmark {
 0% { opacity: 0; transform: scale(0.5); }
@@ -249,8 +255,7 @@ animation: checkmark 0.3s ease-out forwards;
     </div>
   </div>
   
-    </x-trea-components.sidebar>
-</x-trea-components.content>
+</x-Repre-components.sidebar>
 
 <script>
     function remittanceComponent() {
@@ -351,12 +356,3 @@ animation: checkmark 0.3s ease-out forwards;
         };
     }
 </script>
-
-
-
- 
-
-
-
-
-

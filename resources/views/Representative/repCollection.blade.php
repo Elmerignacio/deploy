@@ -1,7 +1,7 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-<x-trea-components.sidebar>
+  <x-Repre-components.sidebar>
 
     <div class="mt-4">
         <x-trea-components.content-header>COLLECTIONS</x-trea-components.content-header>
@@ -10,7 +10,7 @@
 
         <x-trea-components.nav-link>
           <a href="collection" class="text-[15px] sm:text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Payment</a>
-         <a href="remitted" class="text-[15px] sm:text-[17px] text-gray-600"> Remittance</a>
+         <a href="/representatve/remitted" class="text-[15px] sm:text-[17px] text-gray-600"> Remittance</a>
         </x-trea-components.nav-link>
       
               
@@ -60,14 +60,13 @@
               </div>
             </div>
 
-            <x-trea-components.payment-modal/>
-
+            <x-repre-components.payment-modal/>
          </form>
         
     </div>
 
 
-</x-trea-components.sidebar>
+  </x-Repre-components.sidebar>
 
 </x-trea-components.content>
 

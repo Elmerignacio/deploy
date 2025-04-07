@@ -88,11 +88,11 @@ function Payablemanagement() {
         ->select(
             'description', 
             'dueDate', 
-            'balance as input_balance', // Changed 'amount' to 'balance'
+            'balance as input_balance', 
             DB::raw('COUNT(id) as student_count'),
-            DB::raw('(balance * COUNT(id)) as expected_receivable') // Using 'balance' instead of 'amount'
+            DB::raw('(balance * COUNT(id)) as expected_receivable') 
         )
-        ->groupBy('description', 'dueDate', 'balance') // Grouping by 'balance'
+        ->groupBy('description', 'dueDate', 'balance') 
         ->get();
 
     return view('Treasurer/payableManagement', compact('Payables', 'yearLevels'));
@@ -101,9 +101,11 @@ function Payablemanagement() {
     
     public function Studentbalance() {
         $students = DB::table('createuser')
-            ->select('IDNumber', 'lastname', 'firstname', 'yearLevel', 'block', 'role')
-            ->orderBy('lastname', 'asc')
-            ->get();
+        ->select('IDNumber', 'lastname', 'firstname', 'yearLevel', 'block', 'role')
+        ->whereIn('role', ['student', 'treasurer', 'representative'])
+        ->orderBy('lastname', 'asc')
+        ->get();
+
     
         \Log::info('All Students:', $students->toArray());
     
@@ -139,15 +141,11 @@ function Payablemanagement() {
     
     function Collection() {
         $students = DB::table('createuser')
-        ->whereIn('role', ['REPRESENTATIVE', 'STUDENT']) 
+        ->whereIn('role', ['representative', 'student','treasurer']) 
             ->orderBy('lastname', 'asc')
             ->get(); 
-    
-        $payables = DB::table('createpayable')
-            ->orderBy('amount', 'asc')
-            ->get(); 
-    
-        return view('Treasurer/collection', compact('students', 'payables'));
+
+        return view('Treasurer/collection', compact('students'));
     }
     
 function Createpayable() {
@@ -163,7 +161,7 @@ function getStudentsAndBlocks(Request $request) {
     $yearLevel = $request->yearLevel;
 
     $students = DB::table('createuser')
-        ->where('role', 'student')
+        ->whereIn('role', ['student', 'representative', 'treasurer'])
         ->where('yearLevel', $yearLevel)
         ->get();
 
@@ -183,7 +181,7 @@ function savePayable(Request $req) {
     $student = $req->IDNumber;
 
     $query = DB::table('createuser')
-    ->whereIn('role', ['student', 'representative'])
+    ->whereIn('role', ['student', 'representative','treasurer'])
     ->select('IDNumber', 'yearLevel', 'block', 'firstname', 'lastname', 'role'); 
 
     if ($yearLevel !== "all") {
@@ -288,86 +286,117 @@ public function getStudentPayables($studentId)
 }
 
 public function savePayment(Request $req) {
-    $student_id = $req->student_id;
-    $payable_ids = $req->payable_id;
-    $amounts_paid = $req->amount_paid;
+    $studentId = $req->student_id;
+    $payableIds = $req->payable_id;
+    $amountsPaid = $req->amount_paid;
     $date = $req->date;
 
-    if (!$student_id || !$payable_ids || !$amounts_paid || !$date) {
+    if (!$studentId || !$payableIds || !$amountsPaid || !$date) {
         return back()->with('error', 'All fields are required.');
     }
 
-    $payable_ids = is_array($payable_ids) ? $payable_ids : [$payable_ids];
-    $amounts_paid = is_array($amounts_paid) ? $amounts_paid : [$amounts_paid];
+    $payableIds = is_array($payableIds) ? $payableIds : [$payableIds];
+    $amountsPaid = is_array($amountsPaid) ? $amountsPaid : [$amountsPaid];
 
+    $role = session('role');
     $collectedBy = session('firstname') . ' ' . session('lastname');
-    $collectorRole = session('role'); 
 
-    foreach ($payable_ids as $index => $payable_id) {
-        $payable = DB::table('createpayable')->where('id', $payable_id)->first();
+    DB::beginTransaction();
 
-        if ($payable) {
-            $amount_paid = floatval($amounts_paid[$index] ?? 0);
+    try {
+        foreach ($payableIds as $index => $payableId) {
+            $payable = DB::table('createpayable')->where('id', $payableId)->first();
 
-            if ($amount_paid <= 0) {
-                continue;
+            if ($payable) {
+                $amountPaid = floatval($amountsPaid[$index] ?? 0);
+
+                if ($amountPaid <= 0) {
+                    continue;  
+                }
+                if ($amountPaid > $payable->amount) {
+                    return back()->with('error', 'Amount paid exceeds payable amount.');
+                }
+
+                $newBalance = $payable->amount - $amountPaid;
+
+                DB::table('createpayable')->where('id', $payableId)->update([
+                    'amount' => $newBalance
+                ]);
+
+                list($firstname, $lastname) = explode(' ', trim($payable->studentName), 2) + ['N/A', 'N/A'];
+
+                $existingPayment = DB::table('remittance')
+                    ->where('firstname', $firstname)
+                    ->where('lastname', $lastname)
+                    ->where('description', $payable->description)
+                    ->where('date', $date)
+                    ->first();
+
+                $status = ($role == 'REPRESENTATIVE') ? 'PENDING' : 'REMITTED';
+
+                if ($existingPayment) {
+                    $newPaidAmount = $existingPayment->paid + $amountPaid;
+
+                    DB::table('remittance')->where('id', $existingPayment->id)->update([
+                        'paid' => $newPaidAmount,
+                    ]);
+                } else {
+                    DB::table('remittance')->insert([
+                        'firstname' => $firstname,
+                        'lastname' => $lastname,
+                        'yearLevel' => $payable->yearLevel,
+                        'block' => $payable->block,
+                        'description' => $payable->description,
+                        'paid' => $amountPaid,
+                        'status' => $status,  
+                        'date' => $date,
+                        'role' => $role,
+                        'collectedBy' => $collectedBy
+                    ]);
+                }
             }
-
-            if ($amount_paid > $payable->balance) {
-                return back()->with('error', 'Amount paid exceeds payable amount.');
-            }
-
-            // Update the remaining balance in createpayable
-            $newBalance = $payable->balance - $amount_paid;
-            DB::table('createpayable')->where('id', $payable_id)->update([
-                'amount' => $newBalance
-            ]);
-
-            $description = $payable->description;
-            $studentName = $payable->studentName;
-
-            $nameParts = explode(' ', trim($studentName), 2);
-            $firstname = $nameParts[0] ?? 'N/A';
-            $lastname = $nameParts[1] ?? 'N/A';
-
-            // Determine status based on role
-            $status = ($collectorRole === 'REPRESENTATIVE') ? 'PENDING' : 'REMITTED';
-
-            // Always insert a new row regardless of role
-            DB::table('remittance')->insert([
-                'firstname' => $firstname,
-                'lastname' => $lastname,
-                'yearLevel' => $payable->yearLevel,
-                'block' => $payable->block,
-                'description' => $description,
-                'paid' => $amount_paid,
-                'status' => $status,
-                'date' => $date,
-                'role' => $payable->role,
-                'collectedBy' => $collectedBy
-            ]);
         }
-    }
 
-    return redirect()->back()->with('success', 'Payment saved successfully.');
+        DB::commit();
+
+        return redirect()->back()->with('success', 'Payment saved successfully.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+
+        return back()->with('error', 'An error occurred while saving the payment.');
+    }
 }
 
 
-function Remitted() {
+
+public function Remitted() {
+    $userYearLevel = session('yearLevel');
+    $userBlock = session('block');
+    
     $remittances = DB::table('remittance')
         ->leftJoin('createuser', function ($join) {
             $join->on('remittance.yearLevel', '=', 'createuser.yearLevel')
                  ->on('remittance.block', '=', 'createuser.block')
-                 ->where('createuser.role', '=', 'REPRESENTATIVE');
+                 ->whereIn('createuser.role', ['TREASURER', 'REPRESENTATIVE']);
         })
-        ->select('remittance.*', 'remittance.firstname', 'remittance.lastname')
+        ->select(
+            'remittance.*',
+            'createuser.yearLevel as userYearLevel',
+            'createuser.block as userBlock',
+            'remittance.firstname',
+            'remittance.lastname',
+            'remittance.collectedBy'
+        )
+        ->where('remittance.yearLevel', $userYearLevel)  
+        ->where('remittance.block', $userBlock)  
         ->orderBy('remittance.date', 'asc')
         ->get();
+
     $balances = DB::table('createpayable')
         ->select('balance', 'description', 'yearLevel', 'block')
         ->get();
 
-    foreach ($remittances as $remittance) {
+        foreach ($remittances as $remittance) {
         $matchingAmount = $balances->firstWhere(function ($payable) use ($remittance) {
             return $payable->description === $remittance->description
                 && $payable->yearLevel === $remittance->yearLevel
@@ -377,13 +406,59 @@ function Remitted() {
         $remittance->balance = $matchingAmount ? $matchingAmount->balance : 0;
     }
 
-    $representative = DB::table('createuser')
-        ->where('role', 'REPRESENTATIVE')
-        ->select('firstname', 'lastname', 'yearLevel', 'block')
-        ->first();
+    $paids = DB::table('remittance')
+    ->select('paid', 'description', 'yearLevel', 'block', 'date') 
+    ->get();
 
-    return view('Treasurer/remitted', compact('remittances', 'representative'));
+foreach ($remittances as $remittance) {
+    $matchingAmount = $paids->firstWhere(function ($payable) use ($remittance) {
+        return $payable->description === $remittance->description
+            && $payable->yearLevel === $remittance->yearLevel
+            && $payable->block === $remittance->block
+            && $payable->date === $remittance->date;
+    });
+ 
+
+    $remittance->paid = $matchingAmount ? $matchingAmount->paid : 0;
 }
+
+
+    $collectors = DB::table('createuser')
+        ->whereIn('role', ['TREASURER', 'REPRESENTATIVE'])
+        ->select('firstname', 'lastname', 'role', 'yearLevel', 'block')
+        ->get();
+    // Pass data to the view
+    return view('Treasurer/remitted', compact('remittances', 'collectors', 'balances', 'paids'));
+}
+
+
+
+
+
+public function getStudentsWhoPaid(Request $request)
+{
+    $date = $request->input('date');
+    $collectedBy = $request->input('collectedBy');
+    $description = $request->input('description');
+
+    // Log the incoming request (optional for debugging)
+    \Log::info("Fetching students for:", [
+        'date' => $date,
+        'collectedBy' => $collectedBy,
+        'description' => $description,
+    ]);
+
+    $students = DB::table('remittance')
+        ->whereDate('date', $date)
+        ->where('collectedBy', $collectedBy)
+        ->where('description', $description)
+        ->select('firstname', 'lastname', 'yearLevel', 'block', 'paid', 'status')
+        ->get();
+
+    // Return as JSON
+    return response()->json($students);
+}
+
 
 public function userDetails()
     {
