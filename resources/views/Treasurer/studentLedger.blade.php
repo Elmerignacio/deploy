@@ -54,7 +54,7 @@
     </div>
     </div>
 
-      <div class="md:w-2/3">
+    <div class="md:w-2/3">
         <h3 class="text-lg font-bold text-green-900">SETTLED PAYABLE</h3>
         <div class="overflow-x-auto">
             <table class="w-full border border-gray-300 mt-2 text-sm">
@@ -70,35 +70,37 @@
                 <tbody>
                     @foreach($settledPayables as $settled)
                         <tr class="bg-white">
-                            <td class="p-3 border border-gray-300">{{ \Carbon\Carbon::parse($settled->date)->format('F d, Y') }}</td>
-                            <td class="p-3 border border-gray-300">{{ $settled->description }}</td>
-                            <td class="p-3 border border-gray-300 font-bold">₱{{ number_format($settled->paid, 2) }}</td>
+                            <td class="p-3 border border-gray-300">
+                                {{ \Carbon\Carbon::parse($settled->date)->format('F d, Y') }}
+                            </td>
+                            <td class="p-3 border border-gray-300">
+                                {{ $settled->description }}
+                            </td>
+                            <td class="p-3 border border-gray-300 font-bold">
+                                ₱{{ number_format($settled->paid, 2) }}
+                            </td>
                             <td class="p-3 border border-gray-300">
                                 {{ $settled->collectedBy ?? 'N/A' }}
                             </td>
-                            <td class="p-3 border border-gray-300 
-                                @if(strtoupper($settled->status) === 'PENDING') 
-                                    text-orange-500 
-                                @elseif(strtoupper($settled->status) === 'REMITTED') 
-                                    text-blue-500 
-                                @elseif(strtoupper($settled->status) === 'CLEARED') 
-                                    text-green-500 
-                                @else 
-                                    text-gray-500 
-                                @endif 
-                                font-bold">
+                            <td class="p-3 border border-gray-300 font-bold 
+                                @if(strtoupper($settled->status) === 'PENDING') text-orange-500 
+                                @elseif(strtoupper($settled->status) === 'REMITTED') text-blue-500 
+                                @elseif(strtoupper($settled->status) === 'CLEARED') text-green-500 
+                                @else text-gray-500 @endif">
                                 {{ strtoupper($settled->status) }}
                             </td>
                         </tr>
                     @endforeach
+    
                     <tr class="bg-green-900 text-white font-bold">
                         <td class="p-3 border border-gray-300 text-left" colspan="2">TOTAL</td>
-                        <td class="p-3 border border-gray-300">₱{{ number_format($settledPayables->sum('paid'), 2) }}</td>
+                        <td class="p-3 border border-gray-300">
+                            ₱{{ number_format($settledPayables->sum('paid'), 2) }}
+                        </td>
                         <td class="p-3 border border-gray-300"></td>
                         <td class="p-3 border border-gray-300"></td>
                     </tr>
                 </tbody>
-                
             </table>
         </div>
     </div>

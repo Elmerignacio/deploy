@@ -285,7 +285,8 @@ public function getStudentPayables($studentId)
     return response()->json($payables);
 }
 
-public function savePayment(Request $req) {
+
+public function SavePayment(Request $req) {
     $studentId = $req->student_id;
     $payableIds = $req->payable_id;
     $amountsPaid = $req->amount_paid;
@@ -367,15 +368,14 @@ public function savePayment(Request $req) {
     }
 }
 
-
-
-public function Remitted() {
+public function Remitted()
+{
     $userYearLevel = session('yearLevel');
     $userBlock = session('block');
     
     $remittances = DB::table('remittance')
         ->leftJoin('createuser', function ($join) {
-            $join->on('remittance.yearLevel', '=', 'createuser.yearLevel')
+            $join
                  ->on('remittance.block', '=', 'createuser.block')
                  ->whereIn('createuser.role', ['TREASURER', 'REPRESENTATIVE']);
         })
@@ -407,7 +407,7 @@ public function Remitted() {
     }
 
     $paids = DB::table('remittance')
-    ->select('paid', 'description', 'yearLevel', 'block', 'date') 
+    ->select('paid', 'description', 'yearLevel', 'block', 'date' ,'collectedBy') 
     ->get();
 
 foreach ($remittances as $remittance) {
@@ -415,7 +415,8 @@ foreach ($remittances as $remittance) {
         return $payable->description === $remittance->description
             && $payable->yearLevel === $remittance->yearLevel
             && $payable->block === $remittance->block
-            && $payable->date === $remittance->date;
+            && $payable->date === $remittance->date
+            && $payable->collectedBy === $remittance->collectedBy;
     });
  
 
@@ -427,10 +428,9 @@ foreach ($remittances as $remittance) {
         ->whereIn('role', ['TREASURER', 'REPRESENTATIVE'])
         ->select('firstname', 'lastname', 'role', 'yearLevel', 'block')
         ->get();
-    // Pass data to the view
-    return view('Treasurer/remitted', compact('remittances', 'collectors', 'balances', 'paids'));
-}
 
+        return view('treasurer.remitted', compact('remittances', 'collectors', 'balances','paids'));
+}
 
 
 
@@ -478,24 +478,25 @@ public function userDetails()
 
 public function showLedger($id)
 {
+    // Get student details
     $student = DB::table('createuser')
         ->where('IDNumber', $id)
         ->first();
 
+    // Get remaining balances grouped by description
     $payables = DB::table('createpayable')
         ->where('IDNumber', $id)
         ->select('description', DB::raw('COALESCE(SUM(amount), 0) as total_balance'))
-        ->groupBy('description', 'IDNumber')
+        ->groupBy('description')
         ->get();
 
+    // Fix: Use 'id' if 'remittance' table uses that instead of 'IDNumber'
     $settledPayables = DB::table('remittance')
+        ->where('id', $id)
         ->where('role', 'student')
-        ->where('lastname', $student->lastname)
-        ->where('yearLevel', $student->yearLevel)
-        ->where('block', $student->block)
+        ->select('date', 'description', 'paid', 'collectedBy', 'status')
+        ->orderBy('date', 'asc')
         ->get();
-
-    \Log::info('Settled Payables:', $settledPayables->toArray());
 
     return view('Treasurer.studentLedger', compact('student', 'payables', 'settledPayables'));
 }

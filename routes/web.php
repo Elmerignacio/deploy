@@ -37,6 +37,8 @@ Route::post('/save-payment', [TreasurerController::class, 'savePayment'])->name(
 Route::get('/student-ledger/{id}', [TreasurerController::class, 'showLedger'])->name('student.ledger');
 Route::get('/remitted/students', [TreasurerController::class, 'getStudentsWhoPaid']);
 
+Route::post('treasurer/save-payment', [TreasurerController::class, 'SavePayment'])->name('save.payment');
+
 Route::get('userDetails', [TreasurerController::class, 'userDetails']);
 Route::get('/get-user-info', [TreasurerController::class, 'getUserInfo']);
 
@@ -49,7 +51,6 @@ Route::get('/get-user-info', [TreasurerController::class, 'getUserInfo']);
   Route::get('representative/collection', [RepresentativeController::class, 'repCollection']);
   Route::get('representatve/remitted', [RepresentativeController::class, 'RepRemitted']);
   Route::post('representative/save-payment', [RepresentativeController::class, 'RepSavePayment'])->name('save.payment');
-
 
 
 
