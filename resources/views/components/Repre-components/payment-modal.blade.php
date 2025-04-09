@@ -224,7 +224,6 @@ document.getElementById("submitPayment").addEventListener("click", function (eve
         if (data.success) {
             alert("Payment saved successfully!");
 
-            // Update remaining balances after payment is successfully saved
             const studentId = document.getElementById("studentId").value;
             fetch(`/get-student-payables/${studentId}`)
                 .then(response => response.json())

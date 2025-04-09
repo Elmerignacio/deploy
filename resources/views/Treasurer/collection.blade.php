@@ -9,8 +9,9 @@
    
 
         <x-trea-components.nav-link>
-          <a href="collection" class="text-[15px] sm:text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Payment</a>
-         <a href="remitted" class="text-[15px] sm:text-[17px] text-gray-600"> Remittance</a>
+          <a href="/treasurer/collection" class="text-[15px] sm:text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Payment</a>
+         <a href="/treasurer/remitted" class="text-[15px] sm:text-[17px] text-gray-600"> Remittance</a>
+         <a href="/treasurer/CashOnHand" class="text-[17px] text-gray-600">Cash On Hand</a>
         </x-trea-components.nav-link>
       
               

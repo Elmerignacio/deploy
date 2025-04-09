@@ -6,9 +6,9 @@
             <x-trea-components.content-header>COLLECTIONS</x-trea-components.content-header>
 
             <x-trea-components.nav-link>
-                <a href="/collection" class="text-[17px] text-gray-600">Payment</a>
-                <a href="/remitted" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Remittance</a>
-                <a href="#" class="text-[17px] text-gray-600">Cash on hand</a>
+                <a href="/treasurer/collection" class="text-[17px] text-gray-600">Payment</a>
+                <a href="/treasurer/remitted" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Remittance</a>
+                <a href="/treasurer/CashOnHand" class="text-[17px] text-gray-600">Cash on hand</a>
             </x-trea-components.nav-link>
 
             <div class="flex flex-col md:flex-row overflow-auto">
@@ -40,9 +40,10 @@
                                         $remittance = $remittanceGroup->first();
                                         $payableCount = $remittanceGroup->count(); 
                                         $descriptions = $remittanceGroup->pluck('description')->unique(); 
+                                        
                         
                                         $totalPaid = $remittanceGroup->sum('paid');
-                                        $totalCollected = $remittanceGroup->sum('amountCollected'); 
+                                        $totalCollected = $remittanceGroup->sum('amountCollected');
                                     @endphp
                         
                                     <tr class="border border-black hover:bg-gray-200 cursor-pointer"
@@ -51,7 +52,7 @@
                                             date: '{{ \Carbon\Carbon::parse($remittance->date)->format('F d, Y') }}',
                                             collectedBy: '{{ $remittance->collectedBy }}',
                                             totalPaid: {{ $totalPaid }},
-                                            totalCollected: {{ $totalCollected }}, // Added totalCollected to the modal data
+                                            totalCollected: {{ $totalCollected }}, 
                                             payableCount: {{ $payableCount }},
                                             descriptions: @js($descriptions)
                                         })">
@@ -68,6 +69,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+                            
                             
                             
                         </table>
@@ -134,6 +136,12 @@
                                 </tr>
                             </template>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="p-2 border border-black font-bold" colspan="2">Total</td>
+                                <td class="p-2 border border-black font-bold" x-text="getTotalPaid()"></td>
+                            </tr>
+                        </tfoot>
                     </table>
                     <div class="mt-4 text-left">
                         <button 
@@ -159,7 +167,7 @@ animation: checkmark 0.3s ease-out forwards;
 }
 </style>
 
-            <!-- Student List Modal -->
+    
             <div x-show="showStudentListModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/2" @click.stop>
                     <h2 class="text-xl font-bold mb-4">Students Who Paid: <span x-text="selectedDescription"></span></h2>
@@ -190,71 +198,6 @@ animation: checkmark 0.3s ease-out forwards;
 
         
 
-   <!-- Modal Denomination -->
-<div id="modal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <!-- Modal Box -->
-    <div class="bg-green-800 text-white rounded-lg shadow-xl w-full max-w-xl relative">
-      <!-- Header -->
-      <div class="p-4 border-b border-white flex justify-between items-center">
-        <div class="font-bold text-lg bg-green-900 px-3 py-1 rounded">FEBRUARY 28, 2025</div>
-        <button onclick="document.getElementById('modal').classList.add('hidden')" class="text-white text-xl">&times;</button>
-      </div>
-  
-      <!-- Table -->
-      <div class="bg-white text-black px-6 py-4 overflow-auto">
-        <table class="w-full table-auto border border-black text-center">
-          <thead class="bg-green-700 text-white">
-            <tr>
-              <th class="py-2 px-3 border border-black">DENOMINATION</th>
-              <th class="py-2 px-3 border border-black">QTY</th>
-              <th class="py-2 px-3 border border-black">AMOUNT</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="py-2 px-3 border border-black">₱1,000.00</td><td class="border border-black"></td><td class="border border-black"></td>
-            </tr>
-            <tr>
-              <td class="py-2 px-3 border border-black">₱500.00</td><td class="border border-black"></td><td class="border border-black"></td>
-            </tr>
-            <tr>
-              <td class="py-2 px-3 border border-black">₱200.00</td><td class="border border-black"></td><td class="border border-black"></td>
-            </tr>
-            <tr>
-              <td class="py-2 px-3 border border-black">₱100.00</td><td class="border border-black">3</td><td class="border border-black">₱300.00</td>
-            </tr>
-            <tr>
-              <td class="py-2 px-3 border border-black">₱50.00</td><td class="border border-black">2</td><td class="border border-black">₱100.00</td>
-            </tr>
-            <tr>
-              <td class="py-2 px-3 border border-black">₱20.00</td><td class="border border-black"></td><td class="border border-black"></td>
-            </tr>
-            <tr>
-              <td class="py-2 px-3 border border-black">₱10.00</td><td class="border border-black"></td><td class="border border-black"></td>
-            </tr>
-            <tr>
-              <td class="py-2 px-3 border border-black">₱5.00</td><td class="border border-black"></td><td class="border border-black"></td>
-            </tr>
-            <tr>
-              <td class="py-2 px-3 border border-black">₱1.00</td><td class="border border-black"></td><td class="border border-black"></td>
-            </tr>
-            <tr>
-              <td class="py-2 px-3 border border-black">₱0.25</td><td class="border border-black"></td><td class="border border-black"></td>
-            </tr>
-            <tr class="bg-green-700 text-white font-bold">
-              <td class="py-2 px-3 border border-black">TOTAL</td><td class="border border-black"></td><td class="border border-black">₱400.00</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-  
-      <!-- Confirm Button -->
-      <div class="p-4 flex justify-center">
-        <button class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700">CONFIRM</button>
-      </div>
-    </div>
-  </div>
-  
 </x-trea-components.sidebar>
 
 <script>
@@ -263,7 +206,6 @@ animation: checkmark 0.3s ease-out forwards;
             selectedId: null,
             selectedDate: '',
             selectedDateForRequest: '',
-            selectedCollectedForRequest: '',
             studentName: '',
             totalAmount: 0,
             payableCount: 0,
@@ -279,12 +221,12 @@ animation: checkmark 0.3s ease-out forwards;
             collectorRole: '',
             collectorYearLevel: '',
             collectorBlock: '',
+            collectorDate: '',
 
             openModal(data) {
                 this.selectedId = data.id;
                 this.selectedDate = data.date;
                 this.selectedDateForRequest = this.formatDateForRequest(data.date);
-                this.selectedCollectedForRequest = this.formatDateForRequest(data.collectedBy);
                 this.studentName = data.collectedBy;
                 this.totalAmount = data.totalAmount;
                 this.payableCount = data.payableCount;
@@ -301,6 +243,7 @@ animation: checkmark 0.3s ease-out forwards;
                     this.collectorRole = collector.role;
                     this.collectorYearLevel = collector.yearLevel;
                     this.collectorBlock = collector.block;
+                    this.collectorDate = collector.date;
                 } else {
                     this.collectorRole = 'N/A';
                     this.collectorYearLevel = 'N/A';
@@ -317,17 +260,23 @@ animation: checkmark 0.3s ease-out forwards;
             },
 
             getPaid(desc) {
-            const matchingPaids = this.paids.filter(b =>
-            b.description === desc &&
-            b.yearLevel === this.collectorYearLevel &&
-            b.block === this.collectorBlock &&
-            b.date === this.selectedDateForRequest&&
-            b.collectedBy === this.selectedCollectedForRequest
-    );
-    return matchingPaids.reduce((total, paid) => total + parseFloat(paid.paid), 0).toFixed(2); 
-
+                const matchingPaids = this.paids.filter(b =>
+                b.description === desc &&
+                b.yearLevel === this.collectorYearLevel &&
+                b.block === this.collectorBlock &&
+                b.date === this.selectedDateForRequest &&
+                b.status === (this.collectorRole === 'REPRESENTATIVE' ? 'PENDING' : 'REMITTED')
+            );
+            return matchingPaids.reduce((total, paid) => total + parseFloat(paid.paid), 0).toFixed(2);
             },
-        
+
+            getTotalPaid() {
+            let totalPaid = 0;
+            this.descriptions.forEach(desc => {
+                totalPaid += parseFloat(this.getPaid(desc));
+            });
+            return totalPaid.toFixed(2);
+        },
         
 
             fetchStudents(description) {

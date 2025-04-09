@@ -20,13 +20,13 @@ Route::post('/logout', [loginController::class, 'logout'])->name('logout');
 
 Route::post('/saveUserImage', [TreasurerController::class, 'saveUserImage'])->name('saveUserImage');
 Route::get('expense', [TreasurerController::class, 'expense']);
-Route::get('remitted', [TreasurerController::class, 'Remitted']);
+Route::get('treasurer/remitted', [TreasurerController::class, 'Remitted']);
 Route::get('treasurer/dashboard', [TreasurerController::class, 'dashboard'])->name('dashboard');
 Route::get('manageUser', [TreasurerController::class, 'Manageuser']);
 Route::get('payableManagement', [TreasurerController::class, 'Payablemanagement']);
 Route::get('createPayable', [TreasurerController::class, 'Createpayable']);
 Route::get('studentBalance', [TreasurerController::class, 'Studentbalance']);
-Route::get('collection', [TreasurerController::class, 'Collection']);
+Route::get('treasurer/collection', [TreasurerController::class, 'Collection']);
 Route::get('archiveUser', [TreasurerController::class, 'ArchiveUser']);
 Route::get('get-students-and-blocks', [TreasurerController::class, 'getStudentsAndBlocks']);
 Route::post('saveData', [TreasurerController::class, 'saveuser']);
@@ -36,8 +36,10 @@ Route::get('/get-student-payables/{studentId}', [TreasurerController::class, 'ge
 Route::post('/save-payment', [TreasurerController::class, 'savePayment'])->name('save.payment');
 Route::get('/student-ledger/{id}', [TreasurerController::class, 'showLedger'])->name('student.ledger');
 Route::get('/remitted/students', [TreasurerController::class, 'getStudentsWhoPaid']);
+Route::post('treasurer/save-payment', [TreasurerController::class, 'SavePayment'])->name('TreaSavePayment');
 
-Route::post('treasurer/save-payment', [TreasurerController::class, 'SavePayment'])->name('save.payment');
+Route::get('treasurer/CashOnHand', [TreasurerController::class, 'CashOnHand']);
+
 
 Route::get('userDetails', [TreasurerController::class, 'userDetails']);
 Route::get('/get-user-info', [TreasurerController::class, 'getUserInfo']);
@@ -51,9 +53,10 @@ Route::get('/get-user-info', [TreasurerController::class, 'getUserInfo']);
   Route::get('representative/collection', [RepresentativeController::class, 'repCollection']);
   Route::get('representatve/remitted', [RepresentativeController::class, 'RepRemitted']);
   Route::post('representative/save-payment', [RepresentativeController::class, 'RepSavePayment'])->name('save.payment');
+  Route::get('representatve/CashOnHand', [RepresentativeController::class, 'RepCashOnHand']);
 
-
-
+  
+  
 
     //Admin
     Route::middleware('ADMIN')->group(function () {

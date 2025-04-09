@@ -75,20 +75,9 @@ public function RepRemitted()
     }
 
     $paids = DB::table('remittance')
-    ->select('paid', 'description', 'yearLevel', 'block', 'date') 
+    ->select('paid', 'description', 'yearLevel', 'block', 'date','status') 
     ->get();
 
-foreach ($remittances as $remittance) {
-    $matchingAmount = $paids->firstWhere(function ($payable) use ($remittance) {
-        return $payable->description === $remittance->description
-            && $payable->yearLevel === $remittance->yearLevel
-            && $payable->block === $remittance->block
-            && $payable->date === $remittance->date;
-    });
- 
-
-    $remittance->paid = $matchingAmount ? $matchingAmount->paid : 0;
-}
 
 
     $collectors = DB::table('createuser')
@@ -97,6 +86,59 @@ foreach ($remittances as $remittance) {
         ->get();
 
     return view('representative.repRemitted', compact('remittances', 'collectors', 'balances','paids'));
+}
+
+public function RepCashOnHand()
+{
+    $userYearLevel = session('yearLevel');
+    $userBlock = session('block');
+    
+    $remittances = DB::table('remittance')
+        ->leftJoin('createuser', function ($join) {
+            $join->on('remittance.yearLevel', '=', 'createuser.yearLevel')
+                 ->on('remittance.block', '=', 'createuser.block')
+                 ->whereIn('createuser.role', ['TREASURER', 'REPRESENTATIVE']);
+        })
+        ->select(
+            'remittance.*',
+            'createuser.yearLevel as userYearLevel',
+            'createuser.block as userBlock',
+            'remittance.firstname',
+            'remittance.lastname',
+            'remittance.collectedBy'
+        )
+        ->where('remittance.yearLevel', $userYearLevel)  
+        ->where('remittance.block', $userBlock)  
+        ->where('remittance.status', 'PENDING')
+        ->orderBy('remittance.date', 'asc')
+        ->get();
+
+    $balances = DB::table('createpayable')
+        ->select('balance', 'description', 'yearLevel', 'block')
+        ->get();
+
+        foreach ($remittances as $remittance) {
+        $matchingAmount = $balances->firstWhere(function ($payable) use ($remittance) {
+            return $payable->description === $remittance->description
+                && $payable->yearLevel === $remittance->yearLevel
+                && $payable->block === $remittance->block;
+        });
+
+        $remittance->balance = $matchingAmount ? $matchingAmount->balance : 0;
+    }
+
+    $paids = DB::table('remittance')
+    ->select('paid', 'description', 'yearLevel', 'block', 'date','status') 
+    ->get();
+
+
+
+    $collectors = DB::table('createuser')
+        ->whereIn('role', ['TREASURER', 'REPRESENTATIVE'])
+        ->select('firstname', 'lastname', 'role', 'yearLevel', 'block')
+        ->get();
+
+    return view('representative.repCashOnHand', compact('remittances', 'collectors', 'balances','paids'));
 }
 
 

@@ -15,7 +15,7 @@ class="w-full md:w-1/2 p-4 mt-4 bg-gray-400 bg-opacity-40 hadow-md border-green-
 x-show="showDetails"
 x-transition
 >
-<form id="paymentForm" action="{{ route('save.payment') }}" method="POST">
+<form id="paymentForm" action="{{ route('TreaSavePayment') }}" method="POST">
 
 @csrf
 <input type="hidden" name="student_id" id="studentId" x-model="studentId">

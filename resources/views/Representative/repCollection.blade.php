@@ -9,8 +9,9 @@
    
 
         <x-trea-components.nav-link>
-          <a href="collection" class="text-[15px] sm:text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Payment</a>
-         <a href="/representatve/remitted" class="text-[15px] sm:text-[17px] text-gray-600"> Remittance</a>
+          <a href="/representative/collection" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Payment</a>
+          <a href="/representatve/remitted" class="text-[17px] text-gray-600">Remittance</a>
+          <a href="/representatve/CashOnHand" class="text-[17px] text-gray-600">Cash on hand</a>
         </x-trea-components.nav-link>
       
               
@@ -51,9 +52,6 @@
                         </tr>
                     @endforeach
                 </tbody>
-                
-                <tfoot>
-                </tfoot>
               </table>
                  
                 
