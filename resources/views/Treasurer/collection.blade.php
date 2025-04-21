@@ -1,7 +1,7 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-<x-trea-components.sidebar>
+<x-trea-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
 
     <div class="mt-4">
         <x-trea-components.content-header>COLLECTIONS</x-trea-components.content-header>
@@ -17,9 +17,7 @@
               
         <x-trea-components.sorting/>
 
-        
-        <form action="save-payment" method="POST">
-          @csrf
+
         
           <div 
             x-data="collectionsApp()" 
@@ -62,8 +60,6 @@
             </div>
 
             <x-trea-components.payment-modal/>
-
-         </form>
         
     </div>
 

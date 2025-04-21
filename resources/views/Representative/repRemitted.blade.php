@@ -1,14 +1,15 @@
 <x-trea-components.layout />
 <x-trea-components.header />
+<x-trea-components.content>
 
-<x-Repre-components.sidebar>
+<x-Repre-components.sidebar :profile="$profile" :firstname="$firstname" :lastname="$lastname">
         <div class="mt-4" x-data="remittanceComponent()">
             <x-trea-components.content-header>COLLECTIONS</x-trea-components.content-header>
 
             <x-trea-components.nav-link>
                 <a href="/representative/collection" class="text-[17px] text-gray-600">Payment</a>
-                <a href="/representatve/remitted" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Remittance</a>
-                <a href="/representatve/CashOnHand" class="text-[17px] text-gray-600">Cash on hand</a>
+                <a href="/representative/remitted" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Remittance</a>
+                <a href="/representative/CashOnHand" class="text-[17px] text-gray-600">Cash on hand</a>
             </x-trea-components.nav-link>
 
             <div class="flex flex-col md:flex-row overflow-auto">
@@ -28,32 +29,35 @@
                                     <th class="p-2 border border-black">STATUS</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody x-data="{ activeRow: null }">
                                 @php
+                                    $totalAmount = 0; 
                                     $groupedRemittances = $remittances->unique('id')->groupBy(function($remittance) {
-                                        return \Carbon\Carbon::parse($remittance->date)->format('Y-m-d') . '-' . $remittance->collectedBy;
+                                        return \Carbon\Carbon::parse($remittance->date)->format('Y-m-d') . '-' . $remittance->collectedBy . '-' . $remittance->status;
                                     });
                                 @endphp
-                        
+                            
                                 @foreach ($groupedRemittances as $group => $remittanceGroup)
                                     @php
                                         $remittance = $remittanceGroup->first();
                                         $payableCount = $remittanceGroup->count(); 
                                         $descriptions = $remittanceGroup->pluck('description')->unique(); 
-                        
+                            
                                         $totalPaid = $remittanceGroup->sum('paid');
                                         $totalCollected = $remittanceGroup->sum('amountCollected');
+                                        $totalAmount += $totalPaid + $totalCollected; 
                                     @endphp
-                        
-                                    <tr class="border border-black hover:bg-gray-200 cursor-pointer"
-                                        @click="openModal({
+                            
+                                    <tr :class="{'bg-gray-300': activeRow === '{{ $remittance->id }}'}" class="border border-black hover:bg-gray-200 cursor-pointer"
+                                        @click="activeRow = (activeRow === '{{ $remittance->id }}') ? null : '{{ $remittance->id }}'; openModal({
                                             id: '{{ $remittance->id }}',
                                             date: '{{ \Carbon\Carbon::parse($remittance->date)->format('F d, Y') }}',
                                             collectedBy: '{{ $remittance->collectedBy }}',
                                             totalPaid: {{ $totalPaid }},
-                                            totalCollected: {{ $totalCollected }}, // Added totalCollected to the modal data
+                                            totalCollected: {{ $totalCollected }}, 
                                             payableCount: {{ $payableCount }},
-                                            descriptions: @js($descriptions)
+                                            descriptions: @js($descriptions),
+                                            status: '{{ $remittance->status }}' 
                                         })">
                                         <td class="p-2 border border-black">{{ \Carbon\Carbon::parse($remittance->date)->format('F d, Y') }}</td>
                                         <td class="p-2 border border-black">{{ $remittance->collectedBy }}</td>
@@ -61,14 +65,26 @@
                                             {{ number_format($totalPaid + $totalCollected, 2) }}  
                                         </td>
                                         <td class="p-2 border border-black font-bold {{
-                                            strtoupper($remittance->status) === 'PENDING' ? 'text-orange-600' :
-                                            (strtoupper($remittance->status) === 'REMITTED' ? 'text-blue-600' : 'text-green-600') }}">
+                                            strtoupper($remittance->status) === 'TO TREASURER' ? 'text-orange-500 font-bold drop-shadow-sm' :
+                                             (strtoupper($remittance->status) === 'COLLECTED BY TREASURER' ? 'text-blue-600 font-bold drop-shadow-sm' :
+                                            (strtoupper($remittance->status) === 'REMITTED' ? '	text-green-600 font-bold drop-shadow-sm' :
+                                            (strtoupper($remittance->status) === 'COLLECTED' ? 'text-yellow-600 font-bold drop-shadow-sm' : 'text-red-600')))
+                                        }}">
                                             {{ strtoupper($remittance->status) }}
                                         </td>
                                     </tr>
                                 @endforeach
-                            </tbody> 
+                            </tbody>
+                            
+                        
+                            <tfoot>
+                                <tr>
+                                    <td class="p-2 border border-black font-bold" colspan="2">Total</td>
+                                    <td class="p-2 border border-black font-bold" x-text="{{ number_format($totalAmount, 2) }}"></td>
+                                </tr>
+                            </tfoot> 
                         </table>
+                        
                     </div>
                 </div>
        
@@ -88,7 +104,7 @@
 
               <div class="flex flex-col md:flex-row items-center md:justify-between">
                 <div class="mb-4 md:mb-0">
-                    <p id="studentName" class="text-[25px] font-bold text-green-700" x-text="studentName"></p>
+                    <p id="collectedBy" class="text-[25px] font-bold text-green-700" x-text="collectedBy"></p>
                     <p class="text-[18px]"><span x-text="collectorYearLevel + ' - ' + collectorBlock"></span></p>
                 </div>
                     
@@ -102,7 +118,7 @@
                         </thead>
                         <tbody>
                             <tr class="bg-white text-black text-center text-sm md:text-lg font-semibold">
-                                <td class="p-2 border border-black">₱0.00</td>
+                                <td class="p-2 border border-black font-bold" x-text="getTotalPaid()"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -170,7 +186,7 @@ animation: checkmark 0.3s ease-out forwards;
                             </tr>
                         </thead>
                         <tbody>
-                            <template x-for="student in studentList" :key="student.firstname + student.lastname">
+                            <template x-for="(student, index) in studentList" :key="student.id || index">
                                 <tr>
                                     <td class="p-2 border border-black" x-text="student.firstname + ' ' + student.lastname"></td>
                                     <td class="p-2 border border-black" x-text="selectedDescription"></td>
@@ -186,14 +202,13 @@ animation: checkmark 0.3s ease-out forwards;
 
     
 </x-Repre-components.sidebar>
-
+</x-trea-components.content>
 <script>
     function remittanceComponent() {
-        return {
+        return {    
             selectedId: null,
             selectedDate: '',
             selectedDateForRequest: '',
-            studentName: '',
             totalAmount: 0,
             payableCount: 0,
             showModal: false,
@@ -202,6 +217,8 @@ animation: checkmark 0.3s ease-out forwards;
             selectedDescription: '',
             studentList: [],
             descriptions: [],
+            status: [],
+            collectedBy:[],
             balances: @json($balances),
             paids: @json($paids),
             collectors: @json($collectors), 
@@ -209,15 +226,17 @@ animation: checkmark 0.3s ease-out forwards;
             collectorYearLevel: '',
             collectorBlock: '',
             collectorDate: '',
-
+            
             openModal(data) {
                 this.selectedId = data.id;
                 this.selectedDate = data.date;
                 this.selectedDateForRequest = this.formatDateForRequest(data.date);
-                this.studentName = data.collectedBy;
                 this.totalAmount = data.totalAmount;
                 this.payableCount = data.payableCount;
-                this.descriptions = data.descriptions;
+                this.descriptions = Array.isArray(data.descriptions) ? data.descriptions : Object.values(data.descriptions); // Convert to array if it's an object
+                console.log("Descriptions:", this.descriptions); 
+                 this.status = data.status;
+                this.collectedBy = data.collectedBy;
                 this.showModal = true;
                 this.showPayableDetails = true;
 
@@ -230,61 +249,78 @@ animation: checkmark 0.3s ease-out forwards;
                     this.collectorRole = collector.role;
                     this.collectorYearLevel = collector.yearLevel;
                     this.collectorBlock = collector.block;
-                    this.collectorDate = collector.date;
+
+
                 } else {
                     this.collectorRole = 'N/A';
                     this.collectorYearLevel = 'N/A';
                     this.collectorBlock = 'N/A';
+        
                 }
             },
             getBalance(desc) {
                 const match = this.balances.find(b =>
-                    b.description === desc &&
-                    b.yearLevel === this.collectorYearLevel &&
-                    b.block === this.collectorBlock
+                    b.description === desc 
                 );
                 return match ? parseFloat(match.balance).toFixed(2) : '0.00';
             },
-
+            
             getPaid(desc) {
-                const matchingPaids = this.paids.filter(b =>
-                b.description === desc &&
-                b.yearLevel === this.collectorYearLevel &&
-                b.block === this.collectorBlock &&
-                b.date === this.selectedDateForRequest &&
-                b.status === (this.collectorRole === 'REPRESENTATIVE' ? 'PENDING' : 'REMITTED')
-            );
-            return matchingPaids.reduce((total, paid) => total + parseFloat(paid.paid), 0).toFixed(2);
-            },
+            console.log('Collected By:', this.collectedBy);
 
-            getTotalPaid() {
-            let totalPaid = 0;
-            this.descriptions.forEach(desc => {
-                totalPaid += parseFloat(this.getPaid(desc));
+            const [firstname, lastname] = this.collectedBy.split(' ');
+            const matchingPaids = this.paids.filter(b => {
+                return b.description === desc &&
+                    b.date === this.selectedDateForRequest &&
+                    b.collectedBy === this.collectedBy && 
+                    b.status === this.status;
             });
-            return totalPaid.toFixed(2);
+            console.log('Matching Paids:', matchingPaids); 
+
+            // Ensure it's a valid number
+            return matchingPaids.reduce((total, entry) => total + parseFloat(entry.paid || 0), 0);
         },
-        
+        getTotalPaid() {
+            let totalPaid = 0;
 
-            fetchStudents(description) {
-                this.selectedDescription = description;
+    // Check if descriptions is an array
+    if (Array.isArray(this.descriptions)) {
+        this.descriptions.forEach(desc => {
+            let paidAmount = this.getPaid(desc); // getPaid should now return a number
+            if (!isNaN(paidAmount)) {
+                totalPaid += paidAmount;
+            }
+        });
+    } else {
+        console.error('Descriptions is not an array:', this.descriptions);
+    }
+
+    return totalPaid.toFixed(2); // Format the final result as a string with two decimal places
+},
+
+
+        fetchStudents(description) {
+        this.selectedDescription = description;
+        this.studentList = []; 
+
+        fetch(`/remitted/students?status=${this.status}&date=${this.selectedDateForRequest}&collectedBy=${this.collectedBy}&description=${encodeURIComponent(description)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    this.studentList = data;
+                    this.showStudentListModal = true;
+                } else {
+                    alert('No students found for this description.');
+                    this.studentList = [];
+                }
+            })
+            .catch(err => {
+                alert('Failed to fetch student list');
+                console.error(err);
                 this.studentList = [];
+            });
+    },
 
-                fetch(`/remitted/students?date=${this.selectedDateForRequest}&collectedBy=${this.studentName}&description=${encodeURIComponent(description)}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.length > 0) {
-                            this.studentList = data;
-                            this.showStudentListModal = true;
-                        } else {
-                            alert('No students found for this description.');
-                        }
-                    })
-                    .catch(err => {
-                        alert('Failed to fetch student list');
-                        console.error(err);
-                    });
-            },
 
             formatDateForRequest(date) {
                 const dateObj = new Date(date);
@@ -293,3 +329,5 @@ animation: checkmark 0.3s ease-out forwards;
         };
     }
 </script>
+
+

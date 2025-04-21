@@ -15,7 +15,7 @@
                   x-show="showDetails"
                   x-transition
                 >
-                <form id="paymentForm" action="{{ route('save.payment') }}" method="POST">
+                <form id="paymentForm" action="{{ route('repre.payment') }}" method="POST">
 
                     @csrf
                     <input type="hidden" name="student_id" id="studentId" x-model="studentId">

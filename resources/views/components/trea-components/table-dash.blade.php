@@ -10,24 +10,5 @@
         </div>
     
 
-        <!-- Table -->
-        <div class="w-full overflow-x-auto">
-            <table class="w-full md:w-auto border border-black shadow-lg rounded-lg">
-                <thead>
-                    <tr class="bg-gray-800 text-white text-xs md:text-base">
-                        <th class="p-3 border border-black bg-green-700">CASH ON HAND</th>
-                        <th class="p-3 border border-black bg-blue-700">REMITTED</th>
-                        <th class="p-3 border border-black bg-yellow-500">RECEIVABLE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="bg-white text-black text-center text-sm md:text-lg font-semibold">
-                        <td class="p-3 border border-black">₱0.00</td>
-                        <td class="p-3 border border-black">₱0.00</td>
-                        <td class="p-3 border border-black">₱750.00</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>

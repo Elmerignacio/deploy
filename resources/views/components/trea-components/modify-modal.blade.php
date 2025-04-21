@@ -18,44 +18,99 @@
 
     <div class="relative">
   
-        <form action="{{ route('archive.users') }}" method="POST">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        {{-- <form action="{{ route('archive.users') }}" method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
 
          
     <div class="flex justify-center ">
-        <img src="https://scontent.fmnl13-3.fna.fbcdn.net/v/t39.30808-6/471150402_1505096456828440_7358126298249955781_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFtL6QwaJwr2S7PP8J6rE4sXNftBUmckMBc1-0FSZyQwDEivEK4MsJWzLqfD5x76UVcHRzaGrsM3CPmp3j-0q3r&_nc_ohc=d0DrEWmtOp4Q7kNvgG5GsoX&_nc_oc=AdnDmP42TmAefaKfZSKj6OqFG0pPiQcL9JJrFBr1IBN0VyU1xQ5Ne3bAM3kIYwuZujtMEAKdgNBfmaXD3wQYbtmy&_nc_zt=23&_nc_ht=scontent.fmnl13-3.fna&_nc_gid=tACZKywUZcXKQGtedrb-qw&oh=00_AYFegRsV3sQf9fWr2ttIc-vTIW3zq98Xd24k8ENynygj-w&oe=67F0E92D" 
+        <img src="" 
         alt="Profile" class=" border-2 border-green-600 w-32 h-32 rounded-full object-cover">
     </div>
+    
 
-    <div class="space-y-3">
-        <label class="block">ID NUMBER:</label>
-        <input type="text" name="students[]" x-model="selectedPayable.id" class="w-full p-2 border-2 border-green-600 text-black rounded-md">
-        
-        <label class="block">NAME:</label>
-        <input type="text" name="name" x-model="selectedPayable.name" class="w-full p-2 border-2 border-green-600 text-black rounded-md">
-        
-        <div class="flex flex-col md:flex-row gap-4">
-            <div class="w-full md:w-1/2">
-                <label class="block">YEAR LEVEL:</label>
-                <input type="text" name="yearLevel" x-model="selectedPayable.yearLevel" class="w-full p-2 border-2 border-green-600 text-black rounded-md">
-            </div>
-            <div class="w-full md:w-1/2">
-                <label class="block">BLOCK:</label>
-                <input type="text" name="block" x-model="selectedPayable.block" class="w-full p-2 border-2 border-green-600 text-black rounded-md">
-            </div>
+    <div class="flex flex-col md:flex-row gap-4 mt-5">
+        <div class="w-full md:w-1/2">
+            <label class="block">ID NUMBER:</label>
+            <input 
+                type="text" 
+                name="students[]" 
+                x-model="selectedPayable.id" 
+                @input="selectedPayable.id = $event.target.value.toUpperCase()" 
+                class="w-full p-2 border-2 border-green-600 text-black rounded-md focus:ring-0  focus:outline-none"
+            >
         </div>
-        <label class="block">GENDER:</label>
-        <div class="flex flex-wrap gap-4">
-            <label class="flex items-center space-x-2">
-                <input type="radio" name="gender" value="Male" x-model="selectedPayable.gender" class="text-black"> 
-                <span>MALE</span>
-            </label>
-            <label class="flex items-center space-x-2">
-                <input type="radio" name="gender" value="Female" x-model="selectedPayable.gender" class="text-black"> 
-                <span>FEMALE</span>
-            </label>
+        <div class="w-full md:w-1/2">
+            <label class="block">GENDER:</label>
+            <select 
+                x-model="selectedPayable.gender" 
+                name="gender" 
+                class="w-full p-2 border-2 border-green-600 text-black rounded-md focus:ring-0   focus:outline-none"
+            >
+                <option value="" disabled selected>Select gender</option>
+                <option value="Male">MALE</option>
+                <option value="Female">FEMALE</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="flex flex-col md:flex-row gap-4 mt-2">
+        <div class="w-full md:w-1/2">
+            <label class="block">FIRSTNAME:</label>
+            <input 
+            type="text" 
+            name="firstname" 
+            x-model="selectedPayable.firstname" 
+            @input="selectedPayable.firstname = $event.target.value.toUpperCase()" 
+            class="w-full p-2 border-2 border-green-600 text-black rounded-md 
+                   focus:ring-0 focus:outline-none "
+            >
+        </div>
+        <div class="w-full md:w-1/2">
+            <label class="block">LASTNAME:</label>
+            <input 
+                type="text" 
+                name="lastname" 
+                x-model="selectedPayable.lastname" 
+                @input="selectedPayable.lastname = $event.target.value.toUpperCase()" 
+                class="w-full p-2 border-2 border-green-600 text-black rounded-md focus:ring-0  focus:outline-none"
+            >
+        </div>
+    </div>
+    
+    <div class="flex flex-col md:flex-row gap-4 mt-2">
+        <div class="w-full md:w-1/2">
+            <label class="block">YEAR LEVEL:</label>
+            <select 
+                name="yearLevel" 
+                x-model="selectedPayable.yearLevel" 
+                class="w-full p-2 border-2 border-green-600 text-black rounded-md focus:ring-0 focus:outline-none"
+            >
+                <option value="" disabled selected>Select Year Level</option>
+                <option value="1ST YEAR">1ST YEAR</option>
+                <option value="2ND YEAR">2ND YEAR</option>
+                <option value="3RD YEAR">3RD YEAR</option>
+                <option value="4TH YEAR">4TH YEAR</option>
+            </select>
+            <div x-show="!selectedPayable.yearLevel" class="text-red-500 mt-2">Data has been lost.</div>
         </div>
         
+        <div class="w-full md:w-1/2">
+            <label class="block">BLOCK:</label>
+            <select 
+                name="block" 
+                x-model="selectedPayable.block" 
+                class="w-full p-2 border-2 border-green-600 text-black rounded-md focus:ring-0 focus:outline-none"
+            >
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+            </select>
+        </div>
+        
+    </div>
+    
         <div class="flex flex-col md:flex-row justify-center mt-6 gap-10">
             <button type="submit" id="archiveBTN" class="bg-red-600 px-4 py-2 rounded-md text-white font-bold w-full md:w-auto">ARCHIVE</button>
             <button type="button" class="bg-green-600 px-4 py-2 rounded-md text-white font-bold w-full md:w-auto">MODIFY</button>

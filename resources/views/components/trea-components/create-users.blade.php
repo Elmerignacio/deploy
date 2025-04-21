@@ -10,7 +10,7 @@
                     <x-trea-components.exit-btn-modal/>
                 </div>
                     
-                <form action="saveData" method="POST" id="userForm" class="space-y-4">
+                <form action="/treasurer/saveData" method="POST" id="userForm" class="space-y-4">
                     @csrf 
                     <div>
                         <label class="block mb-1 text-sm font-semibold">ID NUMBER:</label>
@@ -96,10 +96,10 @@
                                 });
                             });
                         
-                            // Sorting Function
+
                             document.querySelectorAll("th").forEach((header, columnIndex) => {
                                 header.addEventListener("click", function () {
-                                    const isNumeric = columnIndex > 1 && columnIndex < 4; // Amount, Receivable, Due Date columns
+                                    const isNumeric = columnIndex > 1 && columnIndex < 4; 
                                     const direction = header.dataset.order === "asc" ? "desc" : "asc";
                                     header.dataset.order = direction;
                         

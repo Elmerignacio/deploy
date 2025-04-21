@@ -15,7 +15,7 @@ class="w-full md:w-1/2 p-4 mt-4 bg-gray-400 bg-opacity-40 hadow-md border-green-
 x-show="showDetails"
 x-transition
 >
-<form id="paymentForm" action="{{ route('TreaSavePayment') }}" method="POST">
+<form id="paymentForm" action="{{ route('treasave.payment') }}" method="POST">
 
 @csrf
 <input type="hidden" name="student_id" id="studentId" x-model="studentId">
@@ -136,7 +136,7 @@ document.getElementById("studentName").textContent = fullName;
 document.getElementById("studentYearBlock").textContent = yearBlock;
 document.getElementById("studentId").value = studentId; 
 
-fetch(`/get-student-payables/${studentId}`)
+fetch(`/treasurer/get-student-payables/${studentId}`)
 .then(response => response.json())
 .then(data => {
 console.log("Payables Data:", data);
@@ -224,7 +224,6 @@ body: formData
 if (data.success) {
 alert("Payment saved successfully!");
 
-// Update remaining balances after payment is successfully saved
 const studentId = document.getElementById("studentId").value;
 fetch(`/get-student-payables/${studentId}`)
 .then(response => response.json())

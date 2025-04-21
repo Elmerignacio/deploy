@@ -29,18 +29,6 @@ class="w-full md:w-1/2 p-4 mt-4 bg-gray-400 bg-opacity-40 hadow-md border-green-
          <label class="block text-sm">DUE DATE:</label>
          <input type="date" x-model="selectedPayable.dueDate" class="w-full p-2 rounded bg-white text-black  border-2 border-green-600">
      </div>
-     <div>
-         <label class="block text-sm">YEAR LEVEL:</label>
-         <input type="text" x-model="selectedPayable.yearLevel" class="w-full p-2 rounded bg-white text-black border-2 border-green-600"/>
-     </div>
-     <div>
-         <label class="block text-sm">BLOCK:</label>
-         <input type="text" x-model="selectedPayable.block" class="w-full p-2 rounded bg-white text-black border-2 border-green-600"/>
-     </div>
-     <div>
-         <label class="block text-sm">NAME:</label>
-         <input type="text" x-model="selectedPayable.name" class="w-full p-2 rounded bg-white text-black border-2 border-green-600"/>
-     </div>
  </div>
  <div class="flex justify-center gap-5 mt-4">
      <button class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">DELETE</button>

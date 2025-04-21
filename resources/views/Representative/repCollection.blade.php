@@ -1,7 +1,7 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-  <x-Repre-components.sidebar>
+  <x-Repre-components.sidebar :profile="$profile" :firstname="$firstname" :lastname="$lastname">
 
     <div class="mt-4">
         <x-trea-components.content-header>COLLECTIONS</x-trea-components.content-header>
@@ -9,18 +9,16 @@
    
 
         <x-trea-components.nav-link>
-          <a href="/representative/collection" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Payment</a>
-          <a href="/representatve/remitted" class="text-[17px] text-gray-600">Remittance</a>
-          <a href="/representatve/CashOnHand" class="text-[17px] text-gray-600">Cash on hand</a>
+          <a href="/representative/collection" class="text-[15px] sm:text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Payment</a>
+         <a href="/representative/remitted" class="text-[15px] sm:text-[17px] text-gray-600"> Remittance</a>
+         <a href="/representative/CashOnHand" class="text-[17px] text-gray-600">Cash On Hand</a>
         </x-trea-components.nav-link>
       
               
         <x-trea-components.sorting/>
 
         
-        <form action="save-payment" method="POST">
-          @csrf
-        
+
           <div 
             x-data="collectionsApp()" 
             class="flex flex-col md:flex-row overflow-auto"
@@ -52,19 +50,22 @@
                         </tr>
                     @endforeach
                 </tbody>
+                
+                <tfoot>
+                </tfoot>
               </table>
                  
                 
               </div>
             </div>
 
-            <x-repre-components.payment-modal/>
-         </form>
+            <x-trea-components.payment-modal/>
+
         
     </div>
 
 
-  </x-Repre-components.sidebar>
+</x-Repre-components.sidebar>
 
 </x-trea-components.content>
 

@@ -21,7 +21,7 @@ public function authenticate(Request $request)
     ]);
 
     $user = DB::table('createuser') 
-        ->select('IDNumber', 'username', 'role', 'firstname', 'lastname', 'yearLevel', 'block', 'gender', 'password')
+        ->select('id','IDNumber', 'username', 'role', 'firstname', 'lastname', 'yearLevel', 'block', 'gender', 'password')
         ->where('username', $credentials['username'])
         ->first();
 
@@ -35,6 +35,7 @@ public function authenticate(Request $request)
 
     Auth::loginUsingId($user->IDNumber);
     session([
+        'id'  => $user->id,
         'IDNumber'  => $user->IDNumber,
         'username'  => $user->username,
         'role'      => $user->role,

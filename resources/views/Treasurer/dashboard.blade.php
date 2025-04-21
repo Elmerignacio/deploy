@@ -1,7 +1,7 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-<x-trea-components.sidebar>
+<x-trea-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
     <div>
         <h2 class="text-2xl font-bold">WELCOME, {{$firstname}} {{$lastname}}!</h2>
         <p class="text-gray-600 text-sm">DEPARTMENT {{$role}}</p>
@@ -12,12 +12,15 @@
         <div class="bg-green-500 text-white p-6 rounded-lg shadow-lg text-center ">
             <div class="flex justify-center mt-[15px]">
                 <img src="{{ asset('images/cashonhand.png') }}"
-                class="w-[30%] h-[30%]" alt="Cash on Hand">
-              
-            <p class="font-bold text-[20px] flex place-items-center mt-2"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">CASH ON HAND</p> 
+                     class="w-[30%] h-[30%]" alt="Cash on Hand">
+                <p class="font-bold text-[20px] flex place-items-center mt-2"
+                   style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">CASH ON HAND</p> 
             </div>
-            <p class="text-3xl font-bold"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">₱0.00</p>
+            <p class="text-3xl font-bold" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+                ₱{{ number_format($cashOnHand, 2) }}
+            </p>
         </div>
+        
 
         <div class="bg-red-500 text-white p-6 rounded-lg shadow-lg text-center ">
             <div class="flex justify-center mt-[15px]">
@@ -39,8 +42,6 @@
         <p class="text-3xl font-bold" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">₱{{ number_format($totalAmount, 2) }}</p>
         </div>  
     </div>
-
-
 
 <!-- Payables Table -->
 <div class="mt-6 pb-5">

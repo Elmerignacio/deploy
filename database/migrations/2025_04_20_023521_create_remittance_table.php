@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('remittance', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
+            $table->integer('IDNumber');
+            $table->string('firstName');
+            $table->string('lastName');
             $table->string('yearLevel');  
             $table->string('block');     
             $table->text('description');
@@ -22,7 +23,9 @@ return new class extends Migration
             $table->string('role');
             $table->date('date');
             $table->string('status');
+            $table->date('date_remitted');
             $table->string('collectedBy');
+            $table->timestamps();
         });
     }
 

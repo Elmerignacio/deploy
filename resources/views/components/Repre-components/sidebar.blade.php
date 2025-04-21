@@ -13,15 +13,16 @@
     
     <nav class="mt-10 ml-4 space-y-2 flex flex-col gap-4 justify-center text-[15px] text-bolds pr-5">
         
-        <a href="userDetails" class="flex items-center text-white rounded-md mb-5">
-            <input type="image" src="https://scontent.fmnl13-3.fna.fbcdn.net/v/t39.30808-6/471150402_1505096456828440_7358126298249955781_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFtL6QwaJwr2S7PP8J6rE4sXNftBUmckMBc1-0FSZyQwDEivEK4MsJWzLqfD5x76UVcHRzaGrsM3CPmp3j-0q3r&_nc_ohc=MZ_9hPvY984Q7kNvgFE55nY&_nc_oc=Adl11F6GeFzLjpxCM9h8doJz24EPjJpxVgv2JQkhtl6xK9AGGs-KCq7XOW-a1lsRoBbpbkqIxhwshgqNUPSpICI2&_nc_zt=23&_nc_ht=scontent.fmnl13-3.fna&_nc_gid=zVSRPbEJY6TIu7AoeGDmfw&oh=00_AYFKittrZgyQG_mdgOqhBNYKPavfmJ9tyP79VgxYUq4RFg&oe=67EC842D" 
+        <a href="/representative/userDetails" class="flex items-center text-white rounded-md mb-5">
+            <input type="image"   src="{{ asset('storage/' . ($profile ? $profile->profile : 'images/default.jpg')) }}"
             alt="Profile" class="rounded-full w-10 h-10 border-2 border-white">
-            
-            <span :class="sidebarOpen ? 'inline-block ml-4 whitespace-nowrap overflow-hidden' : 'hidden'" 
+
+            <span :class="sidebarOpen ? 'inline-block ml-4 whitespace-nowrap overflow-hidden' : 'hidden'"
                 class="text-white text-[20px] font-bold transition-all duration-300" id="userFullName">
+                {{ $firstname}} {{ $lastname }}
             </span>
         </a>
-        
+
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 fetch('/get-user-info')
@@ -33,7 +34,7 @@
             });
         </script>
         
-        <a href="#" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
+        <a href="/representative/dashboard" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
             <i class="fas fa-home text-2xl flex-shrink-0"></i>
             <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
                 DASHBOARD
@@ -51,7 +52,7 @@
                 COLLECTIONS
             </span>
         </a>
-        <a href="#" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
+        <a href="/representative/payableManagement" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
             <i class="fas fa-file-invoice-dollar text-2xl flex-shrink-0"></i>
             <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
                 PAYABLE MANAGEMENT

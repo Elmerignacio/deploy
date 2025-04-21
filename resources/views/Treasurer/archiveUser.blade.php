@@ -1,14 +1,14 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-<x-trea-components.sidebar>
+<x-trea-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
     <div class="mt-4">
                 <x-trea-components.content-header>MANAGE USER</x-trea-components.content-header>
 
             
                <x-trea-components.nav-link>
-                <a href="/manageUser" class="text-[17px] font-semibold">Active</a>
-                <a href="/archiveUser" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Archive</a>
+                <a href="/treasurer/manageUser" class="text-[17px] font-semibold">Active</a>
+                <a href="/treasurer/archiveUser" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Archive</a>
                </x-trea-components.nav-link>
       
             </div>
