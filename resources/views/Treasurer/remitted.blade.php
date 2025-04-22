@@ -168,7 +168,6 @@ animation: checkmark 0.3s ease-out forwards;
 }
 </style>
 
-            <!-- Student List Modal -->
             <div x-show="showStudentListModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/2" @click.stop>
                     <h2 class="text-xl font-bold mb-4">Students Who Paid: <span x-text="selectedDescription"></span></h2>
@@ -275,16 +274,14 @@ animation: checkmark 0.3s ease-out forwards;
             });
             console.log('Matching Paids:', matchingPaids); 
 
-            // Ensure it's a valid number
             return matchingPaids.reduce((total, entry) => total + parseFloat(entry.paid || 0), 0);
         },
         getTotalPaid() {
             let totalPaid = 0;
 
-    // Check if descriptions is an array
     if (Array.isArray(this.descriptions)) {
         this.descriptions.forEach(desc => {
-            let paidAmount = this.getPaid(desc); // getPaid should now return a number
+            let paidAmount = this.getPaid(desc); 
             if (!isNaN(paidAmount)) {
                 totalPaid += paidAmount;
             }
@@ -293,7 +290,7 @@ animation: checkmark 0.3s ease-out forwards;
         console.error('Descriptions is not an array:', this.descriptions);
     }
 
-    return totalPaid.toFixed(2); // Format the final result as a string with two decimal places
+    return totalPaid.toFixed(2); 
 },
 
 

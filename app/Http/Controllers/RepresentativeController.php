@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log; // Add this line
+use Illuminate\Support\Facades\Log; 
 
 
 
@@ -13,7 +13,6 @@ class RepresentativeController extends Controller
 {
 public function RepDashboard()
     {
-        // Get session data
         $firstname = session('firstname', 'Guest'); 
         $lastname = session('lastname', '');
         $role = session('role', 'Guest');
@@ -50,9 +49,11 @@ public function RepDashboard()
             ->first();
             $firstname = session('firstname', 'Guest');
             $lastname = session('lastname', '');
+
+            $totalExpenses = DB::table('expenses')->sum('amount');  
       
         
-        return view('representative.repdashboard', compact('firstname', 'lastname', 'role', 'remittedTotal', 'totalBalance','Payables','profile'));
+        return view('representative.repdashboard', compact('firstname', 'lastname', 'role', 'remittedTotal', 'totalBalance','Payables','profile','totalExpenses'));
     }
 
     public function RepUserDetails()
@@ -78,11 +79,6 @@ public function RepDashboard()
         return view('Representative.RepUserDetails', compact('profile', 'id', 'firstname', 'lastname', 'role', 'yearLevel', 'block', 'username', 'password', 'gender'));
     }
 
-
-    
-    
-    
-    
 function repCollection() {
     $yearLevel = session('yearLevel');
     $block = session('block');
@@ -254,7 +250,8 @@ public function RepCashOnHand()
         
     return view('representative.repCashOnHand', compact('remittances', 'collectors', 'balances', 'paids', 'groupedRemittances', 'totalAmount','firstname', 'lastname', 'profile'));
 }
-public function RepSavePayment(Request $req) {
+public function RepSavePayment(Request $req)
+{
     \Log::info('Request data:', $req->all());
 
     $studentId = $req->student_id;
@@ -297,56 +294,57 @@ public function RepSavePayment(Request $req) {
 
                 list($firstname, $lastname) = explode(' ', trim($payable->studentName), 2) + ['N/A', 'N/A'];
 
-                $status = ($role == 'REPRESENTATIVE') ? 'COLLECTED' : 'REMITTED';
+                $status = ($role == 'REPRESENTATIVE') ? 'COLLECTED' : 'COLLECTED BY TREASURER';
 
                 \Log::info('Processing payment for: ' . $firstname . ' ' . $lastname . ' with status ' . $status);
 
                 $existingPayment = DB::table('remittance')
-                    ->where('firstname', $firstname)
-                    ->where('lastname', $lastname)
+                    ->where('firstName', $firstname)
+                    ->where('lastName', $lastname)
                     ->where('description', $payable->description)
                     ->where('date', $date)
-                    ->where('collectedBy', $collectedBy) 
-                    ->where('status', $status) 
+                    ->where('collectedBy', $collectedBy)
+                    ->where('status', $status)
                     ->first();
 
                 if (!$existingPayment) {
                     DB::table('remittance')->insert([
                         'IDNumber' => $payable->IDNumber,
-                        'firstname' => $firstname,
-                        'lastname' => $lastname,
+                        'firstName' => $firstname,
+                        'lastName' => $lastname,
                         'yearLevel' => $payable->yearLevel,
                         'block' => $payable->block,
                         'description' => $payable->description,
                         'paid' => $amountPaid,
-                        'status' => $status,
-                        'date' => $date,
                         'role' => $role,
-                        'date_remitted'=> 'N/A',
-                        'collectedBy' => $collectedBy
+                        'date' => $date,
+                        'status' => $status,
+                        'date_remitted' => $date,
+                        'collectedBy' => $collectedBy,
+                        'created_at' => now(),
+                        'updated_at' => now()
                     ]);
                 } else {
                     $newPaidAmount = $existingPayment->paid + $amountPaid;
 
                     DB::table('remittance')->where('id', $existingPayment->id)->update([
                         'paid' => $newPaidAmount,
+                        'updated_at' => now()
                     ]);
                 }
             }
         }
 
         DB::commit();
-
         \Log::info('Payment saved successfully.');
         return redirect()->back()->with('success', 'Payment saved successfully.');
     } catch (\Exception $e) {
         DB::rollBack();
-
         \Log::error('Error while saving payment: ' . $e->getMessage());
-
         return back()->with('error', 'An error occurred while saving the payment.');
     }
 }
+
 
 public function denomination(Request $request)
 {
@@ -553,6 +551,123 @@ public function Repchange(Request $request)
     return back()->with('success', 'Password changed successfully.');
 }
 
+public function RepStudentPayables($studentId)
+{
+    $payables = DB::table('createpayable')
+        ->where('IDNumber', $studentId)
+        ->select('IDNumber', 'description', 'amount', 'id')
+        ->get();
+
+    return response()->json($payables);
+}
+
+public function RepStudentbalance()
+{
+    $students = DB::table('createuser')
+        ->select('IDNumber', 'lastname', 'firstname', 'yearLevel', 'block', 'role')
+        ->whereIn('role', ['student', 'treasurer', 'representative'])
+        ->orderBy('lastname', 'asc')
+        ->get();
+
+    $payables = DB::table('createpayable')
+        ->select('IDNumber', DB::raw('COALESCE(SUM(amount), 0) as total_balance'))
+        ->groupBy('IDNumber')
+        ->get()
+        ->keyBy('IDNumber');
+
+    $yearLevels = DB::table('createuser')
+        ->select('yearLevel')
+        ->distinct()
+        ->orderByRaw("FIELD(yearLevel, '1st year', '2nd year', '3rd year', '4th year')")
+        ->get();
+
+    $blocks = DB::table('createuser')
+        ->select('block')
+        ->distinct()
+        ->orderBy('block')
+        ->get();
+
+    $representatives = [];
+    foreach ($students as $student) {
+        if (strtolower($student->role) === 'representative') {
+            $key = strtoupper($student->yearLevel) . ' - ' . strtoupper($student->block);
+            $representatives[$key] = $student->firstname . ' ' . $student->lastname;
+        }
+    }
+
+    $cashOnHand = [];
+    $remittancesCash = DB::table('remittance')
+        ->select('collectedBy', DB::raw('SUM(paid) as total_paid'))
+        ->whereIn('status', ['COLLECTED', 'TO TREASURER'])
+        ->groupBy('collectedBy')
+        ->get();
+
+    foreach ($remittancesCash as $remit) {
+        $cashOnHand[$remit->collectedBy] = $remit->total_paid;
+    }
+
+
+    $remitted = [];
+    $remittancesRemitted = DB::table('remittance')
+        ->select('collectedBy', DB::raw('SUM(paid) as total_remitted'))
+        ->where('status', 'REMITTED')
+        ->groupBy('collectedBy')
+        ->get();
+
+    foreach ($remittancesRemitted as $remit) {
+        $remitted[$remit->collectedBy] = $remit->total_remitted;
+    }
+
+    $profile = DB::table('avatar')
+        ->where('student_id', session('id'))
+        ->select('profile')
+        ->first();
+
+        $firstname = session('firstname');
+        $lastname = session('lastname');
+
+    return view('representative.repStudentBalance', compact(
+        'students',
+        'payables',
+        'yearLevels',
+        'blocks',
+        'representatives',
+        'cashOnHand',
+        'remitted',
+        'profile',
+        'firstname',
+        'lastname'
+    ));
+}
+
+public function RepShowLedger($id)
+{
+    $student = DB::table('createuser')
+        ->where('IDNumber', $id)
+        ->first();
+
+    $payables = DB::table('createpayable')
+        ->where('IDNumber', $id)
+        ->select('description', DB::raw('COALESCE(SUM(amount), 0) as total_balance'))
+        ->groupBy('description')
+        ->get();
+
+    $settledPayables = DB::table('remittance')
+        ->where('IDNumber', $id)
+        ->select('date', 'description', 'paid', 'collectedBy', 'status')
+        ->orderBy('date', 'asc')
+        ->get();
+
+    $profile = DB::table('avatar')
+        ->where('student_id', session('id'))
+        ->select('profile')
+        ->first();
+
+        $firstname = session('firstname');
+        $lastname = session('lastname');
+
+    return view('representative.repStudentLedger', compact('student', 'payables', 'settledPayables', 'profile','firstname','lastname'));
+}
 
 
 

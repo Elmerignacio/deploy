@@ -1,7 +1,7 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-<x-trea-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
+    <x-Add-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
 
             <div class="mt-4">
             <x-trea-components.content-header>PAYABLE MANAGEMENT</x-trea-components.content-header>
@@ -209,7 +209,7 @@
 <x-trea-components.update-payable/>
        
 
-</x-trea-components.sidebar>
+</x-Add-components.sidebar>
 
 </x-trea-components.content>  
 

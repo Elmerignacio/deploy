@@ -1,7 +1,7 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-    <x-trea-components.sidebar :profile="$profile" :firstname="$firstname" :lastname="$lastname">
+    <x-Add-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
 
         <div class="flex mt-[100px] justify-center h-screen px-4">
             <div class="flex flex-col items-center w-full max-w-md md:max-w-lg lg:max-w-xl">
@@ -223,6 +223,6 @@
   
         
 
-</x-trea-components.sidebar>
+</x-Add-components.sidebar>
 </x-trea-components.content>
 

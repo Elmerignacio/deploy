@@ -136,7 +136,7 @@
     document.getElementById("studentYearBlock").textContent = yearBlock;
     document.getElementById("studentId").value = studentId; 
 
-    fetch(`/get-student-payables/${studentId}`)
+    fetch(`/representative/get-student-payables/${studentId}`)
         .then(response => response.json())
         .then(data => {
             console.log("Payables Data:", data);
@@ -215,7 +215,7 @@ document.getElementById("submitPayment").addEventListener("click", function (eve
     const formData = new FormData(document.getElementById("paymentForm"));
     formData.append("date", dateInput);
 
-    fetch("/save-payment", {
+    fetch("/representative/save-payment", {
         method: "POST",
         body: formData
     })
@@ -225,7 +225,7 @@ document.getElementById("submitPayment").addEventListener("click", function (eve
             alert("Payment saved successfully!");
 
             const studentId = document.getElementById("studentId").value;
-            fetch(`/get-student-payables/${studentId}`)
+            fetch(`/representative/get-student-payables/${studentId}`)
                 .then(response => response.json())
                 .then(updatedData => {
                     const tbody = document.getElementById("payablesTableBody");

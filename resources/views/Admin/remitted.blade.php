@@ -2,14 +2,14 @@
 <x-trea-components.header />
 <x-trea-components.content>
 
-<x-Repre-components.sidebar :profile="$profile" :firstname="$firstname" :lastname="$lastname">
+    <x-Add-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
         <div class="mt-4" x-data="remittanceComponent()">
             <x-trea-components.content-header>COLLECTIONS</x-trea-components.content-header>
 
             <x-trea-components.nav-link>
-                <a href="/representative/collection" class="text-[17px] text-gray-600">Payment</a>
-                <a href="/representative/remitted" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Remittance</a>
-                <a href="/representative/CashOnHand" class="text-[17px] text-gray-600">Cash on hand</a>
+                <a href="/treasurer/collection" class="text-[17px] text-gray-600">Payment</a>
+                <a href="/treasurer/remitted" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Remittance</a>
+                <a href="/treasurer/CashOnHand" class="text-[17px] text-gray-600">Cash on hand</a>
             </x-trea-components.nav-link>
 
             <div class="flex flex-col md:flex-row overflow-auto">
@@ -49,7 +49,8 @@
                                     @endphp
                             
                                     <tr :class="{'bg-gray-300': activeRow === '{{ $remittance->id }}'}" class="border border-black hover:bg-gray-200 cursor-pointer"
-                                        @click="activeRow = (activeRow === '{{ $remittance->id }}') ? null : '{{ $remittance->id }}'; openModal({
+                                        @click="activeRow = (activeRow === '{{ $remittance->id }}') ? null : '{{ $remittance->id }}';
+                                         openModal({
                                             id: '{{ $remittance->id }}',
                                             date: '{{ \Carbon\Carbon::parse($remittance->date)->format('F d, Y') }}',
                                             collectedBy: '{{ $remittance->collectedBy }}',
@@ -75,7 +76,8 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                             <tfoot x-data="{ totalAmount: '{{ number_format($totalAmount, 2) }}' }">
+                            
+                            <tfoot x-data="{ totalAmount: '{{ number_format($totalAmount, 2) }}' }">
                                 <tr>
                                     <td class="p-2 border border-black font-bold" colspan="2">Total</td>
                                     <td class="p-2 border border-black font-bold" x-text="totalAmount"></td>
@@ -124,9 +126,6 @@
                 </div>
             </div>
 
-        
-             
-                
                 <!-- Payable Table -->
                 <div x-show="showPayableDetails" class="mt-4">
                     <table class="w-full text-sm text-center border border-black">
@@ -169,7 +168,6 @@ animation: checkmark 0.3s ease-out forwards;
 }
 </style>
 
-            <!-- Student List Modal -->
             <div x-show="showStudentListModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/2" @click.stop>
                     <h2 class="text-xl font-bold mb-4">Students Who Paid: <span x-text="selectedDescription"></span></h2>
@@ -199,8 +197,9 @@ animation: checkmark 0.3s ease-out forwards;
         </div>
 
     
-</x-Repre-components.sidebar>
+</x-Add-components.sidebar>
 </x-trea-components.content>
+
 <script>
     function remittanceComponent() {
         return {    
@@ -282,7 +281,7 @@ animation: checkmark 0.3s ease-out forwards;
 
     if (Array.isArray(this.descriptions)) {
         this.descriptions.forEach(desc => {
-            let paidAmount = this.getPaid(desc);
+            let paidAmount = this.getPaid(desc); 
             if (!isNaN(paidAmount)) {
                 totalPaid += paidAmount;
             }
@@ -299,7 +298,7 @@ animation: checkmark 0.3s ease-out forwards;
         this.selectedDescription = description;
         this.studentList = []; 
 
-        fetch(`/representative/remitted/students?status=${this.status}&date=${this.selectedDateForRequest}&collectedBy=${this.collectedBy}&description=${encodeURIComponent(description)}`)
+        fetch(`/treasurer/remitted/students?status=${this.status}&date=${this.selectedDateForRequest}&collectedBy=${this.collectedBy}&description=${encodeURIComponent(description)}`)
             .then(res => res.json())
             .then(data => {
                 if (data && data.length > 0) {
@@ -325,5 +324,3 @@ animation: checkmark 0.3s ease-out forwards;
         };
     }
 </script>
-
-

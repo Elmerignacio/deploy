@@ -1,7 +1,7 @@
 <x-trea-components.layout />
 <x-trea-components.header />
 <x-trea-components.content>
-<x-trea-components.sidebar :profile="$profile" :firstname="$firstname" :lastname="$lastname">
+    <x-Add-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
 
 <div class="mt-4">
     <x-trea-components.content-header>STUDENT BALANCES</x-trea-components.content-header>
@@ -94,7 +94,7 @@
 
     <script>
         function routeToStudentLedger(idNumber) {
-            window.location.href = "/treasurer/student-ledger/" + idNumber;
+            window.location.href = "/admin/student-ledger/" + idNumber;
         }
 
         const representatives = @json($representatives);
@@ -182,5 +182,5 @@
     </script>
 </div>
 
-</x-trea-components.sidebar>
+</x-Add-components.sidebar>
 </x-trea-components.content>

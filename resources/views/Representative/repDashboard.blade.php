@@ -33,7 +33,7 @@
                 EXPENSES
                 </p> 
             </div>
-            <p class="text-3xl font-bold"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">₱0.00</p>
+            <p class="text-3xl font-bold"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);"> ₱{{ number_format($totalExpenses, 2) }}</p>
         </div>
 
         <div class="bg-yellow-500 text-white p-6 rounded-lg shadow-lg text-center">

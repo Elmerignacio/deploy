@@ -1,8 +1,8 @@
 <x-trea-components.layout />
 <x-trea-components.header />
 <x-trea-components.content>
+    <x-Add-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
 
-<x-trea-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
         <div class="mt-4" x-data="remittanceComponent()">
             <x-trea-components.content-header>COLLECTIONS</x-trea-components.content-header>
 
@@ -677,7 +677,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   
-</x-trea-components.sidebar>
+</x-Add-components.sidebar>
 </x-trea-components.content>
 
 

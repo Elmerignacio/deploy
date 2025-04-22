@@ -1,7 +1,7 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-<x-trea-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
+<x-Add-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
     <div>
         <h2 class="text-2xl font-bold">WELCOME, {{$firstname}} {{$lastname}}!</h2>
         <p class="text-gray-600 text-sm">DEPARTMENT {{$role}}</p>
@@ -84,7 +84,7 @@
 
 </div>
 
-</x-trea-components.sidebar>
+</x-Add-components.sidebar>
 </x-trea-components.content>
         
        

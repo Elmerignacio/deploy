@@ -15,8 +15,11 @@ class TreasurerController extends Controller
         $firstname = session('firstname', 'Guest');
         $lastname = session('lastname', '');
         $role = session('role', 'Guest');
-
+    
         $totalAmount = DB::table('createpayable')->sum('amount');
+    
+        $totalExpenses = DB::table('expenses')->sum('amount');  
+    
 
         $Payables = DB::table('createpayable')
             ->select(
@@ -28,18 +31,17 @@ class TreasurerController extends Controller
             )
             ->groupBy('description', 'dueDate', 'balance')
             ->get();
-
+    
         $cashOnHand = DB::table('funds')->value('cash_on_hand');
-
+    
         $profile = DB::table('avatar')
             ->where('student_id', session('id'))
             ->select('profile')
             ->first();
-      
-
-        return view('treasurer.dashboard', compact('profile', 'firstname', 'lastname', 'role', 'totalAmount', 'Payables', 'cashOnHand'));
+    
+        return view('treasurer.dashboard', compact('profile', 'firstname', 'lastname', 'role', 'totalAmount', 'Payables', 'cashOnHand', 'totalExpenses'));
     }
-
+    
 
 
     public function getUserInfo(Request $request)
@@ -171,35 +173,30 @@ class TreasurerController extends Controller
 
     public function Studentbalance()
     {
-        // Get all students including treasurer and representative roles
         $students = DB::table('createuser')
             ->select('IDNumber', 'lastname', 'firstname', 'yearLevel', 'block', 'role')
             ->whereIn('role', ['student', 'treasurer', 'representative'])
             ->orderBy('lastname', 'asc')
             ->get();
 
-        // Get total payables per student
         $payables = DB::table('createpayable')
             ->select('IDNumber', DB::raw('COALESCE(SUM(amount), 0) as total_balance'))
             ->groupBy('IDNumber')
             ->get()
             ->keyBy('IDNumber');
 
-        // Get distinct year levels
         $yearLevels = DB::table('createuser')
             ->select('yearLevel')
             ->distinct()
             ->orderByRaw("FIELD(yearLevel, '1st year', '2nd year', '3rd year', '4th year')")
             ->get();
 
-        // Get distinct blocks
         $blocks = DB::table('createuser')
             ->select('block')
             ->distinct()
             ->orderBy('block')
             ->get();
 
-        // Build representative list
         $representatives = [];
         foreach ($students as $student) {
             if (strtolower($student->role) === 'representative') {
@@ -208,7 +205,6 @@ class TreasurerController extends Controller
             }
         }
 
-        // 💰 Cash on Hand (status = COLLECTED or TO TREASURER)
         $cashOnHand = [];
         $remittancesCash = DB::table('remittance')
             ->select('collectedBy', DB::raw('SUM(paid) as total_paid'))
@@ -220,7 +216,7 @@ class TreasurerController extends Controller
             $cashOnHand[$remit->collectedBy] = $remit->total_paid;
         }
 
-        // 💼 Remitted Amounts (status = REMITTED)
+
         $remitted = [];
         $remittancesRemitted = DB::table('remittance')
             ->select('collectedBy', DB::raw('SUM(paid) as total_remitted'))
@@ -250,7 +246,7 @@ class TreasurerController extends Controller
             'remitted',
             'profile',
             'firstname',
-            'lastname' // 🟢 include in view
+            'lastname'
         ));
     }
 
@@ -767,9 +763,6 @@ class TreasurerController extends Controller
     }
 
 
-
-
-
     public function storedenomination(Request $request)
     {
         $request->validate([
@@ -1066,6 +1059,7 @@ class TreasurerController extends Controller
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->with('error', 'Current password is incorrect.');
         }
+
 
         DB::table('createuser')
             ->where('id', $user->id)

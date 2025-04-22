@@ -215,7 +215,7 @@ return;
 const formData = new FormData(document.getElementById("paymentForm"));
 formData.append("date", dateInput);
 
-fetch("/save-payment", {
+fetch("/treasurer/save-payment", {
 method: "POST",
 body: formData
 })
@@ -225,7 +225,7 @@ if (data.success) {
 alert("Payment saved successfully!");
 
 const studentId = document.getElementById("studentId").value;
-fetch(`/get-student-payables/${studentId}`)
+fetch(`/treasurer/get-student-payables/${studentId}`)
 .then(response => response.json())
 .then(updatedData => {
 const tbody = document.getElementById("payablesTableBody");

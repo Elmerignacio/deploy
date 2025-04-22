@@ -40,7 +40,7 @@
                 DASHBOARD
             </span>
         </a>
-        <a href="#" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
+        <a href="/representative/studentBalance" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
             <i class="fas fa-user-graduate text-2xl flex-shrink-0"></i>
             <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
                 STUDENT BALANCES

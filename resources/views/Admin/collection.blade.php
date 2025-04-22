@@ -1,7 +1,7 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-  <x-Repre-components.sidebar :profile="$profile" :firstname="$firstname" :lastname="$lastname">
+<x-Add-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
 
     <div class="mt-4">
         <x-trea-components.content-header>COLLECTIONS</x-trea-components.content-header>
@@ -9,16 +9,16 @@
    
 
         <x-trea-components.nav-link>
-          <a href="/representative/collection" class="text-[15px] sm:text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Payment</a>
-         <a href="/representative/remitted" class="text-[15px] sm:text-[17px] text-gray-600"> Remittance</a>
-         <a href="/representative/CashOnHand" class="text-[17px] text-gray-600">Cash On Hand</a>
+          <a href="/treasurer/collection" class="text-[15px] sm:text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Payment</a>
+         <a href="/treasurer/remitted" class="text-[15px] sm:text-[17px] text-gray-600"> Remittance</a>
+         <a href="/treasurer/CashOnHand" class="text-[17px] text-gray-600">Cash On Hand</a>
         </x-trea-components.nav-link>
       
               
         <x-trea-components.sorting/>
 
-        
 
+        
           <div 
             x-data="collectionsApp()" 
             class="flex flex-col md:flex-row overflow-auto"
@@ -59,13 +59,12 @@
               </div>
             </div>
 
-            <x-Repre-components.payment-modal/>
-
+            <x-trea-components.payment-modal/>
         
     </div>
 
 
-</x-Repre-components.sidebar>
+</x-Add-components.sidebar>
 
 </x-trea-components.content>
 

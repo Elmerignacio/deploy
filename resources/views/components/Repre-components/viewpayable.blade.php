@@ -19,15 +19,15 @@ class="w-full md:w-1/2 p-4 mt-4 bg-gray-400 bg-opacity-40 hadow-md border-green-
 <div class="space-y-3">
     <div>
         <label class="block text-sm">DESCRIPTION:</label>
-        <input type="text" x-model="selectedPayable.description" class="w-full p-2 rounded bg-white text-black border-2 border-green-600" />
+        <input type="text" x-model="selectedPayable.description" class="w-full p-2 rounded bg-white text-black border-2 border-green-600" readonly/>
     </div>
     <div>
         <label class="block text-sm">AMOUNT:</label>
-        <input type="text" x-model="selectedPayable.amount" class="w-full p-2 rounded bg-white text-black border-2 border-green-600" />
+        <input type="text" x-model="selectedPayable.amount" class="w-full p-2 rounded bg-white text-black border-2 border-green-600" readonly/>
     </div>
     <div>
         <label class="block text-sm">DUE DATE:</label>
-        <input type="date" x-model="selectedPayable.dueDate" class="w-full p-2 rounded bg-white text-black  border-2 border-green-600">
+        <input type="date" x-model="selectedPayable.dueDate" class="w-full p-2 rounded bg-white text-black  border-2 border-green-600" readonly>
     </div>
 </div>
 <div class="flex justify-center gap-5 mt-4">
