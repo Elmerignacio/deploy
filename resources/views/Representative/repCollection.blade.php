@@ -23,9 +23,7 @@
             x-data="collectionsApp()" 
             class="flex flex-col md:flex-row overflow-auto"
           >
-            <div class="w-full md:w-1/2 overflow-auto">
-              <div class="mt-4 overflow-auto sm:mr-4 md:mr-6 lg:mr-8 xl:mr-10">
-                <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
+          <x-two-table-scrollable height="max-h-[45vh] overflow-y-auto">
                 <thead>
                   <tr class="bg-green-700 text-white border border-black">
                     <th class="p-2 border border-black">ID NUMBER</th>
@@ -50,14 +48,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-                
-                <tfoot>
-                </tfoot>
-              </table>
-                 
-                
-              </div>
-            </div>
+          </x-two-table-scrollable>
 
             <x-Repre-components.payment-modal/>
 

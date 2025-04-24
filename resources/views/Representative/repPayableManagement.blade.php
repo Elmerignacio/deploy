@@ -13,9 +13,7 @@
                 
  
      <div x-data="{ showDetails: false, selectedPayable: {} }" class="flex flex-col md:flex-row">
-        <div class="w-full md:w-1/2 overflow-auto">
-            <div class="mt-4 overflow-auto sm:mr-4 md:mr-6 lg:mr-8 xl:mr-10">
-                <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
+        <x-two-table-scrollable height="max-h-[70%]"> 
                     <thead>
                         <tr class="bg-white text-black border border-black">
                             <th class="p-2 border border-black"><input type="checkbox" id="selectAll"></th>
@@ -46,8 +44,7 @@
                 </tr>
             @endforeach
         </tbody>
-
-                </table>
+        </x-two-table-scrollable>
                 <div class="mt-4 flex justify-end">
                     <button id="deleteButton" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition hidden">
                         DELETE
@@ -71,9 +68,7 @@
                         });
                     });
                 </script>
-            </div>
-        </div>
-    
+
 
 
 

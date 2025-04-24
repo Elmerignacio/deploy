@@ -164,7 +164,7 @@
         <div class="w-full max-w-md p-6 rounded ">
           
 
-            <form method="POST" action="{{ route('password.Repchange') }}">
+            <form method="POST" action="{{ route('password.change') }}">
                 @csrf
                 @method('PUT')
     

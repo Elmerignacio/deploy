@@ -1,7 +1,7 @@
 <form action="{{ route('archive.users') }}" method="POST" id="archiveForm">
     @csrf
 
-    <div id="archiveModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div id="archiveModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-100">
         <div class="bg-white p-6 rounded-lg shadow-lg w-96 h-[40%] border-2 border-green-700 flex flex-col justify-center">
             <div class="flex flex-col items-center">
                 <img class="w-[38%] h-[100%] mb-4 " src="https://scontent.fmnl13-4.fna.fbcdn.net/v/t1.15752-9/484109607_1006401184709585_8887677381926160098_n.png?stp=cp0_dst-png&_nc_cat=109&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeGZF4_VnJnVCdsq9CD0ZbKfPW9wfnHcCyY9b3B-cdwLJpXEWj0ZPW1hNSMpN3-wiOXZOQD86vxuqvdrh3e-Leo_&_nc_ohc=Y3xgaJJo7w4Q7kNvgFewM7B&_nc_oc=Adj_cHRFUystvAUYcEL73NefrMXG_sHtgZSxCkdH2FenOet5fjX5p_p5XDKHClo3liO96zsyi-2Ev5T2YgYym4K5&_nc_zt=23&_nc_ht=scontent.fmnl13-4.fna&oh=03_Q7cD1wHENZrVtHQbnJWIOkKsqr1i_djc1gct77mVH-wWB3ZoMg&oe=67FEFA89" 

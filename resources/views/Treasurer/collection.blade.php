@@ -23,41 +23,37 @@
             x-data="collectionsApp()" 
             class="flex flex-col md:flex-row overflow-auto"
           >
-            <div class="w-full md:w-1/2 overflow-auto">
-              <div class="mt-4 overflow-auto sm:mr-4 md:mr-6 lg:mr-8 xl:mr-10">
-                <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
-                <thead>
-                  <tr class="bg-green-700 text-white border border-black">
-                    <th class="p-2 border border-black">ID NUMBER</th>
-                    <th class="p-2 border border-black">FIRSTNAME</th>
-                    <th class="p-2 border border-black">LASTNAME</th>
-                    <th class="p-2 border border-black">YEAR AND BLOCK</th>
-                  </tr>
-                </thead>
-                <tbody id="usersTableBody" x-data="{ activeRow: null }">
-                    @foreach ($students as $student)
-                        <tr 
-                            class="border border-black cursor-pointer hover:bg-gray-200"
-                            :class="activeRow === '{{ $student->IDNumber }}' ? 'bg-gray-300' : ''"
-                            @click="activeRow = '{{ $student->IDNumber }}'; handleClick('{{ $student->IDNumber }}', '{{ strtoupper($student->firstname) }} {{ strtoupper($student->lastname) }}', '{{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}')"
-                        >
-                            <td class="p-2 border border-black">{{ $student->IDNumber }}</td>
-                            <td class="p-2 border border-black">{{ strtoupper($student->firstname) }}</td>
-                            <td class="p-2 border border-black">{{ strtoupper($student->lastname) }}</td>
-                            <td class="p-2 border border-black">
-                                {{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-                
-                <tfoot>
-                </tfoot>
-              </table>
+            <x-two-table-scrollable height="max-h-[85%]">
+              <thead>
+                <tr class="bg-green-700 text-white border border-black">
+                  <th class="p-2 border border-black">ID NUMBER</th>
+                  <th class="p-2 border border-black">FIRSTNAME</th>
+                  <th class="p-2 border border-black">LASTNAME</th>
+                  <th class="p-2 border border-black">YEAR AND BLOCK</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody" x-data="{ activeRow: null }">
+                  @foreach ($students as $student)
+                      <tr 
+                          class="border border-black cursor-pointer hover:bg-gray-200"
+                          :class="activeRow === '{{ $student->IDNumber }}' ? 'bg-gray-300' : ''"
+                          @click="activeRow = '{{ $student->IDNumber }}'; handleClick('{{ $student->IDNumber }}', '{{ strtoupper($student->firstname) }} {{ strtoupper($student->lastname) }}', '{{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}')"
+                      >
+                          <td class="p-2 border border-black">{{ $student->IDNumber }}</td>
+                          <td class="p-2 border border-black">{{ strtoupper($student->firstname) }}</td>
+                          <td class="p-2 border border-black">{{ strtoupper($student->lastname) }}</td>
+                          <td class="p-2 border border-black">
+                              {{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}
+                          </td>
+                      </tr>
+                  @endforeach
+              </tbody>
+
+            </x-two-table-scrollable>
+              
+         
                  
-                
-              </div>
-            </div>
+       
 
             <x-trea-components.payment-modal/>
         

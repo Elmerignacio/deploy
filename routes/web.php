@@ -42,10 +42,17 @@ Route::post('/treasurer/denomination', [TreasurerController::class, 'storedenomi
 Route::post('/treasurer/update-remittance-status', [TreasurerController::class, 'updateRemittanceStatus']);
 Route::post('/treasurer/update-user', [TreasurerController::class, 'update'])->name('user.update');
 Route::post('/treasurer/disburse/store', [TreasurerController::class, 'storeExpense'])->name('expenses.store');
-Route::post('/treasurer/userDetails', [ProfileController::class, 'store'])->name('image.upload');
 Route::put('/treasurer/change-password', [TreasurerController::class, 'change'])->name('password.change');
 Route::get('/treasurer/get-student-payables/{studentId}', [TreasurerController::class, 'getStudentPayables']);
+Route::get('/treasurer/get-expenses/{date}/{source}', [TreasurerController::class, 'getExpensesByDateAndSource']);
+Route::post('/users/modify', [TreasurerController::class, 'modifyUser'])->name('modify.users');
+
+
 });
+
+ //CHANGE PROFILE
+Route::post('/change/profile', [ProfileController::class, 'store'])->name('image.upload');
+
 
 
 
@@ -64,11 +71,16 @@ Route::get('/treasurer/get-student-payables/{studentId}', [TreasurerController::
     Route::get('/representative/remitted/students', [RepresentativeController::class, 'getStudents']);
     Route::get('/representative/payableManagement', [RepresentativeController::class, 'repPayableManagement']);
     Route::get('/representative/userDetails', [RepresentativeController::class, 'RepUserDetails']);
-    Route::put('/representative/change-password', [RepresentativeController::class, 'Repchange'])->name('password.Repchange');
+    Route::put('/representative/change-password', [RepresentativeController::class, 'RepChange'])->name('password.Repchange');
     Route::get('/representative/get-student-payables/{studentId}', [RepresentativeController::class, 'RepStudentPayables']);
     Route::get('/representative/studentBalance', [RepresentativeController::class, 'RepStudentbalance']);
     Route::get('/representative/student-ledger/{id}', [RepresentativeController::class, 'RepShowLedger'])->name('RepStudent.ledger');
+    Route::get('/representative/expense', [RepresentativeController::class, 'RepExpense']);
+    Route::get('/representative/get-expenses/{date}/{source}', [RepresentativeController::class, 'getRepExpensesByDateAndSource']);
 
+
+    
+    
   });
 
 
@@ -77,33 +89,32 @@ Route::get('/treasurer/get-student-payables/{studentId}', [TreasurerController::
     //Admin
     Route::middleware('ADMIN')->group(function () {
       Route::post('/admin/saveUserImage', [AdminController::class, 'saveUserImage'])->name('saveUserImage');
-      Route::get('/admin/expense', [AdminController::class, 'expense']);
+      Route::get('/admin/expense', [AdminController::class, 'AdExpense']);
       Route::get('/admin/remitted', [AdminController::class, 'Remitted']);
-      Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('AdminDashboard');
-      Route::get('/admin/manageUser', [AdminController::class, 'Manageuser']);
-      Route::get('/admin/payableManagement', [AdminController::class, 'Payablemanagement']);
+      Route::get('/admin/dashboard', [AdminController::class, 'AdDashboard'])->name('AdminDashboard');
+      Route::get('/admin/manageUser', [AdminController::class, 'AdManageUser']);
+      Route::get('/admin/payableManagement', [AdminController::class, 'AdPayableManagement']);
       Route::get('/admin/createPayable', [AdminController::class, 'Createpayable']);
-      Route::get('/admin/studentBalance', [AdminController::class, 'Studentbalance']);
-      Route::get('/admin/collection', [AdminController::class, 'Collection']);
-      Route::get('/admin/archiveUser', [AdminController::class, 'ArchiveUser']);
+      Route::get('/admin/studentBalance', [AdminController::class, 'AdStudentBalance']);
+      Route::get('/admin/archiveUser', [AdminController::class, 'AdArchiveUser']);
       Route::get('/admin/get-students-and-blocks', [AdminController::class, 'getStudentsAndBlocks']);
       Route::post('/admin/saveData', [AdminController::class, 'saveuser']);
       Route::post('/admin/savePayable', [AdminController::class, 'savepayable']);
-      Route::post('/admin/archive-users', [AdminController::class, 'archiveUsers'])->name('archive.users');
-      Route::get('/admin/student-ledger/{id}', [AdminController::class, 'showLedger'])->name('student.ledger');
+      Route::post('/admin/archive-users', [AdminController::class, 'archiveUsers'])->name('archive.userss');
+      Route::get('/admin/student-ledger/{id}', [AdminController::class, 'AdStudentLedger'])->name('student.ledger');
       Route::get('/admin/remitted/students', [AdminController::class, 'getStudentsWhoPaid']);
-      Route::post('/admin/save-payment', [AdminController::class, 'SavePayment'])->name('treasave.payment');
       Route::get('/admin/CashOnHand', [AdminController::class, 'CashOnHand']);
-      Route::get('/admin/userDetails', [AdminController::class, 'userDetails']);
+      Route::get('/admin/userDetails', [AdminController::class, 'AdUserDetails']);
       Route::get('/admin/get-user-info', [AdminController::class, 'getUserInfo']);
-      Route::get('/admin/get-denomination', [AdminController::class, 'getDenomination']);
-      Route::post('/admin/denomination', [AdminController::class, 'storedenomination'])->name('store.denomination');
       Route::post('/admin/update-remittance-status', [AdminController::class, 'updateRemittanceStatus']);
       Route::post('/admin/update-user', [AdminController::class, 'update'])->name('user.update');
-      Route::post('/admin/disburse/store', [AdminController::class, 'storeExpense'])->name('expenses.store');
-      Route::post('/admin/userDetails', [ProfileController::class, 'store'])->name('image.upload');
-      Route::put('/admin/change-password', [AdminController::class, 'change'])->name('password.change');
+      Route::post('/admin/disburse/store', [AdminController::class, 'storeExpense'])->name('AdExpenses.store');
+      Route::put('/admin/change-password', [AdminController::class, 'Adchange'])->name('Adpassword.change');
       Route::get('/admin/get-student-payables/{studentId}', [AdminController::class, 'getStudentPayables']);
+      Route::get('/admin/get-expenses/{date}/{source}', [AdminController::class, 'getAdExpensesByDateAndSource']);
+      Route::post('/admin/disburse/store', [AdminController::class, 'AddStoreExpense'])->name('Adexpenses.store');
+      Route::post('/admin/saveData', [AdminController::class, 'AdsaveUser']);
+      
   });
    
   Route::middleware('STUDENT')->group(function () {

@@ -37,9 +37,9 @@
     </x-trea-components.table-dash>
 
     <div class="mt-4 overflow-auto">
-        <x-trea-components.table>
+        <x-scrollable-table height="max-h-[80%]">
             <thead>
-                <tr class="bg-green-700 text-white border border-black">
+                <tr class="bg-green-700 text-white border border-black text-center">
                     <th class="p-2 border border-black">ID NUMBER</th>
                     <th class="p-2 border border-black">LASTNAME</th>
                     <th class="p-2 border border-black">FIRSTNAME</th>
@@ -47,7 +47,7 @@
                     <th class="p-2 border border-black">BALANCE</th>
                 </tr>
             </thead>
-            <tbody id="usersTableBody">
+            <tbody id="usersTableBody" class="text-center">
                 @php $grandTotal = 0; @endphp
                 @forelse($students as $student)
                     @php
@@ -73,11 +73,11 @@
 
             <tfoot>
                 <tr class="font-bold text-center text-sm md:text-lg">
-                    <td colspan="4" class="p-2 border border-black text-center">TOTAL BALANCE:</td>
-                    <td class="p-2 border border-black text-black">₱{{ number_format($grandTotal, 2) }}</td>
+                    <td colspan="4" class="p-2 border border-black text-center text-white">TOTAL BALANCE:</td>
+                    <td class="p-2 border border-black text-white">₱{{ number_format($grandTotal, 2) }}</td>
                 </tr>
             </tfoot>
-        </x-trea-components.table>
+        </x-scrollable-table>
     </div>
 
     <script>

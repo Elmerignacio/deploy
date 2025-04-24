@@ -50,12 +50,6 @@
                 STUDENT BALANCES
             </span>
         </a>
-        <a href="/admin/collection" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
-            <i class="fas fa-wallet text-2xl flex-shrink-0"></i>
-            <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
-                COLLECTIONS
-            </span>
-        </a>
         <a href="/admin/payableManagement" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
             <i class="fas fa-file-invoice-dollar text-2xl flex-shrink-0"></i>
             <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">

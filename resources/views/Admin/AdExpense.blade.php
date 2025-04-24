@@ -1,7 +1,7 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-<x-trea-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
+<x-Add-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
 
             <div class="mt-4">
             <x-trea-components.content-header>EXPENSES</x-trea-components.content-header>
@@ -119,7 +119,6 @@
             let currentDate = '';  
         
             function resetSelections() {
-                // Clear the source select and reset display
                 const selectElement = document.getElementById('sourceSelect');
                 selectElement.innerHTML = '';
                 document.getElementById('sourceDisplay').textContent = 'SOURCE';
@@ -157,7 +156,7 @@
                     return;
                 }
         
-                fetch(`/treasurer/get-expenses/${date}/${encodeURIComponent(source)}`)
+                fetch(`/admin/get-expenses/${date}/${encodeURIComponent(source)}`)
                     .then(response => response.json())
                     .then(data => {
                         addSourcesToSelect(source);
@@ -249,7 +248,7 @@
           
           <h2 class="text-2xl font-bold text-center mb-6">CREATE EXPENSES</h2>
   
-          <form method="POST" action="{{ route('expenses.store') }}">
+          <form method="POST" action="{{ route('Adexpenses.store') }}">
               @csrf
               <div class="flex justify-between items-center">
                   <div class="flex-1 mb-3">
@@ -387,7 +386,7 @@
 
 
 
-</x-trea-components.sidebar>
+</x-Add-components.sidebar>
 
 </x-trea-components.content>  
 

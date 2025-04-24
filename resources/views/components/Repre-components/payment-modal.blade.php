@@ -30,24 +30,24 @@
                     </div>
                 
                     <div class="mt-2">
-                      <table class="w-full border border-black text-center text-sm">
+                        <x-scrollable-table height="max-h-[35vh]">
                         <thead>
-                          <tr class="bg-green-700 text-white">
+                          <tr class="bg-green-700 text-white text-center">
                             <th class="p-2 border border-black">DESCRIPTION</th>
                             <th class="p-2 border border-black">REMAINING BALANCE</th>
                             <th class="p-2 border border-black">AMOUNT PAID</th>
                           </tr>
                         </thead>
-                        <tbody class="bg-white" id="payablesTableBody">
+                        <tbody class="bg-white text-center" id="payablesTableBody">
                         </tbody>
                         <tfoot>
-                          <tr class="bg-white font-bold">
+                          <tr class=" font-bold text-white text-center">
                             <td class="p-2 border border-black">TOTAL</td>
                             <td class="p-2 border border-black" id="totalRemaining">₱0.00</td>
                             <td class="p-2 border border-black" id="totalAmountPaid">₱0.00</td>
                           </tr>
                         </tfoot>
-                      </table>
+                        </x-scrollable-table>
                     </div>
                 
                     <div class="mt-4">

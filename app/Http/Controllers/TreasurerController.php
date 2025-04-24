@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 class TreasurerController extends Controller
 {
 
-
     public function dashboard()
     {
         $firstname = session('firstname', 'Guest');
@@ -41,8 +40,6 @@ class TreasurerController extends Controller
     
         return view('treasurer.dashboard', compact('profile', 'firstname', 'lastname', 'role', 'totalAmount', 'Payables', 'cashOnHand', 'totalExpenses'));
     }
-    
-
 
     public function getUserInfo(Request $request)
     {
@@ -56,34 +53,52 @@ class TreasurerController extends Controller
         $availableDescriptions = DB::table('available_description')
             ->select('description', 'total_amount_collected')
             ->get();
-
+    
         $paidData = [];
         foreach ($availableDescriptions as $item) {
             $paidData[$item->description] = $item->total_amount_collected;
         }
-
+    
         $expenses = DB::table('expenses')
             ->select('description', 'quantity', 'label', 'price', 'amount', 'date', 'source')
             ->get();
+    
+        $groupedExpenses = $expenses->groupBy(function ($item) {
+            return $item->date;
+        });
 
-        $groupedExpenses = $expenses->groupBy('date');
-
-
+        foreach ($groupedExpenses as $date => $expensesForDate) {
+            $groupedExpenses[$date] = $expensesForDate->groupBy('source');
+        }
+        $sourcesByDate = [];
+        foreach ($groupedExpenses as $date => $expensesForDate) {
+            $sourcesByDate[$date] = array_keys($expensesForDate->toArray()); 
+        }
         $profile = DB::table('avatar')
             ->where('student_id', session('id'))
             ->select('profile')
             ->first();
-
-            $firstname = session('firstname');
-            $lastname = session('lastname');
-
-        return view('Treasurer.expense', compact('firstname', 'lastname','paidData', 'groupedExpenses', 'profile') + [
+    
+        $firstname = session('firstname');
+        $lastname = session('lastname');
+    
+        return view('Treasurer.expense', compact('firstname', 'lastname', 'paidData', 'groupedExpenses', 'profile', 'sourcesByDate') + [
             'descriptions' => $availableDescriptions->pluck('description'),
         ]);
-
-
     }
-
+    
+    
+    public function getExpensesByDateAndSource($date, $source)
+    {
+        
+        $expenses = DB::table('expenses')
+            ->whereDate('date', $date)
+            ->where('source', $source)
+            ->get(['description', 'amount']);
+        
+        return response()->json($expenses); 
+    }
+    
     public function storeExpense(Request $request)
     {
         $request->validate([
@@ -101,7 +116,6 @@ class TreasurerController extends Controller
         $date = $request->date;
         $totalAmount = 0;
 
-        // Insert expense records into the database
         foreach ($request->items as $item) {
             DB::table('expenses')->insert([
                 'description' => $item['description'],
@@ -115,12 +129,10 @@ class TreasurerController extends Controller
             $totalAmount += $item['amount'];
         }
 
-        // Decrease total_amount_collected in the available_description table
         DB::table('available_description')
             ->where('description', $description)
             ->decrement('total_amount_collected', $totalAmount);
 
-        // Update cash_on_hand in the funds table by subtracting the total expenses
         DB::table('funds')
             ->decrement('cash_on_hand', $totalAmount);
 
@@ -130,7 +142,12 @@ class TreasurerController extends Controller
 
     function Manageuser()
     {
-        $students = DB::table('createuser')->orderBy('lastname', 'asc')->get();
+        $students = DB::table('createuser')
+        ->where('role', '!=', 'admin')  
+        ->orderBy('lastname', 'asc')
+        ->get();
+    
+
 
         $profile = DB::table('avatar')
             ->where('student_id', session('id'))
@@ -249,8 +266,6 @@ class TreasurerController extends Controller
             'lastname'
         ));
     }
-
-
 
 
     public function Collection()
@@ -1007,9 +1022,6 @@ class TreasurerController extends Controller
         return redirect()->back()->with('success', 'Successfully created a user');
     }
     
-
-
-
     public function saveUserImage(Request $request)
     {
         $request->validate([
@@ -1029,8 +1041,6 @@ class TreasurerController extends Controller
 
         return redirect()->back()->with('success', 'Profile image uploaded successfully.');
     }
-
-
 
     public function change(Request $request)
     {
@@ -1071,6 +1081,80 @@ class TreasurerController extends Controller
         return back()->with('success', 'Password changed successfully.');
     }
 
+    public function modifyUser(Request $request)
+    {
+        $action = $request->input('action');
+        $idNumber = $request->input('students.0');
+    
+        if ($action === 'modify') {
+            DB::table('createuser')
+                ->where('IDNumber', $idNumber)
+                ->update([
+                    'firstname' => strtoupper($request->input('firstname')),
+                    'lastname' => strtoupper($request->input('lastname')),
+                    'gender' => strtolower($request->input('gender')),
+                    'yearLevel' => $request->input('yearLevel'),
+                    'block' => $request->input('block'),
+                ]);
+    
+            DB::table('createpayable')
+                ->where('IDNumber', $idNumber)
+                ->update([
+                    'studentName' => strtoupper($request->input('firstname')) . ' ' . strtoupper($request->input('lastname')),
+                    'yearLevel' => $request->input('yearLevel'),
+                    'block' => $request->input('block'),
+                ]);
+    
+            DB::table('remittance')
+                ->where('IDNumber', $idNumber)
+                ->update([
+                    'firstName' => strtoupper($request->input('firstname')),
+                    'lastName' => strtoupper($request->input('lastname')),
+                    'yearLevel' => $request->input('yearLevel'),
+                    'block' => $request->input('block'),
+                ]);
+    
+            return back()->with('success', 'User and related records modified successfully!');
+        }
+    
+        if ($action === 'archive') {
+            $user = DB::table('createuser')->where('IDNumber', $idNumber)->first();
+    
+            if ($user) {
+                DB::table('archive')->insert([
+                    'IDNumber' => $user->IDNumber,
+                    'firstname' => $user->firstname,
+                    'lastname' => $user->lastname,
+                    'gender' => $user->gender,
+                    'yearLevel' => $user->yearLevel,
+                    'role' => $user->role,
+                    'block' => $user->block,
+                    'status' => 'DEACTIVATED',
+                    'username' => $user->username,
+                    'password' => $user->password,
+                ]);
+    
+                DB::table('createuser')->where('IDNumber', $idNumber)->delete();
+    
+                DB::table('createpayable')->where('IDNumber', $idNumber)->delete();
+    
+                DB::table('remittance')
+                ->where('IDNumber', $idNumber)
+                ->where('status', '!=', 'remitted') 
+                ->delete();
+            
+            return back()->with('success', 'User and related records archived and deleted successfully!');
+            
+            }
+    
+            return back()->with('error', 'User not found.');
+        }
+    
+        return back()->with('error', 'Invalid action.');
+    }
+    
+    
+    
 
 
 }

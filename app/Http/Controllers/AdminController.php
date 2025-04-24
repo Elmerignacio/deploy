@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {    
      
-        public function dashboard()
+        public function AdDashboard()
         {
             $firstname = session('firstname', 'Guest');
             $lastname = session('lastname', '');
@@ -39,7 +39,7 @@ class AdminController extends Controller
                 ->select('profile')
                 ->first();
         
-            return view('admin.dashboard', compact('profile', 'firstname', 'lastname', 'role', 'totalAmount', 'Payables', 'cashOnHand', 'totalExpenses'));
+            return view('admin.AdDashboard', compact('profile', 'firstname', 'lastname', 'role', 'totalAmount', 'Payables', 'cashOnHand', 'totalExpenses'));
         }
         
     
@@ -51,23 +51,104 @@ class AdminController extends Controller
                 'lastname' => session('lastname', '')
             ]);
         }
-        public function expense()
+        public function AdExpense()
         {
             $availableDescriptions = DB::table('available_description')
-                ->select('description', 'total_amount_collected')
-                ->get();
+            ->select('description', 'total_amount_collected')
+            ->get();
     
-            $paidData = [];
-            foreach ($availableDescriptions as $item) {
-                $paidData[$item->description] = $item->total_amount_collected;
-            }
+        $paidData = [];
+        foreach ($availableDescriptions as $item) {
+            $paidData[$item->description] = $item->total_amount_collected;
+        }
     
-            $expenses = DB::table('expenses')
-                ->select('description', 'quantity', 'label', 'price', 'amount', 'date', 'source')
-                ->get();
+        $expenses = DB::table('expenses')
+            ->select('description', 'quantity', 'label', 'price', 'amount', 'date', 'source')
+            ->get();
     
-            $groupedExpenses = $expenses->groupBy('date');
+        $groupedExpenses = $expenses->groupBy(function ($item) {
+            return $item->date;
+        });
+
+        foreach ($groupedExpenses as $date => $expensesForDate) {
+            $groupedExpenses[$date] = $expensesForDate->groupBy('source');
+        }
+        $sourcesByDate = [];
+        foreach ($groupedExpenses as $date => $expensesForDate) {
+            $sourcesByDate[$date] = array_keys($expensesForDate->toArray()); 
+        }
+        $profile = DB::table('avatar')
+            ->where('student_id', session('id'))
+            ->select('profile')
+            ->first();
     
+        $firstname = session('firstname');
+        $lastname = session('lastname');
+    
+        return view('admin.AdExpense', compact('firstname', 'lastname', 'paidData', 'groupedExpenses', 'profile', 'sourcesByDate') + [
+            'descriptions' => $availableDescriptions->pluck('description'),
+        ]);
+    
+        }
+        
+    public function getAdExpensesByDateAndSource($date, $source)
+    {
+        
+        $expenses = DB::table('expenses')
+            ->whereDate('date', $date)
+            ->where('source', $source)
+            ->get(['description', 'amount']);
+        
+        return response()->json($expenses); 
+    }
+
+    public function AddStoreExpense(Request $request)
+    {
+        $request->validate([
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'items' => 'required|array',
+            'items.*.description' => 'required|string',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.label' => 'required|string',
+            'items.*.price' => 'required|numeric|min:0',
+            'items.*.amount' => 'required|numeric|min:0',
+        ]);
+
+        $description = $request->description;
+        $date = $request->date;
+        $totalAmount = 0;
+
+        foreach ($request->items as $item) {
+            DB::table('expenses')->insert([
+                'description' => $item['description'],
+                'quantity' => $item['quantity'],
+                'label' => $item['label'],
+                'price' => $item['price'],
+                'amount' => $item['amount'],
+                'date' => $date,
+                'source' => $description,
+            ]);
+            $totalAmount += $item['amount'];
+        }
+
+        DB::table('available_description')
+            ->where('description', $description)
+            ->decrement('total_amount_collected', $totalAmount);
+
+        DB::table('funds')
+            ->decrement('cash_on_hand', $totalAmount);
+
+        return redirect()->back()->with('success', 'Expenses recorded and balance updated.');
+    }    
+    
+        function AdManageUser()
+        {
+            $students = DB::table('createuser')
+            ->where('role', '!=', 'admin')  
+            ->orderBy('lastname', 'asc')
+            ->get();
+        
     
             $profile = DB::table('avatar')
                 ->where('student_id', session('id'))
@@ -76,70 +157,10 @@ class AdminController extends Controller
     
                 $firstname = session('firstname');
                 $lastname = session('lastname');
-    
-            return view('admin.expense', compact('firstname', 'lastname','paidData', 'groupedExpenses', 'profile') + [
-                'descriptions' => $availableDescriptions->pluck('description'),
-            ]);
-    
-    
+            return view('Admin/AdManageUser', compact('students', 'profile', 'firstname', 'lastname'));
         }
     
-        public function storeExpense(Request $request)
-        {
-            $request->validate([
-                'description' => 'required|string',
-                'date' => 'required|date',
-                'items' => 'required|array',
-                'items.*.description' => 'required|string',
-                'items.*.quantity' => 'required|integer|min:1',
-                'items.*.label' => 'required|string',
-                'items.*.price' => 'required|numeric|min:0',
-                'items.*.amount' => 'required|numeric|min:0',
-            ]);
-    
-            $description = $request->description;
-            $date = $request->date;
-            $totalAmount = 0;
-    
-            foreach ($request->items as $item) {
-                DB::table('expenses')->insert([
-                    'description' => $item['description'],
-                    'quantity' => $item['quantity'],
-                    'label' => $item['label'],
-                    'price' => $item['price'],
-                    'amount' => $item['amount'],
-                    'date' => $date,
-                    'source' => $description,
-                ]);
-                $totalAmount += $item['amount'];
-            }
-    
-            DB::table('available_description')
-                ->where('description', $description)
-                ->decrement('total_amount_collected', $totalAmount);
-    
-            DB::table('funds')
-                ->decrement('cash_on_hand', $totalAmount);
-    
-            return redirect()->back()->with('success', 'Expenses recorded and balance updated.');
-        }
-    
-    
-        function Manageuser()
-        {
-            $students = DB::table('createuser')->orderBy('lastname', 'asc')->get();
-    
-            $profile = DB::table('avatar')
-                ->where('student_id', session('id'))
-                ->select('profile')
-                ->first();
-    
-                $firstname = session('firstname');
-                $lastname = session('lastname');
-            return view('Admin/manageUser', compact('students', 'profile', 'firstname', 'lastname'));
-        }
-    
-        function Payablemanagement()
+        function AdPayableManagement()
         {
             $yearLevels = DB::table('createuser')
                 ->select('yearLevel')
@@ -165,10 +186,10 @@ class AdminController extends Controller
     
                 $firstname = session('firstname');
                 $lastname = session('lastname');
-            return view('Admin/payableManagement', compact('Payables', 'yearLevels', 'profile', 'firstname', 'lastname'));
+            return view('Admin/AdPayableManagement', compact('Payables', 'yearLevels', 'profile', 'firstname', 'lastname'));
         }
     
-        public function Studentbalance()
+        public function AdStudentBalance()
         {
             $students = DB::table('createuser')
                 ->select('IDNumber', 'lastname', 'firstname', 'yearLevel', 'block', 'role')
@@ -233,7 +254,7 @@ class AdminController extends Controller
                 $firstname = session('firstname');
                 $lastname = session('lastname');
     
-            return view('Admin.studentBalance', compact(
+            return view('Admin.AdStudentBalance', compact(
                 'students',
                 'payables',
                 'yearLevels',
@@ -248,28 +269,7 @@ class AdminController extends Controller
         }
     
     
-    
-    
-        public function Collection()
-        {
-            $students = DB::table('createuser')
-                ->whereIn('role', ['representative', 'student', 'treasurer'])
-                ->orderBy('lastname', 'asc')
-                ->get();
-    
-            $profile = DB::table('avatar')
-                ->where('student_id', session('id'))
-                ->select('profile')
-                ->first();
-    
-            $firstname = session('firstname');
-            $lastname = session('lastname');
-    
-    
-    
-            return view('Admin/collection', compact('students', 'profile', 'firstname', 'lastname'));
-        }
-    
+
         function Createpayable()
         {
             $yearLevels = DB::table('createuser')
@@ -288,25 +288,7 @@ class AdminController extends Controller
     
             return view('Admin/createPayable', compact('yearLevels', 'profile' , 'firstname', 'lastname'));
         }
-        function getStudentsAndBlocks(Request $request)
-        {
-            $yearLevel = $request->yearLevel;
-    
-            $students = DB::table('createuser')
-                ->whereIn('role', ['student', 'representative', 'treasurer'])
-                ->where('yearLevel', $yearLevel)
-                ->get();
-    
-            $blocks = DB::table('createuser')
-                ->where('yearLevel', $yearLevel)
-                ->select('block')
-                ->distinct()
-                ->orderBy('block', 'asc')
-                ->get();
-    
-    
-            return response()->json(['students' => $students, 'blocks' => $blocks]);
-        }
+
     
         function savePayable(Request $req)
         {
@@ -376,7 +358,7 @@ class AdminController extends Controller
             return redirect()->back()->with('success', 'PAYABLES SUCCESSFULLY ADDED FOR SELECTED STUDENTS.');
         }
     
-        public function ArchiveUser()
+        public function AdArchiveUser()
         {
             $students = DB::table('createuser')->get();
             $archivedStudents = DB::table('archive')->get();
@@ -389,7 +371,7 @@ class AdminController extends Controller
                 $firstname = session('firstname');
                 $lastname = session('lastname');
     
-            return view('Admin/archiveUser', compact('students', 'archivedStudents', 'profile','firstname','lastname'));
+            return view('Admin/AdArchiveUser', compact('students', 'archivedStudents', 'profile','firstname','lastname'));
         }
         public function archiveUsers(Request $request)
         {
@@ -527,398 +509,10 @@ class AdminController extends Controller
             }
         }
     
-    
-        public function Remitted()
-        {
-            $userYearLevel = session('yearLevel');
-            $userBlock = session('block');
-    
-            $remittances = DB::table('remittance')
-                ->leftJoin('createuser', function ($join) {
-                    $join->on('remittance.yearLevel', '=', 'createuser.yearLevel')
-                        ->on('remittance.block', '=', 'createuser.block')
-                        ->whereIn('createuser.role', ['TREASURER', 'REPRESENTATIVE']);
-                })
-                ->select(
-                    'remittance.*',
-                    'createuser.yearLevel as userYearLevel',
-                    'createuser.block as userBlock',
-                    'remittance.firstname',
-                    'remittance.lastname',
-                    'remittance.collectedBy'
-                )
-                ->orderBy('remittance.date_remitted', 'asc')
-                ->get();
-    
-            $balances = DB::table('createpayable')
-                ->select('balance', 'description', 'yearLevel', 'block')
-                ->get();
-    
-            foreach ($remittances as $remittance) {
-                $matchingAmount = $balances->firstWhere(function ($payable) use ($remittance) {
-                    return $payable->description === $remittance->description
-                        && $payable->yearLevel === $remittance->yearLevel
-                        && $payable->block === $remittance->block;
-                });
-    
-                $remittance->balance = $matchingAmount ? $matchingAmount->balance : 0;
-            }
-    
-            $paids = DB::table('remittance')
-                ->select('paid', 'description', 'yearLevel', 'block', 'date', 'collectedBy', 'status')
-                ->get();
-    
-            $collectors = DB::table('createuser')
-                ->whereIn('role', ['TREASURER', 'REPRESENTATIVE'])
-                ->select('firstname', 'lastname', 'role', 'yearLevel', 'block')
-                ->get();
-    
-            $profile = DB::table('avatar')
-                ->where('student_id', session('id'))
-                ->select('profile')
-                ->first();
-    
-                $firstname = session('firstname');
-                $lastname = session('lastname');
-    
-            return view('Admin.remitted', compact('remittances', 'collectors', 'balances', 'paids', 'profile','firstname','lastname'));
-        }
-    
-        public function CashOnHand()
-        {
-            $remittances = DB::table('remittance')
-                ->leftJoin('createuser', function ($join) {
-                    $join->on('remittance.yearLevel', '=', 'createuser.yearLevel')
-                        ->on('remittance.block', '=', 'createuser.block')
-                        ->on('remittance.role', '=', 'createuser.role')
-                        ->whereIn('createuser.role', ['TREASURER', 'REPRESENTATIVE']);
-                })
-                ->select(
-                    'remittance.*',
-                    'createuser.yearLevel as userYearLevel',
-                    'createuser.block as userBlock',
-                    'remittance.collectedBy'
-                )
-                ->whereIn('remittance.status', ['TO TREASURER', 'COLLECTED BY TREASURER'])
-                ->orderBy('remittance.status', 'asc')
-                ->get();
-    
-            $balances = DB::table('createpayable')
-                ->select('balance', 'description', 'yearLevel', 'block')
-                ->get();
-    
-            $paids = DB::table('remittance')
-                ->select('paid', 'description', 'yearLevel', 'block', 'date_remitted', 'status')
-                ->get();
-    
-            $denominations = DB::table('denomination')
-                ->select('date', 'thousand', 'five_hundred', 'two_hundred', 'one_hundred', 'fifty', 'twenty', 'ten', 'five', 'one', 'twenty_five_cents', 'totalAmount', 'collectedBy')
-                ->get();
-    
-            $latestDenomination = DB::table('denomination')
-                ->orderByDesc('date')
-                ->first();
-    
-            $collectors = DB::table('createuser')
-                ->select('firstname', 'lastname', 'role', 'yearLevel', 'block')
-                ->whereIn('role', ['TREASURER', 'REPRESENTATIVE'])
-                ->get();
-    
-            foreach ($remittances as $remittance) {
-                $remittance->formattedDate = \Carbon\Carbon::parse($remittance->date)->format('Y-m-d');
-            }
-    
-            $profile = DB::table('avatar')
-                ->where('student_id', session('id'))
-                ->select('profile')
-                ->first();
-    
-                $firstname = session('firstname');
-                $lastname = session('lastname');
-    
-            return view('admin.CashOnHand', compact(
-                'remittances',
-                'balances',
-                'denominations',
-                'latestDenomination',
-                'paids',
-                'collectors',
-                'profile',
-                'firstname',
-                'lastname'
-            ));
-        }
+ 
     
     
-        public function getDenomination(Request $request)
-        {
-            $date = $request->query('date');
-            $collectedBy = $request->query('collectedBy');
-    
-            $denomination = DB::table('denomination')
-                ->whereDate('date', $date)
-                ->where('collectedBy', $collectedBy)
-                ->where('status', 'TO TREASURER')
-                ->first();
-    
-            if (!$denomination) {
-                return response()->json(['success' => false]);
-            }
-    
-            return response()->json([
-                'success' => true,
-                'date' => $denomination->date,
-                'denomination' => $denomination
-            ]);
-        }
-    
-        public function updateRemittanceStatus(Request $request)
-        {
-            $validated = $request->validate([
-                'date_remitted' => 'required|date_format:Y-m-d',
-                'collected_by' => 'required|string',
-            ]);
-    
-            $date_remitted = $validated['date_remitted'];
-            $collectedBy = $validated['collected_by'];
-    
-            $remittanceIds = DB::table('remittance')
-                ->whereDate('date_remitted', $date_remitted)
-                ->where('collectedBy', $collectedBy)
-                ->where('status', '!=', 'REMITTED')
-                ->pluck('id');
-    
-    
-            if ($remittanceIds->isEmpty()) {
-                return redirect()->back()->with('info', 'No new remittances to update.');
-            }
-    
-            $updatedRemittance = DB::table('remittance')
-                ->whereIn('id', $remittanceIds)
-                ->update([
-                    'status' => 'REMITTED',
-                    'updated_at' => now(),
-                ]);
-    
-            $updatedDenomination = DB::table('denomination')
-                ->whereDate('date', $date_remitted)
-                ->where('collectedBy', $collectedBy)
-                ->update(['status' => 'REMITTED']);
-    
-            if ($updatedRemittance && $updatedDenomination) {
-                $totalAmount = DB::table('remittance')
-                    ->whereIn('id', $remittanceIds)
-                    ->sum('paid');
-    
-                $existingFund = DB::table('funds')->first();
-    
-                if ($existingFund) {
-                    DB::table('funds')->update([
-                        'cash_on_hand' => $existingFund->cash_on_hand + $totalAmount,
-                    ]);
-                } else {
-                    DB::table('funds')->insert([
-                        'cash_on_hand' => $totalAmount,
-                        'expenses' => 0,
-                        'receivable' => 0,
-                    ]);
-                }
-                $descriptions = DB::table('remittance')
-                    ->select('description', DB::raw('SUM(paid) as total_paid'))
-                    ->whereIn('id', $remittanceIds)
-                    ->groupBy('description')
-                    ->get();
-    
-                foreach ($descriptions as $desc) {
-                    $existing = DB::table('available_description')
-                        ->where('description', $desc->description)
-                        ->first();
-    
-                    if ($existing) {
-                        $newTotalAmount = $existing->total_amount_collected + $desc->total_paid;
-    
-                        if ($newTotalAmount > $existing->total_amount_collected) {
-                            DB::table('available_description')
-                                ->where('description', $desc->description)
-                                ->update([
-                                    'total_amount_collected' => $newTotalAmount,
-                                ]);
-                        }
-                    } else {
-                        DB::table('available_description')->insert([
-                            'description' => $desc->description,
-                            'total_amount_collected' => $desc->total_paid,
-                        ]);
-                    }
-                }
-    
-                return redirect()->back()->with('success', 'Status updated, funds added, and available description updated!');
-            } else {
-                return redirect()->back()->with('error', 'Failed to update status.');
-            }
-        }
-    
-    
-        public function storedenomination(Request $request)
-        {
-            $request->validate([
-                'date' => 'required|date',
-                'thousand' => 'nullable|integer|min:0',
-                'five_hundred' => 'nullable|integer|min:0',
-                'two_hundred' => 'nullable|integer|min:0',
-                'one_hundred' => 'nullable|integer|min:0',
-                'fifty' => 'nullable|integer|min:0',
-                'twenty' => 'nullable|integer|min:0',
-                'ten' => 'nullable|integer|min:0',
-                'five' => 'nullable|integer|min:0',
-                'one' => 'nullable|integer|min:0',
-                'twenty_five_cents' => 'nullable|integer|min:0',
-            ]);
-    
-            $new = [
-                'thousand' => $request->thousand ?? 0,
-                'five_hundred' => $request->five_hundred ?? 0,
-                'two_hundred' => $request->two_hundred ?? 0,
-                'one_hundred' => $request->one_hundred ?? 0,
-                'fifty' => $request->fifty ?? 0,
-                'twenty' => $request->twenty ?? 0,
-                'ten' => $request->ten ?? 0,
-                'five' => $request->five ?? 0,
-                'one' => $request->one ?? 0,
-                'twenty_five_cents' => $request->twenty_five_cents ?? 0,
-            ];
-    
-            $newTotalAmount =
-                ($new['thousand'] * 1000) +
-                ($new['five_hundred'] * 500) +
-                ($new['two_hundred'] * 200) +
-                ($new['one_hundred'] * 100) +
-                ($new['fifty'] * 50) +
-                ($new['twenty'] * 20) +
-                ($new['ten'] * 10) +
-                ($new['five'] * 5) +
-                ($new['one'] * 1) +
-                ($new['twenty_five_cents'] * 0.25);
-    
-            $existingDenomination = DB::table('denomination')
-                ->where('collectedBy', session('firstname') . ' ' . session('lastname'))
-                ->where('status', 'REMITTED')
-                ->first();
-    
-            if ($existingDenomination) {
-                DB::table('denomination')
-                    ->where('id', $existingDenomination->id)
-                    ->update([
-                        'totalAmount' => $existingDenomination->totalAmount + $newTotalAmount,
-                    ]);
-            } else {
-                DB::table('denomination')->insert([
-                    'date' => $request->date,
-                    'thousand' => $new['thousand'],
-                    'five_hundred' => $new['five_hundred'],
-                    'two_hundred' => $new['two_hundred'],
-                    'one_hundred' => $new['one_hundred'],
-                    'fifty' => $new['fifty'],
-                    'twenty' => $new['twenty'],
-                    'ten' => $new['ten'],
-                    'five' => $new['five'],
-                    'one' => $new['one'],
-                    'twenty_five_cents' => $new['twenty_five_cents'],
-                    'totalAmount' => $newTotalAmount,
-                    'collectedBy' => session('firstname') . ' ' . session('lastname'),
-                    'status' => 'REMITTED',
-                ]);
-            }
-            DB::table('remittance')
-                ->where('date_remitted', $request->selectedDateForRequest)
-                ->where('status', 'COLLECTED BY TREASURER')
-                ->update([
-                    'status' => 'REMITTED',
-                    'updated_at' => now(),
-                ]);
-
-            $descriptions = DB::table('remittance')
-                ->select('description', DB::raw('SUM(paid) as total_paid'))
-                ->where('status', 'REMITTED')
-                ->whereDate('updated_at', now()->toDateString())
-                ->whereTime('updated_at', '>=', now()->subSeconds(10)->toTimeString())
-                ->groupBy('description')
-                ->get();
-    
-            foreach ($descriptions as $desc) {
-                $existing = DB::table('available_description')
-                    ->where('description', $desc->description)
-                    ->first();
-    
-                if ($existing) {
-                    DB::table('available_description')
-                        ->where('description', $desc->description)
-                        ->update([
-                            'total_amount_collected' => $existing->total_amount_collected + $desc->total_paid,
-                        ]);
-                } else {
-                    DB::table('available_description')->insert([
-                        'description' => $desc->description,
-                        'total_amount_collected' => $desc->total_paid,
-                    ]);
-                }
-            }
-    
-    
-
-            $existingCash = DB::table('funds')->first();
-            if ($existingCash) {
-                DB::table('funds')->update([
-                    'cash_on_hand' => $existingCash->cash_on_hand + $newTotalAmount,
-                    'expenses' => 0,
-                    'receivable' => 0,
-                ]);
-            } else {
-                DB::table('funds')->insert([
-                    'cash_on_hand' => $newTotalAmount,
-                    'expenses' => 0,
-                    'receivable' => 0,
-                ]);
-            }
-    
-            return redirect()->back()->with('success', 'Denomination saved and cash updated successfully!');
-        }
-    
-    
-        public function getStudentsWhoPaid(Request $request)
-        {
-            $date = $request->input('date');
-            $collectedBy = $request->input('collectedBy');
-            $description = $request->input('description');
-            $status = $request->input('status');
-    
-            \Log::info("Fetching students for:", [
-                'date' => $date,
-                'collectedBy' => $collectedBy,
-                'description' => $description,
-                'status' => $status,
-            ]);
-    
-            $students = DB::table('remittance')
-                ->select(
-                    'firstname',
-                    'lastname',
-                    'yearLevel',
-                    'block',
-                    DB::raw('SUM(paid) as paid'),
-                    'status'
-                )
-                ->whereDate('date', $date)
-                ->where('collectedBy', $collectedBy)
-                ->where('description', $description)
-                ->where('status', $status)
-                ->groupBy('firstname', 'lastname', 'yearLevel', 'block', 'status')
-                ->get();
-    
-            return response()->json($students);
-        }
-    
-        public function userDetails()
+        public function AdUserDetails()
         {
             $role = session('role', 'Guest');
             $id = session('id', '');
@@ -938,11 +532,11 @@ class AdminController extends Controller
     
     
     
-            return view('Admin.userDetails', compact('profile', 'id', 'firstname', 'lastname', 'role', 'yearLevel', 'block', 'username', 'password', 'gender'));
+            return view('Admin.AdUserDetails', compact('profile', 'id', 'firstname', 'lastname', 'role', 'yearLevel', 'block', 'username', 'password', 'gender'));
         }
     
     
-        public function showLedger($id)
+        public function AdStudentLedger($id)
         {
             $student = DB::table('createuser')
                 ->where('IDNumber', $id)
@@ -968,7 +562,7 @@ class AdminController extends Controller
                 $firstname = session('firstname');
                 $lastname = session('lastname');
     
-            return view('Admin.studentLedger', compact('student', 'payables', 'settledPayables', 'profile','firstname','lastname'));
+            return view('Admin.AdStudentLedger', compact('student', 'payables', 'settledPayables', 'profile','firstname','lastname'));
         }
     
         function saveUser(Request $req) {
@@ -1017,7 +611,7 @@ class AdminController extends Controller
     
     
     
-        public function change(Request $request)
+        public function Adchange(Request $request)
         {
     
             $userId = session('id', '');
@@ -1056,6 +650,29 @@ class AdminController extends Controller
             return back()->with('success', 'Password changed successfully.');
         }
     
+        
+function AdsaveUser(Request $req) {
+    $firstNameUpper = strtoupper(trim($req->firstname));
+    $lastNameUpper = strtoupper(trim($req->lastname));
+    $genderUpper = strtoupper(trim($req->gender));
+    $yearLevelUpper = strtoupper(trim($req->yearLevel));
+    $roleUpper = strtoupper(trim($req->role));
+    $blockUpper = strtoupper(trim($req->block));
+
+    DB::table('createuser')->insert([
+        'IDNumber' => $req->IDNumber,
+        'firstname' => $firstNameUpper,
+        'lastname' => $lastNameUpper,
+        'gender' => $genderUpper,
+        'yearLevel' => $yearLevelUpper,
+        'role' => $roleUpper,
+        'block' => $blockUpper,
+        'username' => $req->username,
+        'password' => Hash::make($req->password) 
+    ]);
+
+    return redirect()->back()->with('success', 'Successfully created a user');
+}
     
     
     

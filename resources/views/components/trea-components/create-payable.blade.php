@@ -38,8 +38,6 @@
                             <option value="all">ALL BLOCK</option>
                         </select>
                     </div>
-
-                    {{-- Unified STUDENT select box for all roles --}}
                     <div>
                         <label class="block mb-1 text-sm font-semibold">STUDENT:</label>
                         <select id="student" name="IDNumber" class="w-full p-2 rounded-md text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" required>
@@ -56,20 +54,19 @@
                         <button type="submit" class="bg-green-700 px-4 py-2 rounded-md hover:bg-green-600 text-white font-bold">ADD PAYABLE</button>
                     </div>
 
-                    {{-- JavaScript --}}
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
                             const yearLevelDropdown = document.getElementById("yearLevel");
                             const blockDropdown = document.getElementById("block");
                             const studentDropdown = document.getElementById("student");
 
-                            @if(!$user || !in_array($user->role, ['student', 'representative', 'treasurer'])) // Only attach script for other roles
+                            @if(!$user || !in_array($user->role, ['student', 'representative', 'treasurer'])) 
                             if (yearLevelDropdown) {
                                 yearLevelDropdown.addEventListener("change", function () {
                                     const yearLevel = this.value;
 
                                     if (yearLevel) {
-                                        fetch(`/get-students-and-blocks?yearLevel=${yearLevel}`)
+                                        fetch(`/treasurer/get-students-and-blocks?yearLevel=${yearLevel}`)
                                             .then(response => response.json())
                                             .then(data => {
                                                 blockDropdown.innerHTML = '<option value="all">ALL BLOCK</option>';

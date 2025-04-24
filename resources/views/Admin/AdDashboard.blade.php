@@ -9,7 +9,7 @@
 
     <div class="grid lg:grid-cols-3 md:grid-cols-3 gap-4 mt-6">
 
-        <div class="bg-green-500 text-white p-6 rounded-lg shadow-lg text-center ">
+        <div class="bg-green-700 text-white p-6 rounded-lg shadow-lg text-center ">
             <div class="flex justify-center mt-[15px]">
                 <img src="{{ asset('images/cashonhand.png') }}"
                      class="w-[30%] h-[30%]" alt="Cash on Hand">
@@ -46,8 +46,8 @@
 <!-- Payables Table -->
 <div class="mt-6 pb-5">
     <h3 class="text-lg font-bold mb-4">STUDENTS PAYABLES</h3>
-    <table class="w-full border-collapse border border-gray-300">
-        <thead class="bg-green-500">
+    <x-scrollable-table height="max-h-[45vh] overflow-y-auto">
+        <thead class="text-white">
             <tr class="text-left">
                 <th class="border border-gray-300 p-2">DESCRIPTION</th>
                 <th class="border border-gray-300 p-2">AMOUNT</th>
@@ -59,7 +59,7 @@
         </thead>
         <tbody id="usersTableBody">
             @foreach($Payables as $payable)
-            <tr class="border border-black"
+            <tr class="border border-black cursor-pointer"
                 @click="selectedPayable = {
                     description: '{{ $payable->description }}',
                     amount: '{{ number_format(floor($payable->input_balance), 2) }}',
@@ -77,7 +77,9 @@
             </tr>
             @endforeach
         </tbody>
-    </table>
+    </x-scrollable-table>
+    
+    
 </div>
 
 

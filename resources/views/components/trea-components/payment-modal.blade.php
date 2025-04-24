@@ -7,7 +7,7 @@ x-transition:enter-end="translate-y-0 opacity-100"
 x-transition:leave="transition duration-200 transform"
 x-transition:leave-start="translate-y-0 opacity-100"
 x-transition:leave-end="-translate-y-10 opacity-0"
-class="w-full md:w-1/2 p-4 mt-4 bg-gray-400 bg-opacity-40 hadow-md border-green-600 border-2 relative"
+  class="h-[100%] w-full md:w-1/2 mx-auto p-3 mt-4  bg-gray-300 bg-opacity-40 shadow-lg border-2 border-green-700 rounded-lg relative"
 
 >
 
@@ -30,25 +30,26 @@ x-transition
 </div>
 
 <div class="mt-2">
-  <table class="w-full border border-black text-center text-sm">
+  <x-scrollable-table height="max-h-[35vh]">
     <thead>
-      <tr class="bg-green-700 text-white">
+      <tr class="bg-green-700 text-white+ text-center text-white">
         <th class="p-2 border border-black">DESCRIPTION</th>
         <th class="p-2 border border-black">REMAINING BALANCE</th>
         <th class="p-2 border border-black">AMOUNT PAID</th>
       </tr>
     </thead>
-    <tbody class="bg-white" id="payablesTableBody">
+    <tbody class="bg-white text-center" id="payablesTableBody">
     </tbody>
     <tfoot>
-      <tr class="bg-white font-bold">
+      <tr class="text-white font-bold bg-green-700 text-center">
         <td class="p-2 border border-black">TOTAL</td>
         <td class="p-2 border border-black" id="totalRemaining">₱0.00</td>
         <td class="p-2 border border-black" id="totalAmountPaid">₱0.00</td>
       </tr>
     </tfoot>
-  </table>
-</div>
+  </x-scrollable-table>
+  
+   
 
 <div class="mt-4">
   <button type="submit" class="px-6 py-3 bg-green-700 text-white rounded-lg font-bold">

@@ -7,8 +7,8 @@
 
             
                <x-trea-components.nav-link>
-                <a href="/treasurer/manageUser" class="text-[17px] font-semibold">Active</a>
-                <a href="/treasurer/archiveUser" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Archive</a>
+                <a href="/admin/manageUser" class="text-[17px] font-semibold">Active</a>
+                <a href="/admin/archiveUser" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Archive</a>
                </x-trea-components.nav-link>
       
             </div>

@@ -11,16 +11,11 @@
                 <a href="/representative/remitted" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Remittance</a>
                 <a href="/representative/CashOnHand" class="text-[17px] text-gray-600">Cash on hand</a>
             </x-trea-components.nav-link>
+            <x-trea-components.sorting class="w-full md:w-auto" />
+            <x-trea-components.year-sorting class="w-full md:w-auto" />
 
             <div class="flex flex-col md:flex-row overflow-auto">
-                <div class="w-full md:w-1/2 overflow-auto">
-                    <div class=" overflow-auto sm:mr-4 md:mr-6 lg:mr-8 xl:mr-10">
-                        <div class="flex flex-col md:flex-row md:justify-between items-start mb-4 w-full">
-                            <x-trea-components.sorting class="w-full md:w-auto" />
-                            <x-trea-components.year-sorting class="w-full md:w-auto" />
-                        </div>
-
-                        <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
+                <x-two-table-scrollable height="max-h-[45vh] overflow-y-auto">
                             <thead>
                                 <tr class="bg-green-700 text-white border border-black">
                                     <th class="p-2 border border-black">DATE</th>
@@ -77,14 +72,15 @@
                             </tbody>
                              <tfoot x-data="{ totalAmount: '{{ number_format($totalAmount, 2) }}' }">
                                 <tr>
-                                    <td class="p-2 border border-black font-bold" colspan="2">Total</td>
-                                    <td class="p-2 border border-black font-bold" x-text="totalAmount"></td>
+                                    <td class="p-2 border border-black font-bold text-white">Total</td>
+                                    <td class="p-2 border border-black font-bold text-white"></td>
+                                    <td class="p-2 border border-black font-bold text-white" x-text="totalAmount"></td>
+                                    <td class="p-2 border border-black font-bold text-white"></td>
                                 </tr>
                             </tfoot>
-                        </table>
+                </x-two-table-scrollable>
                         
-                    </div>
-                </div>
+              
        
 
             
@@ -96,7 +92,7 @@
             x-transition:leave="transition duration-200 transform"
             x-transition:leave-start="translate-y-0 opacity-100"
             x-transition:leave-end="-translate-y-10 opacity-0"
-            class="w-full md:w-1/2 p-4 mt-[4%] bg-gray-400 bg-opacity-40 shadow-md border-green-600 border-2 relative">
+            class="w-full md:w-1/2 p-4 mt-4 bg-gray-400 bg-opacity-40 shadow-md border-green-600 border-2 relative">
             
             <div x-show="showModal" x-transition>
 
@@ -108,7 +104,7 @@
                     
                 
                 <div class="w-full md:w-auto overflow-x-auto flex md:text-center md:justify-end">
-                    <table class="w-full border border-black shadow-lg rounded-lg"> 
+                    <x-scrollable-table height="max-h-[35vh]">
                         <thead>
                             <tr class="bg-gray-800 text-white text-xs md:text-base">
                                 <th class="p-2 border border-black bg-green-700">CASH ON HAND</th>
@@ -119,7 +115,7 @@
                                 <td class="p-2 border border-black font-bold" x-text="getTotalPaid()"></td>
                             </tr>
                         </tbody>
-                    </table>
+                    </x-scrollable-table>
                 </div>
                 </div>
             </div>
@@ -168,8 +164,6 @@
 animation: checkmark 0.3s ease-out forwards;
 }
 </style>
-
-            <!-- Student List Modal -->
             <div x-show="showStudentListModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/2" @click.stop>
                     <h2 class="text-xl font-bold mb-4">Students Who Paid: <span x-text="selectedDescription"></span></h2>

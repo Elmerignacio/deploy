@@ -14,7 +14,7 @@
             </div>
 
             <x-trea-components.sorting class="mt-4">
-                <a href="createUser" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
+                <a href="createUser" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
                     Add Users <i class="fas fa-plus"></i>
                 </a>
             </x-trea-components.sorting>

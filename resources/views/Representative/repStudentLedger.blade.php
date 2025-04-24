@@ -23,38 +23,42 @@
     </div>
     
   <div class="flex flex-col md:flex-row gap-6 mt-6">
-
-<div class="md:w-1/3">
-    <h3 class="text-lg font-bold text-green-900">REMAINING BALANCE</h3>
-    <div class="overflow-x-auto">
-        <table class="w-full border border-black mt-2 text-sm">
-            <thead>
-                <tr class="bg-green-700 text-white">
-                    <th class="p-3 border border-black text-left">DESCRIPTION</th>
-                    <th class="p-3 border border-black text-left">AMOUNT</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($payables as $payable)
-                    <tr class="bg-white">
-                        <td class="p-3 border border-black">{{ $payable->description }}</td>
-                        <td class="p-3 border border-black font-bold">₱{{ number_format($payable->total_balance, 2) }}</td>
-                    </tr>
-                @endforeach
-                <tr class="bg-green-700 text-white font-bold">
-                    <td class="p-3 border border-black">TOTAL</td>
-                    <td class="p-3 border border-black">₱{{ number_format($payables->sum('total_balance'), 2) }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="flex flex-col space-y-2">
+      <h3 class="text-lg font-bold text-green-900">
+          REMAINING BALANCE: 
+          <span class="text-black">₱{{ number_format($payables->sum('total_balance'), 2) }}</span>
+      </h3>
+  
+      <x-student-ledger-table>
+          <thead>
+              <tr class="bg-green-700 text-white">
+                  <th class="p-3 border border-black text-center">DESCRIPTION</th>
+                  <th class="p-3 border border-black text-center">AMOUNT</th>
+              </tr>
+          </thead>
+          <tbody>
+              @foreach($payables as $payable)
+                  <tr>
+                      <td class="p-3 border border-black text-center">{{ $payable->description }}</td>
+                      <td class="p-3 border border-black font-bold text-center">₱{{ number_format($payable->total_balance, 2) }}</td>
+                  </tr>
+              @endforeach
+          </tbody>
+          <tfoot>
+              <tr class="bg-green-700 text-white text-center font-bold">
+                  <td class="p-3 border border-black">TOTAL</td>
+                  <td class="p-3 border border-black">₱{{ number_format($payables->sum('total_balance'), 2) }}</td>
+              </tr>
+          </tfoot>
+      </x-student-ledger-table>
     </div>
-    </div>
 
-    <div class="md:w-2/3 ">
-      <h3 class="text-lg font-bold text-green-900 mb-2">SETTLED PAYABLE</h3>
-      <div class="max-h-96 overflow-y-auto">
-        <table class="w-full table-auto border-separate border-spacing-0">
-          <thead class="sticky top-0 text-white z-10">
+    <div class="flex flex-col space-y-2">
+      <h3 class="text-lg font-bold text-green-900">SETTLED PAYABLE
+      </h3>
+
+      <x-student-ledger-table width="w-full md:w-[1300px]">
+          <thead class="text-white text-center">
             <tr>
               <th class="p-3 border border-black bg-green-700">Date</th>
               <th class="p-3 border border-black bg-green-700">Description</th>
@@ -63,9 +67,9 @@
               <th class="p-3 border border-black bg-green-700">Status</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="text-center">
             @foreach($settledPayables as $settled)
-              <tr class="bg-white">
+              <tr>
                 <td class="p-3 border border-black">
                   {{ \Carbon\Carbon::parse($settled->date)->format('F d, Y') }}
                 </td>
@@ -89,7 +93,7 @@
               </tr>
             @endforeach
           </tbody>
-          <tfoot class="sticky bottom-0 bg-green-700 text-white z-10">
+          <tfoot class="sticky bottom-0 bg-green-700 text-white text-center z-10">
             <tr>
               <td class="p-3 border border-black text-left font-bold">TOTAL</td>
               <td class="p-3 border border-black"></td>
@@ -100,9 +104,8 @@
               <td class="p-3 border border-black"></td>
             </tr>
           </tfoot>
-        </table>
-      </div>
-      
+          </x-student-ledger-table>
+    
 
         
         </div>

@@ -16,19 +16,18 @@
                 
  
      <div x-data="{ showDetails: false, selectedPayable: {} }" class="flex flex-col md:flex-row">
-        <div class="w-full md:w-1/2 overflow-auto">
-            <div class="mt-4 overflow-auto sm:mr-4 md:mr-6 lg:mr-8 xl:mr-10">
-                <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
-                    <thead>
-                        <tr class="bg-white text-black border border-black">
-                            <th class="p-2 border border-black"><input type="checkbox" id="selectAll"></th>
-                            <th class="p-2 border border-black">DESCRIPTION</th>
-                            <th class="p-2 border border-black bg-green-700">AMOUNT</th>
-                            <th class="p-2 border border-black bg-yellow-500">EXPECTED RECEIVABLE</th>
-                            <th class="p-2 border border-black bg-red-700">DUE DATE</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usersTableBody">
+        
+         <x-two-table-scrollable height="max-h-[70%]"> 
+             <thead>
+                    <tr class="bg-white text-black border border-black">
+                        <th class="p-2 border border-black"><input type="checkbox" id="selectAll"></th>
+                        <th class="p-2 border border-black">DESCRIPTION</th>
+                        <th class="p-2 border border-black bg-green-700">AMOUNT</th>
+                        <th class="p-2 border border-black bg-yellow-500">EXPECTED RECEIVABLE</th>
+                        <th class="p-2 border border-black bg-red-700">DUE DATE</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
                 @foreach($Payables as $payable)
                     <tr class="border border-black cursor-pointer hover:bg-gray-200"
                         @click="selectedPayable = {
@@ -49,9 +48,12 @@
                     </tr>
                 @endforeach
         </tbody>
-
-                </table>
-                <div class="mt-4 flex justify-end">
+         </x-two-table-scrollable>
+               
+       
+            <x-trea-components.update-payable/>
+                 
+                    <div class="mt-4 flex justify-end">
                     <button id="deleteButton" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition hidden">
                         DELETE
                     </button>
@@ -95,7 +97,7 @@
 
 
 
-<x-trea-components.update-payable/>
+
        
 
 </x-Add-components.sidebar>

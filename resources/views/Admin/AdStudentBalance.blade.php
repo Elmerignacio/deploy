@@ -49,7 +49,7 @@
     </x-trea-components.table-dash>
 
     <div class="mt-4 overflow-auto">
-        <x-trea-components.table>
+        <x-scrollable-table height="max-h-[45vh] overflow-y-auto">
             <thead>
                 <tr class="bg-green-700 text-white border border-black">
                     <th class="p-2 border border-black">ID NUMBER</th>
@@ -84,12 +84,14 @@
             </tbody>
 
             <tfoot>
-                <tr class="font-bold text-center text-sm md:text-lg">
+                <tr class="font-bold text-center text-white">
                     <td colspan="4" class="p-2 border border-black text-center">TOTAL BALANCE:</td>
-                    <td class="p-2 border border-black text-black">₱{{ number_format($grandTotal, 2) }}</td>
+                    <td class="p-2 border border-black text-white">₱{{ number_format($grandTotal, 2) }}</td>
                 </tr>
             </tfoot>
-        </x-trea-components.table>
+        </x-scrollable-table>
+       
+
     </div>
 
     <script>

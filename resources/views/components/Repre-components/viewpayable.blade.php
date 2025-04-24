@@ -7,7 +7,7 @@ x-transition:enter-end="translate-y-0 opacity-100"
 x-transition:leave="transition duration-200 transform"
 x-transition:leave-start="translate-y-0 opacity-100"
 x-transition:leave-end="-translate-y-10 opacity-0"
-class="w-full md:w-1/2 p-4 mt-4 bg-gray-400 bg-opacity-40 hadow-md border-green-600 border-2 relative"
+class="h-[100%] w-full md:w-1/2 mx-auto p-9 mt-4 bg-gray-300 bg-opacity-40 shadow-lg border-2 border-green-700 rounded-lg relative"
 >
 <button 
     class="absolute top-2 right-2 text-green-600 hover:text-red-500 p-4"
@@ -19,15 +19,15 @@ class="w-full md:w-1/2 p-4 mt-4 bg-gray-400 bg-opacity-40 hadow-md border-green-
 <div class="space-y-3">
     <div>
         <label class="block text-sm">DESCRIPTION:</label>
-        <input type="text" x-model="selectedPayable.description" class="w-full p-2 rounded bg-white text-black border-2 border-green-600" readonly/>
+        <input type="text" x-model="selectedPayable.description" class="w-full p-2 rounded bg-white text-black border-2 border-green-700 readonly/>
     </div>
     <div>
         <label class="block text-sm">AMOUNT:</label>
-        <input type="text" x-model="selectedPayable.amount" class="w-full p-2 rounded bg-white text-black border-2 border-green-600" readonly/>
+        <input type="text" x-model="selectedPayable.amount" class="w-full p-2 rounded bg-white text-black border-2 border-green-700 readonly/>
     </div>
     <div>
         <label class="block text-sm">DUE DATE:</label>
-        <input type="date" x-model="selectedPayable.dueDate" class="w-full p-2 rounded bg-white text-black  border-2 border-green-600" readonly>
+        <input type="date" x-model="selectedPayable.dueDate" class="w-full p-2 rounded bg-white text-black  border-2 border-green-700 readonly>
     </div>
 </div>
 <div class="flex justify-center gap-5 mt-4">

@@ -9,48 +9,48 @@
             <x-trea-components.year-sorting/>
 
            <x-trea-components.sorting>
-            <a href="#" onclick="openModal()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
+            <a href="#" onclick="openModal()" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
                 Add Payable <i class="fas fa-plus"></i>
             </a>
            </x-trea-components.sorting>
                 
  
      <div x-data="{ showDetails: false, selectedPayable: {} }" class="flex flex-col md:flex-row">
-        <div class="w-full md:w-1/2 overflow-auto">
-            <div class="mt-4 overflow-auto sm:mr-4 md:mr-6 lg:mr-8 xl:mr-10">
-                <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
-                    <thead>
-                        <tr class="bg-white text-black border border-black">
-                            <th class="p-2 border border-black"><input type="checkbox" id="selectAll"></th>
-                            <th class="p-2 border border-black">DESCRIPTION</th>
-                            <th class="p-2 border border-black bg-green-700">AMOUNT</th>
-                            <th class="p-2 border border-black bg-yellow-500">EXPECTED RECEIVABLE</th>
-                            <th class="p-2 border border-black bg-red-700">DUE DATE</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usersTableBody">
-                @foreach($Payables as $payable)
-                    <tr class="border border-black cursor-pointer hover:bg-gray-200"
-                        @click="selectedPayable = {
-                            description: '{{ $payable->description }}',
-                            amount: '{{ number_format(floor($payable->input_balance), 2) }}', 
-                            dueDate: '{{ $payable->dueDate }}',
-                            yearLevel: '{{ $payable->yearLevel ?? '' }}',
-                            block: '{{ $payable->block ?? '' }}',
-                            name: '{{ $payable->name ?? '' }}'
-                        }; showDetails = true">
-                        <td class="p-2 border border-black">
-                            <input type="checkbox" class="rowCheckbox" @click.stop>
-                        </td>
-                        <td class="p-2 border border-black">{{ $payable->description }}</td>
-                        <td class="p-2 border border-black">₱{{ number_format(floor($payable->input_balance), 2) }}</td>
-                        <td class="p-2 border border-black">₱{{ number_format(floor($payable->expected_receivable), 2) }}</td>
-                        <td class="p-2 border border-black">{{ $payable->dueDate }}</td>
-                    </tr>
-                @endforeach
-        </tbody>
+        <x-two-table-scrollable height="max-h-[45vh] overflow-y-auto"> 
+            <thead>
+                <tr class="bg-white text-black border border-black">
+                    <th class="p-2 border border-black"><input type="checkbox" id="selectAll"></th>
+                    <th class="p-2 border border-black">DESCRIPTION</th>
+                    <th class="p-2 border border-black bg-green-700">AMOUNT</th>
+                    <th class="p-2 border border-black bg-yellow-500">EXPECTED RECEIVABLE</th>
+                    <th class="p-2 border border-black bg-red-700">DUE DATE</th>
+                </tr>
+            </thead>
+            <tbody id="usersTableBody">
+        @foreach($Payables as $payable)
+            <tr class="border border-black cursor-pointer hover:bg-gray-200"
+                @click="selectedPayable = {
+                    description: '{{ $payable->description }}',
+                    amount: '{{ number_format(floor($payable->input_balance), 2) }}', 
+                    dueDate: '{{ $payable->dueDate }}',
+                    yearLevel: '{{ $payable->yearLevel ?? '' }}',
+                    block: '{{ $payable->block ?? '' }}',
+                    name: '{{ $payable->name ?? '' }}'
+                }; showDetails = true">
+                <td class="p-2 border border-black">
+                    <input type="checkbox" class="rowCheckbox" @click.stop>
+                </td>
+                <td class="p-2 border border-black">{{ $payable->description }}</td>
+                <td class="p-2 border border-black">₱{{ number_format(floor($payable->input_balance), 2) }}</td>
+                <td class="p-2 border border-black">₱{{ number_format(floor($payable->expected_receivable), 2) }}</td>
+                <td class="p-2 border border-black">{{ $payable->dueDate }}</td>
+            </tr>
+        @endforeach
+</tbody>
 
-                </table>
+        </x-two-table-scrollable>
+                  
+   
                 <div class="mt-4 flex justify-end">
                     <button id="deleteButton" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition hidden">
                         DELETE
@@ -74,8 +74,7 @@
                         });
                     });
                 </script>
-            </div>
-        </div>
+
     
 
       

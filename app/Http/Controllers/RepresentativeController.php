@@ -513,44 +513,6 @@ function repPayableManagement() {
     return view('representative/RepPayableManagement', compact('Payables', 'yearLevels','profile','firstname','lastname'));
 }
 
-public function Repchange(Request $request)
-{
-
-    $userId = session('id', '');
-
-    if (!$userId) {
-        return redirect()->route('login')->with('error', 'You need to be logged in.');
-    }
-
-    $request->validate([
-        'current_password' => 'required',
-        'new_password' => 'required|string|min:3|confirmed',
-    ]);
-
-
-    $user = DB::table('createuser')
-        ->where('id', $userId)
-        ->first();
-
-
-    if (!$user) {
-        return back()->with('error', 'User not found.');
-    }
-
-    if (!Hash::check($request->current_password, $user->password)) {
-        return back()->with('error', 'Current password is incorrect.');
-    }
-
-    DB::table('createuser')
-        ->where('id', $user->id)
-        ->update([
-            'password' => Hash::make($request->new_password),
-        ]);
-
-
-    return back()->with('success', 'Password changed successfully.');
-}
-
 public function RepStudentPayables($studentId)
 {
     $payables = DB::table('createpayable')
@@ -668,6 +630,98 @@ public function RepShowLedger($id)
 
     return view('representative.repStudentLedger', compact('student', 'payables', 'settledPayables', 'profile','firstname','lastname'));
 }
+
+public function RepExpense()
+{
+    $availableDescriptions = DB::table('available_description')
+        ->select('description', 'total_amount_collected')
+        ->get();
+
+    $paidData = [];
+    foreach ($availableDescriptions as $item) {
+        $paidData[$item->description] = $item->total_amount_collected;
+    }
+
+    $expenses = DB::table('expenses')
+        ->select('description', 'quantity', 'label', 'price', 'amount', 'date', 'source')
+        ->get();
+
+    $groupedExpenses = $expenses->groupBy(function ($item) {
+        return $item->date;
+    });
+
+    foreach ($groupedExpenses as $date => $expensesForDate) {
+        $groupedExpenses[$date] = $expensesForDate->groupBy('source');
+    }
+    $sourcesByDate = [];
+    foreach ($groupedExpenses as $date => $expensesForDate) {
+        $sourcesByDate[$date] = array_keys($expensesForDate->toArray()); 
+    }
+    $profile = DB::table('avatar')
+        ->where('student_id', session('id'))
+        ->select('profile')
+        ->first();
+
+    $firstname = session('firstname');
+    $lastname = session('lastname');
+
+    return view('representative.RepExpense', compact('firstname', 'lastname', 'paidData', 'groupedExpenses', 'profile', 'sourcesByDate') + [
+        'descriptions' => $availableDescriptions->pluck('description'),
+    ]);
+}
+
+
+public function getRepExpensesByDateAndSource($date, $source)
+{
+    
+    $expenses = DB::table('expenses')
+        ->whereDate('date', $date)
+        ->where('source', $source)
+        ->get(['description', 'amount']);
+    
+    return response()->json($expenses); 
+}
+
+public function RepChange(Request $request)
+{
+
+    $userId = session('id', '');
+
+    if (!$userId) {
+        return redirect()->route('login')->with('error', 'You need to be logged in.');
+    }
+
+    $request->validate([
+        'current_password' => 'required',
+        'new_password' => 'required|string|min:3|confirmed',
+    ]);
+
+
+    $user = DB::table('createuser')
+        ->where('id', $userId)
+        ->first();
+
+
+    if (!$user) {
+        return back()->with('error', 'User not found.');
+    }
+
+    if (!Hash::check($request->current_password, $user->password)) {
+        return back()->with('error', 'Current password is incorrect.');
+    }
+
+
+    DB::table('createuser')
+        ->where('id', $user->id)
+        ->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+
+
+    return back()->with('success', 'Password changed successfully.');
+}
+
+
 
 
 

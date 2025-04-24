@@ -58,7 +58,7 @@
                 PAYABLE MANAGEMENT
             </span>
         </a>
-        <a href="#" class="flex items-center p-1 text-white hover:bg-green-500 rounded-md">
+        <a href="/representative/expense" class="flex items-center p-1 text-white hover:bg-green-500 rounded-md">
             <i class="fas fa-money-check-alt text-2xl flex-shrink-0"></i>
             <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
                 EXPENSES

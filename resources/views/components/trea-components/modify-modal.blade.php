@@ -6,11 +6,11 @@
     x-transition:leave="transition duration-200 transform"
     x-transition:leave-start="translate-y-0 opacity-100"
     x-transition:leave-end="-translate-y-10 opacity-0"
-    class="w-full md:w-1/2 mx-auto p-6 mt-4 bg-gray-300 bg-opacity-40 shadow-lg border-2 border-green-600 rounded-lg relative"
+    class="h-[100%] w-full md:w-1/2 mx-auto p-3 mt-4  bg-gray-300 bg-opacity-40 shadow-lg border-2 border-green-700 rounded-lg relative"
 >
  
     <button 
-        class="absolute top-2 right-2 text-green-600 hover:text-red-500 p-4"
+        class="absolute top-2 right-2 text-green-700 hover:text-red-500 p-4"
         @click="showDetails = false"
     >
         <i class="fas fa-times text-lg"></i>
@@ -18,106 +18,115 @@
 
     <div class="relative">
   
-        {{-- <form action="{{ route('archive.users') }}" method="POST">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
-
-         
-    <div class="flex justify-center ">
-        <img src="" 
-        alt="Profile" class=" border-2 border-green-600 w-32 h-32 rounded-full object-cover">
-    </div>
-    
-
-    <div class="flex flex-col md:flex-row gap-4 mt-5">
-        <div class="w-full md:w-1/2">
-            <label class="block">ID NUMBER:</label>
-            <input 
-                type="text" 
-                name="students[]" 
-                x-model="selectedPayable.id" 
-                @input="selectedPayable.id = $event.target.value.toUpperCase()" 
-                class="w-full p-2 border-2 border-green-600 text-black rounded-md focus:ring-0  focus:outline-none"
-            >
-        </div>
-        <div class="w-full md:w-1/2">
-            <label class="block">GENDER:</label>
-            <select 
-                x-model="selectedPayable.gender" 
-                name="gender" 
-                class="w-full p-2 border-2 border-green-600 text-black rounded-md focus:ring-0   focus:outline-none"
-            >
-                <option value="" disabled selected>Select gender</option>
-                <option value="Male">MALE</option>
-                <option value="Female">FEMALE</option>
-            </select>
-        </div>
-    </div>
-    
-    <div class="flex flex-col md:flex-row gap-4 mt-2">
-        <div class="w-full md:w-1/2">
-            <label class="block">FIRSTNAME:</label>
-            <input 
-            type="text" 
-            name="firstname" 
-            x-model="selectedPayable.firstname" 
-            @input="selectedPayable.firstname = $event.target.value.toUpperCase()" 
-            class="w-full p-2 border-2 border-green-600 text-black rounded-md 
-                   focus:ring-0 focus:outline-none "
-            >
-        </div>
-        <div class="w-full md:w-1/2">
-            <label class="block">LASTNAME:</label>
-            <input 
-                type="text" 
-                name="lastname" 
-                x-model="selectedPayable.lastname" 
-                @input="selectedPayable.lastname = $event.target.value.toUpperCase()" 
-                class="w-full p-2 border-2 border-green-600 text-black rounded-md focus:ring-0  focus:outline-none"
-            >
-        </div>
-    </div>
-    
-    <div class="flex flex-col md:flex-row gap-4 mt-2">
-        <div class="w-full md:w-1/2">
-            <label class="block">YEAR LEVEL:</label>
-            <select 
-                name="yearLevel" 
-                x-model="selectedPayable.yearLevel" 
-                class="w-full p-2 border-2 border-green-600 text-black rounded-md focus:ring-0 focus:outline-none"
-            >
-                <option value="" disabled selected>Select Year Level</option>
-                <option value="1ST YEAR">1ST YEAR</option>
-                <option value="2ND YEAR">2ND YEAR</option>
-                <option value="3RD YEAR">3RD YEAR</option>
-                <option value="4TH YEAR">4TH YEAR</option>
-            </select>
-            <div x-show="!selectedPayable.yearLevel" class="text-red-500 mt-2">Data has been lost.</div>
-        </div>
-        
-        <div class="w-full md:w-1/2">
-            <label class="block">BLOCK:</label>
-            <select 
-                name="block" 
-                x-model="selectedPayable.block" 
-                class="w-full p-2 border-2 border-green-600 text-black rounded-md focus:ring-0 focus:outline-none"
-            >
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-                <option value="E">E</option>
-            </select>
-        </div>
-        
-    </div>
-    
-        <div class="flex flex-col md:flex-row justify-center mt-6 gap-10">
-            <button type="submit" id="archiveBTN" class="bg-red-600 px-4 py-2 rounded-md text-white font-bold w-full md:w-auto">ARCHIVE</button>
-            <button type="button" class="bg-green-600 px-4 py-2 rounded-md text-white font-bold w-full md:w-auto">MODIFY</button>
-        </div>
-    </div>
-
+        <form action="{{ route('modify.users') }}" method="POST">
             @csrf
+            {{ $slot }}
+        
+            <div class="flex flex-col md:flex-row gap-4 mt-5">
+                <div class="w-full md:w-1/2">
+                    <label class="block">ID NUMBER:</label>
+                    <input 
+                        type="text" 
+                        name="students[]" 
+                        readonly
+                        x-model="selectedPayable.id" 
+                        @input="selectedPayable.id = $event.target.value.toUpperCase()" 
+                        class="w-full p-2 border-2 border-green-700 text-black rounded-md focus:ring-0 focus:outline-none"
+                    >
+                </div>
+                <div class="w-full md:w-1/2">
+                    <label class="block">GENDER:</label>
+                    <select 
+                        name="gender" 
+                        x-model="selectedPayable.gender" 
+                        class="w-full p-2 border-2 border-green-700 text-black rounded-md focus:ring-0 focus:outline-none"
+                    >
+                        <option value="" disabled>Select gender</option>
+                        <option value="Male">MALE</option>
+                        <option value="Female">FEMALE</option>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="flex flex-col md:flex-row gap-4 mt-2">
+                <div class="w-full md:w-1/2">
+                    <label class="block">FIRSTNAME:</label>
+                    <input 
+                        type="text" 
+                        name="firstname" 
+                        x-model="selectedPayable.firstname" 
+                        @input="selectedPayable.firstname = $event.target.value.toUpperCase()" 
+                        class="w-full p-2 border-2 border-green-700 text-black rounded-md focus:ring-0 focus:outline-none"
+                    >
+                </div>
+                <div class="w-full md:w-1/2">
+                    <label class="block">LASTNAME:</label>
+                    <input 
+                        type="text" 
+                        name="lastname" 
+                        x-model="selectedPayable.lastname" 
+                        @input="selectedPayable.lastname = $event.target.value.toUpperCase()" 
+                        class="w-full p-2 border-2 border-green-700 text-black rounded-md focus:ring-0 focus:outline-none"
+                    >
+                </div>
+            </div>
+        
+            <div class="flex flex-col md:flex-row gap-4 mt-2">
+                <div class="w-full md:w-1/2">
+                    <label class="block">YEAR LEVEL:</label>
+                    <select 
+                        name="yearLevel" 
+                        x-model="selectedPayable.yearLevel" 
+                        class="w-full p-2 border-2 border-green-700 text-black rounded-md focus:ring-0 focus:outline-none"
+                    >
+                        <option value="" disabled>Select Year Level</option>
+                        <option value="1ST YEAR">1ST YEAR</option>
+                        <option value="2ND YEAR">2ND YEAR</option>
+                        <option value="3RD YEAR">3RD YEAR</option>
+                        <option value="4TH YEAR">4TH YEAR</option>
+                    </select>
+                    <div x-show="!selectedPayable.yearLevel" class="text-red-500 mt-2">Data has been lost.</div>
+                </div>
+        
+                <div class="w-full md:w-1/2">
+                    <label class="block">BLOCK:</label>
+                    <select 
+                        name="block" 
+                        x-model="selectedPayable.block" 
+                        class="w-full p-2 border-2 border-green-700 text-black rounded-md focus:ring-0 focus:outline-none"
+                    >
+                        <option value="" disabled>Select Block</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="flex flex-col md:flex-row justify-center mt-6 gap-10">
+                <button 
+                    type="submit" 
+                    name="action" 
+                    value="archive" 
+                    class="bg-red-600 px-4 py-2 rounded-md text-white font-bold w-full md:w-auto"
+                >
+                    ARCHIVE
+                </button>
+        
+                <button 
+                    type="submit" 
+                    name="action" 
+                    value="modify" 
+                    class="bg-green-700 px-4 py-2 rounded-md text-white font-bold w-full md:w-auto"
+                >
+                    MODIFY
+                </button>
+            </div>
+        </form>
+        
+            {{-- @csrf
             <div id="archiveMessage" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-96 h-[40%] border-2 border-green-700 flex flex-col justify-center">
                     <div class="flex flex-col items-center">
@@ -131,7 +140,7 @@
                             <button type="submit" id="CancelButton" class="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700 transition">CANCEL</button>
                       
                         </button>
-                            <button type="submit" id="archiveButton" class="bg-green-600 px-4 py-2 rounded-md text-white font-bold w-full md:w-auto">PROCEED</button>
+                            <button type="submit" id="archiveButton" class="bg-green-700 px-4 py-2 rounded-md text-white font-bold w-full md:w-auto">PROCEED</button>
                         </div>
                     </div>
                 </div>
@@ -154,7 +163,7 @@
             
                     <p class="text-green-600 text-center font-semibold">Item successfully archived. It is no longer actively visible and has been moved to the archive list.</p>   
                     <div class="flex mt-6 space-x-4">
-                        <button id="continueBtn" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition">CONTINUE</button>
+                        <button id="continueBtn" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition">CONTINUE</button>
                     </div>
                 </div>
             </div>
@@ -162,8 +171,8 @@
      
 
 </div>
-    </div>
-</form>
+    </div> --}}
+
       
         <script>
     
@@ -221,7 +230,7 @@
                 })
                 .catch(error => console.error('Error:', error));
             });
-            </script>
+        </script>
 
 
 

@@ -12,28 +12,39 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const searchInput = document.querySelector("input[type='text']");
-        const table = document.querySelector("table");
-        const tbody = table.querySelector("tbody");
+        const tbody = document.querySelector("#usersTableBody");
         const rows = Array.from(tbody.querySelectorAll("tr"));
-    
+        const noStudentsRow = document.getElementById("noStudentsRow");
+
         searchInput.addEventListener("keyup", function () {
-            const filter = searchInput.value.toLowerCase().trim();
-            
+            const searchTerms = searchInput.value.toLowerCase().trim().split(/\s+/);
+            let matchFound = false;
+
             rows.forEach(row => {
-                let textContent = "";
-                
-                for (let i = 1; i < row.children.length - 1; i++) {
-                    textContent += row.children[i].textContent.toLowerCase() + " ";
-                }
-    
-                if (textContent.includes(filter)) {
+                if (row.id === "noStudentsRow") return;
+
+                const idNumber = row.children[0]?.textContent.toLowerCase().trim() || "";
+                const lastName = row.children[1]?.textContent.toLowerCase().trim() || "";
+                const firstName = row.children[2]?.textContent.toLowerCase().trim() || "";
+                const yearLevel = (row.getAttribute("data-yearlevel") || "").toLowerCase().trim();
+                const block = (row.getAttribute("data-block") || "").toLowerCase().trim();
+
+                const combinedText = `${idNumber} ${firstName} ${lastName} ${yearLevel} ${block}`;
+
+                const isMatch = searchTerms.every(term => combinedText.includes(term));
+
+                if (isMatch) {
                     row.style.display = "";
+                    matchFound = true;
                 } else {
                     row.style.display = "none";
                 }
             });
+
+            if (noStudentsRow) {
+                noStudentsRow.style.display = matchFound ? "none" : "";
+            }
         });
-    
     });
 </script>
-  
+
