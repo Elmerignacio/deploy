@@ -21,10 +21,14 @@
             <input type="image"   src="{{ asset('storage/' . ($profile ? $profile->profile : 'images/default.jpg')) }}"
             alt="Profile" class="rounded-full w-10 h-10 border-2 border-white">
 
-            <span :class="sidebarOpen ? 'inline-block ml-4 whitespace-nowrap overflow-hidden' : 'hidden'"
-                class="text-white text-[20px] font-bold transition-all duration-300" id="userFullName">
-                {{ $firstname}} {{ $lastname }}
-            </span>
+            <span 
+            :class="sidebarOpen ? 'inline-block ml-4 whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]' : 'hidden'"
+            class="text-white text-[20px] font-bold transition-all duration-300"
+            id="userFullName"
+            title="{{ $firstname }} {{ $lastname }}"
+        >
+            {{ $firstname }} {{ $lastname }}
+        </span>
         </a>
 
         <script>

@@ -23,7 +23,7 @@
             x-data="collectionsApp()" 
             class="flex flex-col md:flex-row overflow-auto"
           >
-            <x-two-table-scrollable height="max-h-[85%]">
+            <x-two-table-scrollable height="max-h-[45vh] overflow-y-auto">
               <thead>
                 <tr class="bg-green-700 text-white border border-black">
                   <th class="p-2 border border-black">ID NUMBER</th>

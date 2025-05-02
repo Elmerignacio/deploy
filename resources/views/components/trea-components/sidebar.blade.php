@@ -21,10 +21,14 @@
             <input type="image"   src="{{ asset('storage/' . ($profile ? $profile->profile : 'images/default.jpg')) }}"
             alt="Profile" class="rounded-full w-10 h-10 border-2 border-white">
 
-            <span :class="sidebarOpen ? 'inline-block ml-4 whitespace-nowrap overflow-hidden' : 'hidden'"
-                class="text-white text-[20px] font-bold transition-all duration-300" id="userFullName">
-                {{ $firstname}} {{ $lastname }}
-            </span>
+            <span 
+            :class="sidebarOpen ? 'inline-block ml-4 whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]' : 'hidden'"
+            class="text-white text-[20px] font-bold transition-all duration-300"
+            id="userFullName"
+            title="{{ $firstname }} {{ $lastname }}"
+        >
+            {{ $firstname }} {{ $lastname }}
+        </span>
         </a>
 
         <script>
@@ -68,7 +72,7 @@
                 EXPENSES
             </span>
         </a>
-        <a href="#" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
+        <a href="/treasurer/report" class="flex items-center p-2 text-white hover:bg-green-500 rounded-md">
             <i class="fas fa-chart-pie text-2xl flex-shrink-0"></i>
             <span :class="{'inline-block ml-4 whitespace-nowrap overflow-hidden': sidebarOpen, 'hidden': !sidebarOpen}" class="text-white transition-all duration-300">
                 REPORTS

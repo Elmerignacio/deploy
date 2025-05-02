@@ -1,7 +1,7 @@
 <x-trea-components.layout/>
 <x-trea-components.header/>
 <x-trea-components.content>
-<x-Repre-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
+<x-Student-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
 
             <div class="mt-4">
             <x-trea-components.content-header>EXPENSES</x-trea-components.content-header>
@@ -137,19 +137,22 @@
         
                 const selectedSource = selectElement.value;
         
-                if (!selectedSource || !date) {
-  
-                    return; 
-                }
-        
                 sourceDisplay.textContent = selectedSource;
-                
                 fetchExpenses(date, selectedSource);
             }
         
             function fetchExpenses(date, source) {
                 if (!source || !date) return;
-     
+        
+                if (date !== currentDate) {
+                    resetSelections();
+                    currentDate = date; 
+                }
+
+                if (!source) {
+                    return;
+                }
+        
                 fetch(`/student/get-expenses/${date}/${encodeURIComponent(source)}`)
                     .then(response => response.json())
                     .then(data => {
@@ -158,15 +161,10 @@
                         document.getElementById("dateDisplay").value = date;
         
                         const tbody = document.getElementById("payablesTableBody");
-                        tbody.innerHTML = ""; 
-        
-                        if (data.length === 0) {
-                            tbody.innerHTML = `<tr><td colspan="2" class="text-center">No expenses available for this source.</td></tr>`;
-                            document.getElementById("totalAmountPaid").textContent = '₱0.00';
-                            return;  
-                        }
+                        tbody.innerHTML = "";
         
                         let total = 0;
+        
                         const groupedByDescription = {};
         
                         data.forEach(expense => {
@@ -213,9 +211,7 @@
                 });
             }
         
-            document.getElementById('sourceSelect').addEventListener('change', updateSourceDisplay);
-            document.getElementById('dateDisplay').addEventListener('change', updateSourceDisplay);
-        
+            fetchExpenses('2025-04-01', 'Default Source'); 
         </script>
         
 
@@ -228,7 +224,7 @@
 
 
 
-</x-Repre-components.sidebar>
+</x-Student-components.sidebar>
 
 </x-trea-components.content>  
 

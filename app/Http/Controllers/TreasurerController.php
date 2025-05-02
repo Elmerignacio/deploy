@@ -48,6 +48,7 @@ class TreasurerController extends Controller
             'lastname' => session('lastname', '')
         ]);
     }
+    
     public function expense()
     {
         $availableDescriptions = DB::table('available_description')
@@ -86,8 +87,62 @@ class TreasurerController extends Controller
             'descriptions' => $availableDescriptions->pluck('description'),
         ]);
     }
-    
-    
+   public function report()
+{
+    $receivables = DB::table('createpayable')
+        ->select(
+            DB::raw("CONCAT(yearLevel, ' - ', block) as year_and_block"),
+            DB::raw('SUM(balance) as total_receivable')
+        )
+        ->groupBy('yearLevel', 'block')
+        ->get();
+
+    $remitted = DB::table('remittance')
+        ->where('status', 'Remitted')
+        ->select(
+            DB::raw("CONCAT(yearLevel, ' - ', block) as year_and_block"),
+            DB::raw('SUM(paid) as total_remitted')
+        )
+        ->groupBy('yearLevel', 'block')
+        ->get();
+
+    $groupedData = $receivables->map(function ($receivable) use ($remitted) {
+        $match = $remitted->firstWhere('year_and_block', $receivable->year_and_block);
+        return (object)[
+            'year_and_block' => $receivable->year_and_block,
+            'total_receivable' => $receivable->total_receivable,
+            'total_remitted' => $match ? $match->total_remitted : 0,
+        ];
+    });
+
+        $remittanceRecords = DB::table('remittance')
+        ->where('status', 'Remitted')
+        ->whereIn(DB::raw("CONCAT(yearLevel, ' - ', block)"), $groupedData->pluck('year_and_block')->toArray())
+        ->select(
+            'id',
+            'firstName',
+            'lastName',
+            'yearLevel',
+            'block',
+            'description',
+            'paid',
+            'collectedBy as receiver',
+            'date_remitted as date'
+        )
+        ->get();
+
+
+    $profile = DB::table('avatar')
+        ->where('student_id', session('id'))
+        ->select('profile')
+        ->first();
+
+    $firstname = session('firstname');
+    $lastname = session('lastname');
+
+    return view('Treasurer.Report', compact('firstname', 'lastname', 'groupedData', 'profile', 'remittanceRecords'));
+}
+
     public function getExpensesByDateAndSource($date, $source)
     {
         

@@ -37,6 +37,7 @@ Route::post('/treasurer/save-payment', [TreasurerController::class, 'SavePayment
 Route::get('/treasurer/CashOnHand', [TreasurerController::class, 'CashOnHand']);
 Route::get('/treasurer/userDetails', [TreasurerController::class, 'userDetails']);
 Route::get('/treasurer/get-user-info', [TreasurerController::class, 'getUserInfo']);
+Route::get('/get-user-info', [TreasurerController::class, 'getUserInfo']);
 Route::get('/treasurer/get-denomination', [TreasurerController::class, 'getDenomination']);
 Route::post('/treasurer/denomination', [TreasurerController::class, 'storedenomination'])->name('store.denomination');
 Route::post('/treasurer/update-remittance-status', [TreasurerController::class, 'updateRemittanceStatus']);
@@ -46,6 +47,9 @@ Route::put('/treasurer/change-password', [TreasurerController::class, 'change'])
 Route::get('/treasurer/get-student-payables/{studentId}', [TreasurerController::class, 'getStudentPayables']);
 Route::get('/treasurer/get-expenses/{date}/{source}', [TreasurerController::class, 'getExpensesByDateAndSource']);
 Route::post('/users/modify', [TreasurerController::class, 'modifyUser'])->name('modify.users');
+Route::get('/treasurer/report', [TreasurerController::class, 'report']);
+
+
 
 
 });
@@ -114,11 +118,18 @@ Route::post('/change/profile', [ProfileController::class, 'store'])->name('image
       Route::get('/admin/get-expenses/{date}/{source}', [AdminController::class, 'getAdExpensesByDateAndSource']);
       Route::post('/admin/disburse/store', [AdminController::class, 'AddStoreExpense'])->name('Adexpenses.store');
       Route::post('/admin/saveData', [AdminController::class, 'AdsaveUser']);
+      Route::post('/admin/users/modify', [AdminController::class, 'AdModifyUser'])->name('AdModify.users');
       
   });
    
   Route::middleware('STUDENT')->group(function () {
   Route::get('student/dashboard', [StudentController::class, 'studDashboard'])->name('StudentDashboard');
+  Route::get('/student/userDetails', [StudentController::class, 'studUserDetails']);
+  Route::put('/student/change-password', [StudentController::class, 'studChange'])->name('StudPassword.change');
+  Route::get('/student/payableManagement', [StudentController::class, 'studPayableManagement']);
+  Route::get('/student/ledgers', [StudentController::class, 'studLedger']);
+  Route::get('/student/expense', [StudentController::class, 'studExpense']);
+  Route::get('/student/get-expenses/{date}/{source}', [StudentController::class, 'getStudExpensesByDateAndSource']);
 });
 
 

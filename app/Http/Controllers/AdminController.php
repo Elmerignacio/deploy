@@ -673,6 +673,80 @@ function AdsaveUser(Request $req) {
 
     return redirect()->back()->with('success', 'Successfully created a user');
 }
+
+
+public function AdModifyUser(Request $request)
+{
+    $action = $request->input('action');
+    $idNumber = $request->input('students.0');
+
+    if ($action === 'modify') {
+        DB::table('createuser')
+            ->where('IDNumber', $idNumber)
+            ->update([
+                'firstname' => strtoupper($request->input('firstname')),
+                'lastname' => strtoupper($request->input('lastname')),
+                'gender' => strtolower($request->input('gender')),
+                'yearLevel' => $request->input('yearLevel'),
+                'block' => $request->input('block'),
+            ]);
+
+        DB::table('createpayable')
+            ->where('IDNumber', $idNumber)
+            ->update([
+                'studentName' => strtoupper($request->input('firstname')) . ' ' . strtoupper($request->input('lastname')),
+                'yearLevel' => $request->input('yearLevel'),
+                'block' => $request->input('block'),
+            ]);
+
+        DB::table('remittance')
+            ->where('IDNumber', $idNumber)
+            ->update([
+                'firstName' => strtoupper($request->input('firstname')),
+                'lastName' => strtoupper($request->input('lastname')),
+                'yearLevel' => $request->input('yearLevel'),
+                'block' => $request->input('block'),
+            ]);
+
+        return back()->with('success', 'User and related records modified successfully!');
+    }
+
+    if ($action === 'archive') {
+        $user = DB::table('createuser')->where('IDNumber', $idNumber)->first();
+
+        if ($user) {
+            DB::table('archive')->insert([
+                'IDNumber' => $user->IDNumber,
+                'firstname' => $user->firstname,
+                'lastname' => $user->lastname,
+                'gender' => $user->gender,
+                'yearLevel' => $user->yearLevel,
+                'role' => $user->role,
+                'block' => $user->block,
+                'status' => 'DEACTIVATED',
+                'username' => $user->username,
+                'password' => $user->password,
+            ]);
+
+            DB::table('createuser')->where('IDNumber', $idNumber)->delete();
+
+            DB::table('createpayable')->where('IDNumber', $idNumber)->delete();
+
+            DB::table('remittance')
+            ->where('IDNumber', $idNumber)
+            ->where('status', '!=', 'remitted') 
+            ->delete();
+        
+        return back()->with('success', 'User and related records archived and deleted successfully!');
+        
+        }
+
+        return back()->with('error', 'User not found.');
+    }
+
+    return back()->with('error', 'Invalid action.');
+}
+
     
     
     
