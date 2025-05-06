@@ -140,7 +140,104 @@ class TreasurerController extends Controller
     $firstname = session('firstname');
     $lastname = session('lastname');
 
-    return view('Treasurer.Report', compact('firstname', 'lastname', 'groupedData', 'profile', 'remittanceRecords'));
+    $treasurer = DB::table('createuser')
+    ->where('role', 'Treasurer')
+    ->select('firstname', 'lastname')
+    ->first();
+
+$admin = DB::table('createuser')
+    ->where('role', 'Admin')
+    ->select('firstname', 'lastname')
+    ->first();
+
+
+    return view('Treasurer.Report', compact('firstname', 'lastname', 'groupedData', 'profile', 'remittanceRecords','treasurer','admin'));
+}
+public function fund()
+{
+    $receivables = DB::table('createpayable')
+        ->select(
+            DB::raw("CONCAT(yearLevel, ' - ', block) as year_and_block"),
+            DB::raw('SUM(balance) as total_receivable')
+        )
+        ->groupBy('yearLevel', 'block')
+        ->get();
+
+    $remitted = DB::table('remittance')
+        ->where('status', 'Remitted')
+        ->select(
+            DB::raw("CONCAT(yearLevel, ' - ', block) as year_and_block"),
+            DB::raw('SUM(paid) as total_remitted')
+        )
+        ->groupBy('yearLevel', 'block')
+        ->get();
+
+    $groupedData = $receivables->map(function ($receivable) use ($remitted) {
+        $match = $remitted->firstWhere('year_and_block', $receivable->year_and_block);
+        return (object)[
+            'year_and_block' => $receivable->year_and_block,
+            'total_receivable' => $receivable->total_receivable,
+            'total_remitted' => $match ? $match->total_remitted : 0,
+        ];
+    });
+
+    $remittanceRecords = DB::table('remittance')
+        ->where('status', 'Remitted')
+        ->whereIn(DB::raw("CONCAT(yearLevel, ' - ', block)"), $groupedData->pluck('year_and_block')->toArray())
+        ->select(
+            'id',
+            'firstName',
+            'lastName',
+            'yearLevel',
+            'block',
+            'description',
+            'paid',
+            'collectedBy as receiver',
+            'date_remitted as date'
+        )
+        ->get();
+
+    $totalExpenses = DB::table('expenses')->sum('amount');
+
+
+    $cashOnHand = DB::table('available_description')->sum('total_amount_collected');
+
+    $expensesWithDescriptions = DB::table('expenses')
+        ->select('description', DB::raw('SUM(amount) as total_amount'))
+        ->groupBy('description')
+        ->get();
+
+    $profile = DB::table('avatar')
+        ->where('student_id', session('id'))
+        ->select('profile')
+        ->first();
+
+    $firstname = session('firstname');
+    $lastname = session('lastname');
+
+    $treasurer = DB::table('createuser')
+    ->where('role', 'Treasurer')
+    ->select('firstname', 'lastname')
+    ->first();
+
+    $admin = DB::table('createuser')
+        ->where('role', 'Admin')
+        ->select('firstname', 'lastname')
+        ->first();
+
+
+    return view('Treasurer.fund', compact(
+        'firstname',
+        'lastname',
+        'groupedData',
+        'profile',
+        'remittanceRecords',
+        'treasurer',
+        'admin',
+        'totalExpenses',
+        'cashOnHand',
+        'expensesWithDescriptions' 
+    ));
 }
 
     public function getExpensesByDateAndSource($date, $source)
@@ -1207,8 +1304,69 @@ class TreasurerController extends Controller
     
         return back()->with('error', 'Invalid action.');
     }
+
+      // Delete Payable and related data
+       // Delete Payable and related records by description
+    public function deletePayable($description)
+    {
+        // Begin a transaction to ensure consistency
+        DB::beginTransaction();
+
+        try {
+            // Delete related data first (assuming cascading is not set up in the database)
+            DB::table('remittance')->where('description', $description)->delete();
+            DB::table('available_description')->where('description', $description)->delete();
+            DB::table('expenses')->where('source', $description)->delete();
+
+            // Then delete the payable record based on description
+            DB::table('createpayable')->where('description', $description)->delete();
+
+            // Commit the transaction
+            DB::commit();
+
+            return response()->json(['status' => 'success', 'message' => 'Payable and related data deleted successfully.']);
+        } catch (\Exception $e) {
+            // Rollback in case of error
+            DB::rollBack();
+            return response()->json(['status' => 'error', 'message' => 'Failed to delete data: ' . $e->getMessage()]);
+        }
+    }
+
+  
+public function update(Request $request, $encodedDescription)
+{
+    // Decode the description
+    $description = urldecode($encodedDescription);
+
+    // Get the data from the request
+    $amount = $request->input('amount');
+    $dueDate = $request->input('dueDate');
     
-    
+    // Validate input
+    if (!$amount || !$dueDate) {
+        return redirect()->back()->withErrors('Amount and Due Date are required.');
+    }
+
+    // Check if the record exists
+    $payable = DB::table('createpayable')->where('description', $description)->first();
+
+    if (!$payable) {
+        return redirect()->back()->withErrors('No payable found with the provided description.');
+    }
+
+    // Perform the update using Laravel's DB query builder
+    DB::table('createpayable') // Your table name
+        ->where('description', $description) // Match the description
+        ->update([
+            'amount' => $amount,
+            'dueDate' => $dueDate,
+            'updated_at' => now(), // Ensure updated_at field is set
+        ]);
+
+    // Redirect back with success message
+    return redirect()->back()
+        ->with('success', 'Payable updated successfully!');
+}
     
 
 

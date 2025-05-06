@@ -48,6 +48,9 @@ Route::get('/treasurer/get-student-payables/{studentId}', [TreasurerController::
 Route::get('/treasurer/get-expenses/{date}/{source}', [TreasurerController::class, 'getExpensesByDateAndSource']);
 Route::post('/users/modify', [TreasurerController::class, 'modifyUser'])->name('modify.users');
 Route::get('/treasurer/report', [TreasurerController::class, 'report']);
+Route::get('/treasurer/fund', [TreasurerController::class, 'fund']);
+Route::delete('/payable/delete/{description}', [TreasurerController::class, 'deletePayable']);
+Route::put('/payable/update/{encodedDescription}', [TreasurerController::class, 'update'])->name('payable.update');
 
 
 

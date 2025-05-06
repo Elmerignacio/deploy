@@ -2,6 +2,8 @@
 <x-trea-components.header/>
 <x-trea-components.content>
 <x-trea-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+
 
             <div class="mt-4">
             <x-trea-components.content-header>PAYABLE MANAGEMENT</x-trea-components.content-header>
