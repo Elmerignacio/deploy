@@ -122,6 +122,10 @@ Route::post('/change/profile', [ProfileController::class, 'store'])->name('image
       Route::post('/admin/disburse/store', [AdminController::class, 'AddStoreExpense'])->name('Adexpenses.store');
       Route::post('/admin/saveData', [AdminController::class, 'AdsaveUser']);
       Route::post('/admin/users/modify', [AdminController::class, 'AdModifyUser'])->name('AdModify.users');
+      Route::get('/admin/report', [AdminController::class, 'AdReport']);
+      Route::get('/admin/fund', [AdminController::class, 'AdFund']);
+
+      
       
   });
    

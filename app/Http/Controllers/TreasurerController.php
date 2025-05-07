@@ -202,7 +202,7 @@ public function fund()
 
     $cashOnHand = DB::table('available_description')->sum('total_amount_collected');
 
-    $expensesWithDescriptions = DB::table('expenses')
+    $expensesWithDescriptions = DB::table('createpayable')
         ->select('description', DB::raw('SUM(amount) as total_amount'))
         ->groupBy('description')
         ->get();

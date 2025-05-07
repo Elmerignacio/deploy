@@ -8,8 +8,8 @@
             <x-trea-components.content-header>REPORTS</x-trea-components.content-header>
 
             <x-trea-components.nav-link>
-                <a href="/treasurer/report" class="text-[15px] sm:text-[17px] text-gray-600"> Monthly Report</a>
-                <a href="/treasurer/fund" class="text-[15px] sm:text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Funds</a>
+                <a href="/admin/report" class="text-[15px] sm:text-[17px] text-gray-600"> Monthly Report</a>
+                <a href="/admin/fund" class="text-[15px] sm:text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Funds</a>
             </x-trea-components.nav-link>
 
             <x-trea-components.sorting>

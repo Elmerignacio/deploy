@@ -566,6 +566,7 @@ class AdminController extends Controller
         }
     
         function saveUser(Request $req) {
+
             $firstNameUpper = strtoupper(trim($req->firstname));
             $lastNameUpper = strtoupper(trim($req->lastname));
             $genderUpper = strtoupper(trim($req->gender));
@@ -587,7 +588,158 @@ class AdminController extends Controller
         
             return redirect()->back()->with('success', 'Successfully created a user');
         }
+        public function AdReport()
+        {
+            $receivables = DB::table('createpayable')
+                ->select(
+                    DB::raw("CONCAT(yearLevel, ' - ', block) as year_and_block"),
+                    DB::raw('SUM(balance) as total_receivable')
+                )
+                ->groupBy('yearLevel', 'block')
+                ->get();
         
+            $remitted = DB::table('remittance')
+                ->where('status', 'Remitted')
+                ->select(
+                    DB::raw("CONCAT(yearLevel, ' - ', block) as year_and_block"),
+                    DB::raw('SUM(paid) as total_remitted')
+                )
+                ->groupBy('yearLevel', 'block')
+                ->get();
+        
+            $groupedData = $receivables->map(function ($receivable) use ($remitted) {
+                $match = $remitted->firstWhere('year_and_block', $receivable->year_and_block);
+                return (object)[
+                    'year_and_block' => $receivable->year_and_block,
+                    'total_receivable' => $receivable->total_receivable,
+                    'total_remitted' => $match ? $match->total_remitted : 0,
+                ];
+            });
+        
+                $remittanceRecords = DB::table('remittance')
+                ->where('status', 'Remitted')
+                ->whereIn(DB::raw("CONCAT(yearLevel, ' - ', block)"), $groupedData->pluck('year_and_block')->toArray())
+                ->select(
+                    'id',
+                    'firstName',
+                    'lastName',
+                    'yearLevel',
+                    'block',
+                    'description',
+                    'paid',
+                    'collectedBy as receiver',
+                    'date_remitted as date'
+                )
+                ->get();
+        
+        
+            $profile = DB::table('avatar')
+                ->where('student_id', session('id'))
+                ->select('profile')
+                ->first();
+        
+            $firstname = session('firstname');
+            $lastname = session('lastname');
+        
+            $treasurer = DB::table('createuser')
+            ->where('role', 'Treasurer')
+            ->select('firstname', 'lastname')
+            ->first();
+        
+        $admin = DB::table('createuser')
+            ->where('role', 'Admin')
+            ->select('firstname', 'lastname')
+            ->first();
+        
+        
+            return view('Admin.AdReport', compact('firstname', 'lastname', 'groupedData', 'profile', 'remittanceRecords','treasurer','admin'));
+        }
+        public function AdFund()
+{
+    $receivables = DB::table('createpayable')
+        ->select(
+            DB::raw("CONCAT(yearLevel, ' - ', block) as year_and_block"),
+            DB::raw('SUM(balance) as total_receivable')
+        )
+        ->groupBy('yearLevel', 'block')
+        ->get();
+
+    $remitted = DB::table('remittance')
+        ->where('status', 'Remitted')
+        ->select(
+            DB::raw("CONCAT(yearLevel, ' - ', block) as year_and_block"),
+            DB::raw('SUM(paid) as total_remitted')
+        )
+        ->groupBy('yearLevel', 'block')
+        ->get();
+
+    $groupedData = $receivables->map(function ($receivable) use ($remitted) {
+        $match = $remitted->firstWhere('year_and_block', $receivable->year_and_block);
+        return (object)[
+            'year_and_block' => $receivable->year_and_block,
+            'total_receivable' => $receivable->total_receivable,
+            'total_remitted' => $match ? $match->total_remitted : 0,
+        ];
+    });
+
+    $remittanceRecords = DB::table('remittance')
+        ->where('status', 'Remitted')
+        ->whereIn(DB::raw("CONCAT(yearLevel, ' - ', block)"), $groupedData->pluck('year_and_block')->toArray())
+        ->select(
+            'id',
+            'firstName',
+            'lastName',
+            'yearLevel',
+            'block',
+            'description',
+            'paid',
+            'collectedBy as receiver',
+            'date_remitted as date'
+        )
+        ->get();
+
+    $totalExpenses = DB::table('expenses')->sum('amount');
+
+
+    $cashOnHand = DB::table('available_description')->sum('total_amount_collected');
+
+    $expensesWithDescriptions = DB::table('createpayable')
+        ->select('description', DB::raw('SUM(amount) as total_amount'))
+        ->groupBy('description')
+        ->get();
+
+    $profile = DB::table('avatar')
+        ->where('student_id', session('id'))
+        ->select('profile')
+        ->first();
+
+    $firstname = session('firstname');
+    $lastname = session('lastname');
+
+    $treasurer = DB::table('createuser')
+    ->where('role', 'Treasurer')
+    ->select('firstname', 'lastname')
+    ->first();
+
+    $admin = DB::table('createuser')
+        ->where('role', 'Admin')
+        ->select('firstname', 'lastname')
+        ->first();
+
+
+    return view('Admin.AdFund', compact(
+        'firstname',
+        'lastname',
+        'groupedData',
+        'profile',
+        'remittanceRecords',
+        'treasurer',
+        'admin',
+        'totalExpenses',
+        'cashOnHand',
+        'expensesWithDescriptions' 
+    ));
+}
     
     
     
