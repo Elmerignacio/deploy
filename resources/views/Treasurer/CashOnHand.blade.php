@@ -9,7 +9,7 @@
             <x-trea-components.nav-link>
                 <a href="/treasurer/collection" class="text-[17px] text-gray-600">Payment</a>
                 <a href="/treasurer/remitted" class="text-[17px] text-gray-600">Remittance</a>
-                <a href="/treasurer/CashOnHand" class="text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Cash on hand</a>
+                <a href="/treasurer/CashOnHand" class="text-[17px] font-semibold text-[#1a4d2e] border-b-2 border-[#1a4d2e] pb-1">Cash on hand</a>
             </x-trea-components.nav-link>
 
             <div class="flex flex-col md:flex-row overflow-auto">
@@ -22,7 +22,7 @@
                        <div>
                         <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
                             <thead>
-                                <tr class="bg-green-700 text-white border border-black">
+                                <tr class="bg-[#1a4d2e] text-white border border-black">
                                     <th class="p-2 border border-black">DATE</th>
                                     <th class="p-2 border border-black">COLLECTED BY</th>
                                     <th class="p-2 border border-black">AMOUNT</th>
@@ -64,10 +64,10 @@
                                 {{ number_format($totalPaid + $totalCollected, 2) }}  
                             </td>
                             <td class="p-2 border border-black font-bold {{
-                                strtoupper($remittance->status) === 'TO TREASURER' ? 'text-orange-500 font-bold drop-shadow-sm' :
+                                strtoupper($remittance->status) === 'TO TREASURER' ? 'text-purple-600 font-bold drop-shadow-sm' :
                                  (strtoupper($remittance->status) === 'COLLECTED BY TREASURER' ? 'text-blue-600 font-bold drop-shadow-sm' :
-                                (strtoupper($remittance->status) === 'REMITTED' ? '	text-green-600 font-bold drop-shadow-sm' :
-                                (strtoupper($remittance->status) === 'COLLECTED' ? 'text-yellow-600 font-bold drop-shadow-sm' : 'text-red-600')))
+                                (strtoupper($remittance->status) === 'REMITTED' ? '	text-yellow-500 font-bold drop-shadow-sm' :
+                                (strtoupper($remittance->status) === 'COLLECTED' ? 'text-green-600 font-bold drop-shadow-sm' : 'text-red-600')))
                             }}">
                                 {{ strtoupper($remittance->status) }}
                             </td>
@@ -79,8 +79,8 @@
                               
                             <tfoot x-data="{ totalAmount: '{{ number_format($totalAmount, 2) }}' }">
                                 <tr>
-                                    <td class="p-2 border border-black font-bold" colspan="2">Total</td>
-                                    <td class="p-2 border border-black font-bold" x-text="totalAmount"></td>
+                                    <td class="p-2 border border-black font-bold text-lg text-white bg-[#1a4d2e]" colspan="2">Total</td>
+                                    <td class="p-2 border border-black font-bold text-lg"  x-text="totalAmount"></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -97,13 +97,13 @@
             x-transition:leave="transition duration-200 transform"
             x-transition:leave-start="translate-y-0 opacity-100"
             x-transition:leave-end="-translate-y-10 opacity-0"
-            class="w-full md:w-1/2 p-4 mt-[4%] bg-gray-400 bg-opacity-40 shadow-md border-green-600 border-2 relative">
+            class="w-full md:w-1/2 p-4 mt-[4%] bg-gray-400 bg-opacity-40 shadow-md border-[#1a4d2e] border-2 relative">
             
             <div x-show="showModal" x-transition>
 
               <div class="flex flex-col md:flex-row items-center md:justify-between">
                 <div class="mb-4 md:mb-0">
-                    <p id="studentName" class="text-[25px] font-bold text-green-700" x-text="studentName"></p>
+                    <p id="studentName" class="text-[25px] font-bold text-[#1a4d2e]" x-text="studentName"></p>
                     <p class="text-[18px]"><span x-text="collectorYearLevel + ' - ' + collectorBlock"></span></p>
         
                  
@@ -128,7 +128,7 @@
                     <table class="w-full border border-black shadow-lg rounded-lg"> 
                         <thead>
                             <tr class="bg-gray-800 text-white text-xs md:text-base">
-                                <th class="p-2 border border-black bg-green-700">CASH ON HAND</th>
+                                <th class="p-2 border border-black bg-[#1a4d2e]">CASH ON HAND</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -144,33 +144,33 @@
                 <div x-show="showPayableDetails" class="mt-4">
                     <table class="w-full text-sm text-center border border-black">
                         <thead>
-                            <tr class="bg-green-700 text-white">
-                                <th class="p-2 border border-black">Description</th>
-                                <th class="p-2 border border-black">Amount</th>
-                                <th class="p-2 border border-black">Amount Paid</th>
+                            <tr class="bg-[#1a4d2e] text-white">
+                                <th class="p-2 border border-black">DESCRIPTION</th>
+                                <th class="p-2 border border-black">AMOUNT</th>
+                                <th class="p-2 border border-black">AMOUNT PAID</th>
                             </tr>
                         </thead>
                         <tbody>
                             <template x-for="desc in descriptions" :key="desc">
                                 <tr>
-                                    <td class="p-2 border border-black" x-text="desc"></td>
-                                    <td class="p-2 border border-black" x-text="getBalance(desc)"></td>
-                                    <td class="p-2 border border-black" x-text="getPaid(desc)"></td>
+                                    <td class="p-2 bg-white border border-black" x-text="desc"></td>
+                                    <td class="p-2 bg-white border border-black" x-text="getBalance(desc)"></td>
+                                    <td class="p-2 bg-white border border-black" x-text="getPaid(desc)"></td>
                                 </tr>
                             </template>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td class="p-2 border border-black font-bold" colspan="2">Total</td>
-                                <td class="p-2 border border-black font-bold" x-text="getTotalPaid()"></td>
+                                <td class="p-2 bg-[#1a4d2e] text-white border border-black font-bold" colspan="2">Total</td>
+                                <td class="p-2 bg-white border border-black font-bold" x-text="getTotalPaid()"></td>
                             </tr>
                         </tfoot>
                     </table>        
-                     <div class="mt-4 text-left">
+                     <div class="mt-4 text-center">
                         <button
                         id="remitButton"
                         type="button"
-                        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md transition duration-200"
+                        class="bg-[#1a4d2e] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md transition duration-200"
                         x-text="status === 'TO TREASURER' ? 'CONFIRM' : 'REMIT'"
                         onclick="handleRemitButtonClick()">
                     </button>
@@ -333,8 +333,8 @@ animation: checkmark 0.3s ease-out forwards;
     <input type="hidden" name="collected_by" id="form_collected_by">
     
 
-    <div id="ConfirmDenomitationModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-green-800 text-white rounded-lg shadow-xl w-full max-w-xl relative">
+    <div id="ConfirmDenomitationModal" class="fixed inset-0 bg-[#1a4d2e] bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-[#1a4d2e] text-white rounded-lg shadow-xl w-full max-w-xl relative">
             <div class="p-4 border-b border-white flex justify-between">
                 <div id="date_remitted" class="font-bold text-lg bg-green-900 px-3 py-1 rounded"></div>
                 <div id="totalAmountText" class="font-bold text-lg bg-green-900 px-3 py-1 rounded"></div>
@@ -345,7 +345,7 @@ animation: checkmark 0.3s ease-out forwards;
 
             <div class="bg-white text-black px-6 py-4 overflow-auto">
                 <table class="w-full table-auto border border-black text-center">
-                    <thead class="bg-green-700 text-white">
+                    <thead class="bg-[#1a4d2e] text-white">
                         <tr>
                             <th class="py-2 px-3 border border-black">DENOMINATION</th>
                             <th class="py-2 px-3 border border-black">QTY</th>
@@ -353,7 +353,7 @@ animation: checkmark 0.3s ease-out forwards;
                         </tr>
                     </thead>
                     <tbody id="denominationRows"></tbody>
-                    <tr class="bg-green-700 text-white font-bold">
+                    <tr class="bg-[#1a4d2e] text-white font-bold">
                         <td class="py-2 px-3 border border-black">TOTAL</td>
                         <td class="border border-black"></td>
                         <td id="totalAmountCell" class="border border-black">₱0.00</td>
@@ -361,7 +361,7 @@ animation: checkmark 0.3s ease-out forwards;
                 </table>
                 
                 <div class="mt-4">
-                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md cursor-pointer">
+                    <button type="submit" class="bg-[#1a4d2e] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md cursor-pointer ">
                         CONFIRM
                     </button>
                 </div>
@@ -445,7 +445,7 @@ animation: checkmark 0.3s ease-out forwards;
 
 
 <div id="RemitDenomitationModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-green-800 text-white rounded-lg shadow-xl w-full max-w-xl relative">
+    <div class="bg-[#1a4d2e] text-white rounded-lg shadow-xl w-full max-w-xl relative">
         <div id="selectedDate" class="hidden font-bold text-lg bg-green-900 px-3 py-1 rounded"></div>
 
         <form action="{{ route('store.denomination') }}" method="POST">
@@ -465,7 +465,7 @@ animation: checkmark 0.3s ease-out forwards;
                 <div type="hidden" name="date" id="hiddenDateInput"></div>
 
                 <table class="w-full table-auto border border-black text-center">
-                    <thead class="bg-green-700 text-white">
+                    <thead class="bg-[#1a4d2e] text-white">
                         <tr>
                             <th class="py-2 px-3 border border-black">DENOMINATION</th>
                             <th class="py-2 px-3 border border-black">QTY</th>
@@ -473,16 +473,16 @@ animation: checkmark 0.3s ease-out forwards;
                         </tr>
                     </thead>
                     <tbody id="denominations"></tbody>
-                    <tr class="bg-green-700 text-white font-bold">
+                    <tr class="bg-[#1a4d2e] text-white font-bold">
                         <td class="py-2 px-3 border border-black">TOTAL</td>
                         <td class="border border-black"></td>
                         <td id="totalAmountCell" class="border border-black">₱0.00</td>
                     </tr>
                 </table>
 
-                <div class="mt-4">
+                <div class="mt-4 text-center">
                     <button type="button" id="confirm" 
-                        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md cursor-pointer" 
+                        class="bg-[#1a4d2e] hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md cursor-pointer" 
                         x-bind:disabled="!date_remitted" 
                         title="Select a date to enable">
                         CONFIRM
@@ -495,13 +495,13 @@ animation: checkmark 0.3s ease-out forwards;
 
 <!-- Archive Confirmation Modal -->
 <div id="archiveModalMale" class="fixed inset-0 flex items-center justify-center bg-white/60 z-50 hidden">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-96 h-[40%] border-2 border-green-700 flex flex-col justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96 h-[40%] border-2 border-[#1a4d2e] flex flex-col justify-center">
         <div class="flex flex-col items-center">
-            <img class="w-[38%] h-[100%] mb-10" src="https://scontent.fmnl13-3.fna.fbcdn.net/v/t1.15752-9/489814149_1468467140599131_6960946035468336908_n.png?...">
-            <p class="text-green-600 text-center font-semibold">Are you sure you want to confirm this remittance? This action cannot be undone.</p>   
+            <img class="w-[38%] h-[50%] mb-10">
+            <p class="text-[#1a4d2e] text-center font-semibold">Are you sure you want to confirm this remittance? This action cannot be undone.</p>   
             <div class="flex mt-10 space-x-4">
-                <button type="button" class="cancelBtn bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700 transition">CANCEL</button>
-                <button type="button" class="confirmBtn bg-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-700">CONFIRM</button>
+                <button type="button" class="cancelBtn bg-red-600 text-white px-6 py-2 rounded-lg shadow hover:bg-red-700 transition">CANCEL</button>
+                <button type="button" class="confirmBtn bg-[#1a4d2e] text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-700">CONFIRM</button>
             </div>
         </div>
     </div>
@@ -509,13 +509,13 @@ animation: checkmark 0.3s ease-out forwards;
 
 <!-- Success Modal -->
 <div id="successModalMale" class="fixed inset-0 flex items-center justify-center bg-white/60 z-50 hidden">
-    <div class="relative bg-white p-6 rounded-lg shadow-lg w-96 h-[40%] border-2 border-green-700 flex flex-col justify-center">
+    <div class="relative bg-white p-6 rounded-lg shadow-lg w-96 h-[40%] border-2 border-[#1a4d2e] flex flex-col justify-center">
         <div class="flex flex-col items-center">
-            <img class="w-[38%] h-auto mb-10" src="https://scontent.fmnl13-3.fna.fbcdn.net/v/t1.15752-9/489814149_1468467140599131_6960946035468336908_n.png?..." alt="Archive Box">
-            <p class="text-green-600 text-center font-semibold">Remittance is now pending and ready for treasurer review.</p>   
+            <img class="w-[38%] h-[50%] mb-10" >
+            <p class="text-[#1a4d2e] text-center font-semibold">Remittance successfully confirmed and added to funds.</p>   
             <div class="flex mt-10 space-x-4">
-                <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-700">
-                    CONFIRM
+                <button type="submit" class="bg-[#1a4d2e] text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-700">
+                    CONTINUE
                 </button>
             </div>
         </div>

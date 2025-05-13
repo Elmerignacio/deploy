@@ -31,10 +31,10 @@
         <div class="w-full overflow-x-auto mt-4">
             <table class="w-full md:w-auto border border-black shadow-lg rounded-lg">
                 <thead>
-                    <tr class="bg-gray-800 text-white text-xs md:text-base">
-                        <th class="p-3 border border-black bg-green-700">CASH ON HAND</th>
-                        <th class="p-3 border border-black bg-blue-700">REMITTED</th>
-                        <th class="p-3 border border-black bg-yellow-500">RECEIVABLE</th>
+                    <tr class="bg-gray-800 text-white text-xs p6">
+                        <th class="p-6 border border-black bg-green-700">CASH ON HAND</th>
+                        <th class="p-6 border border-black bg-blue-700">REMITTED</th>
+                        <th class="p-6 border border-black bg-yellow-500">RECEIVABLE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@
     <div class="mt-4 overflow-auto">
         <x-scrollable-table height="max-h-[45vh] overflow-y-auto">
             <thead>
-                <tr class="bg-green-700 text-white border border-black">
+                <tr class="bg-[#1a4d2e] text-white border text-center border-black">
                     <th class="p-2 border border-black">ID NUMBER</th>
                     <th class="p-2 border border-black">LASTNAME</th>
                     <th class="p-2 border border-black">FIRSTNAME</th>
@@ -66,7 +66,7 @@
                         $totalBalance = $payables[$student->IDNumber]->total_balance ?? 0;
                         $grandTotal += $totalBalance;
                     @endphp
-                    <tr class="border border-black cursor-pointer student-row hover:bg-gray-200"
+                    <tr class="border border-black cursor-pointer student-row hover:bg-gray-200 text-center"
                         data-yearlevel="{{ strtoupper($student->yearLevel) }}"
                         data-block="{{ strtoupper($student->block) }}"
                         onclick="routeToStudentLedger('{{ $student->IDNumber }}')">
@@ -74,7 +74,7 @@
                         <td class="p-2 border border-black">{{ strtoupper($student->lastname) }}</td>
                         <td class="p-2 border border-black">{{ strtoupper($student->firstname) }}</td>
                         <td class="p-2 border border-black">{{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}</td>
-                        <td class="p-2 border border-black balance-cell">₱{{ number_format($totalBalance, 2) }}</td>
+                        <td class="p-2 border text-right text-black border-black balance-cell">₱{{ number_format($totalBalance, 2) }}</td>
                     </tr>
                 @empty
                     <tr id="noStudentsRow">
@@ -97,8 +97,8 @@
             
             <tfoot>
                 <tr class="font-bold text-center text-white">
-                    <td colspan="4" class="p-2 border border-black text-center">TOTAL BALANCE:</td>
-                    <td class="p-2 border border-black text-white">₱{{ number_format($grandTotal, 2) }}</td>
+                    <td colspan="4" class="p-2 bg-[#1a4d2e] border-black text-center">TOTAL BALANCE:</td>
+                    <td class="p-2 border bg-[#1a4d2e] text-right  border-black text-white">₱{{ number_format($grandTotal, 2) }}</td>
                 </tr>
             </tfoot>
         </x-scrollable-table>

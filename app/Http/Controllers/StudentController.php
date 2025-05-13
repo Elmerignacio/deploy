@@ -19,9 +19,9 @@ class StudentController extends Controller
         $idNumber = session('IDNumber');
     
         $profile = DB::table('avatar')
-            ->where('student_id', $studentId)
-            ->select('profile')
-            ->first();
+        ->where('student_id', session('IDNumber'))
+        ->select('profile')
+        ->first();
     
         $totalExpenses = DB::table('expenses')->sum('amount');
     
@@ -65,10 +65,12 @@ class StudentController extends Controller
             ->orderBy('date', 'asc')
             ->get();
     
-        $profile = DB::table('avatar')
-            ->where('student_id', session('id'))  
+            $profile = DB::table('avatar')
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
+
+            // dd($profile);
     
         $firstname = session('firstname');
         $lastname = session('lastname');
@@ -99,10 +101,10 @@ class StudentController extends Controller
         $lastname = session('lastname');
     
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
-            ->select('profile')
-            ->first();
-    
+        ->where('student_id', session('IDNumber'))
+        ->select('profile')
+        ->first();
+
         return view('student/studPayableManagement', compact('Payables', 'firstname', 'lastname', 'profile'));
     }
     public function studExpense()
@@ -131,10 +133,10 @@ class StudentController extends Controller
     foreach ($groupedExpenses as $date => $expensesForDate) {
         $sourcesByDate[$date] = array_keys($expensesForDate->toArray()); 
     }
-    $profile = DB::table('avatar')
-        ->where('student_id', session('id'))
-        ->select('profile')
-        ->first();
+     $profile = DB::table('avatar')
+            ->where('student_id', session('IDNumber'))
+            ->select('profile')
+            ->first();
 
     $firstname = session('firstname');
     $lastname = session('lastname');
@@ -161,6 +163,7 @@ public function getStudExpensesByDateAndSource($date, $source)
     {
         $role = session('role', 'Guest');
         $id = session('id', '');
+        $IDNumber = session('IDNumber', '');
         $firstname = session('firstname', '');
         $lastname = session('lastname', '');
         $yearLevel = session('yearLevel', '');
@@ -170,11 +173,11 @@ public function getStudExpensesByDateAndSource($date, $source)
         $password = session('password', '');
 
         $profile = DB::table('avatar')
-            ->where('student_id', $id)
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
 
-        return view('Student.studUserDetails', compact('profile', 'id', 'firstname', 'lastname', 'role', 'yearLevel', 'block', 'username', 'password', 'gender'));
+        return view('Student.studUserDetails', compact('profile', 'IDNumber', 'firstname', 'lastname', 'role', 'yearLevel', 'block', 'username', 'password', 'gender'));
     }
 
     public function studChange(Request $request)

@@ -34,7 +34,7 @@ class TreasurerController extends Controller
         $cashOnHand = DB::table('funds')->value('cash_on_hand');
     
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
     
@@ -76,7 +76,7 @@ class TreasurerController extends Controller
             $sourcesByDate[$date] = array_keys($expensesForDate->toArray()); 
         }
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
     
@@ -133,7 +133,7 @@ class TreasurerController extends Controller
 
 
     $profile = DB::table('avatar')
-        ->where('student_id', session('id'))
+        ->where('student_id', session('IDNumber'))
         ->select('profile')
         ->first();
 
@@ -208,7 +208,7 @@ public function fund()
         ->get();
 
     $profile = DB::table('avatar')
-        ->where('student_id', session('id'))
+        ->where('student_id', session('IDNumber'))
         ->select('profile')
         ->first();
 
@@ -292,23 +292,53 @@ public function fund()
     }
 
 
+    
     function Manageuser()
     {
         $students = DB::table('createuser')
-        ->where('role', '!=', 'admin')  
-        ->orderBy('lastname', 'asc')
-        ->get();
-    
+            ->where('role', '!=', 'admin')
+            ->orderBy('lastname', 'asc')
+            ->get();
 
 
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
 
-            $firstname = session('firstname');
-            $lastname = session('lastname');
-        return view('Treasurer/manageUser', compact('students', 'profile', 'firstname', 'lastname'));
+        $firstname = session('firstname');
+        $lastname = session('lastname');
+
+
+        $images = DB::table('avatar')
+            ->select('profile')
+            ->get();
+
+
+        $studentsWithProfile = DB::table('createuser')
+            ->leftJoin('avatar', 'createuser.IDNumber', '=', 'avatar.student_id')
+            ->select([
+                'createuser.IDNumber',
+                'createuser.firstname',
+                'createuser.lastname',
+                'createuser.yearLevel',
+                'createuser.block',
+                'createuser.gender',
+                'avatar.profile',
+            ])
+            ->get()
+            ->map(function ($s) {
+                $s->profile_url = $s->profile
+                    ? asset("/storage/{$s->profile}")
+                    : asset("/storage/images/1.jpg");
+                return $s;
+            });
+
+
+
+        // dd($studentsWithProfile);
+
+        return view('Treasurer/manageUser', compact('studentsWithProfile', 'images', 'students', 'profile', 'firstname', 'lastname'));
     }
 
     function Payablemanagement()
@@ -331,7 +361,7 @@ public function fund()
             ->get();
 
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
 
@@ -398,7 +428,7 @@ public function fund()
         }
 
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
 
@@ -428,7 +458,7 @@ public function fund()
             ->get();
 
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
 
@@ -449,7 +479,7 @@ public function fund()
             ->get();
 
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
 
@@ -552,7 +582,7 @@ public function fund()
         $archivedStudents = DB::table('archive')->get();
 
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
 
@@ -744,7 +774,7 @@ public function fund()
             ->get();
 
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
 
@@ -800,7 +830,7 @@ public function fund()
         }
 
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
 
@@ -1101,7 +1131,7 @@ public function fund()
     public function userDetails()
     {
         $role = session('role', 'Guest');
-        $id = session('id', '');
+        $IDNumber = session('IDNumber', '');
         $firstname = session('firstname', '');
         $lastname = session('lastname', '');
         $yearLevel = session('yearLevel', '');
@@ -1111,14 +1141,12 @@ public function fund()
         $password = session('password', '');
 
         $profile = DB::table('avatar')
-            ->where('student_id', $id)
+            ->where('student_id', $IDNumber)
             ->select('profile')
             ->first();
         //    dd()
 
-
-
-        return view('Treasurer.userDetails', compact('profile', 'id', 'firstname', 'lastname', 'role', 'yearLevel', 'block', 'username', 'password', 'gender'));
+        return view('Treasurer.userDetails', compact('profile', 'IDNumber', 'firstname', 'lastname', 'role', 'yearLevel', 'block', 'username', 'password', 'gender'));
     }
 
 
@@ -1141,7 +1169,7 @@ public function fund()
             ->get();
 
         $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
+            ->where('student_id', session('IDNumber'))
             ->select('profile')
             ->first();
 

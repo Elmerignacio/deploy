@@ -16,9 +16,9 @@
             <x-two-table-scrollable>
                 <thead>
                     <tr class="bg-white border border-black">
-                        <th class="p-2 border border-black">DATE</th>
-                        <th class="p-2 border border-black bg-green-700 text-white">FUND ALLOCATION</th>
-                        <th class="p-2 border border-black bg-red-700 text-white">AMOUNT</th>
+                        <th class="p-2 border border-black bg-[#1a4d2e] text-white ">DATE</th>
+                        <th class="p-2 border border-black bg-[#1a4d2e] text-white">FUND SOURCE</th>
+                        <th class="p-2 border border-black bg-[#1a4d2e] text-white">AMOUNT SPENT</th>
                     </tr>
                 </thead>
                 <tbody x-data="{ selectedDate: null }">
@@ -44,24 +44,24 @@
                                 modalAmount = '{{ $totalAmountForDate }}';
                                 fetchExpenses('{{ $date }}', '{{ implode(', ', $sources) }}')">
                     
-                        <td class="p-2 border border-black">
+                        <td class="p-2 border border-black text-center">
                             {{ \Carbon\Carbon::parse($date)->format('M d, Y') }}
                         </td>
                     
-                        <td class="p-2 border border-black">
+                        <td class="p-2 border border-black text-center">
                             {{ implode(', ', $sources) }} 
                         </td>
-                        <td class="p-2 border border-black">
-                            {{ $totalAmountForDate }}
+                        <td class="p-2 border border-black text-right">
+                        ₱{{ number_format($totalAmountForDate, 2) }}
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="2" class="p-2 text-white border border-black text-center font-bold">Total Amount</td>
-                        <td class="p-2 border border-black font-bold text-white">
-                            {{ $groupedExpenses->flatten()->sum('amount') }}
+                        <td colspan="2" class="p-2 bg-[#1a4d2e] text-white border border-black text-center font-bold">TOTAL AMOUNT SPENT</td>
+                        <td class="p-2 border border-black font-bold text-white text-right bg-[#1a4d2e]">
+                        ₱{{ number_format($groupedExpenses->flatten()->sum('amount'),2) }}
                         </td>
                     </tr>
                 </tfoot>
@@ -93,7 +93,7 @@
                     <div class="mt-2">
                         <x-scrollable-table height="max-h-[35vh]">
                             <thead>
-                                <tr class="bg-green-700 text-white text-center">
+                                <tr class="bg-[#1a4d2e] text-white text-center">
                                     <th class="p-2 border border-black">DESCRIPTION</th>
                                     <th class="p-2 border border-black">AMOUNT</th>
                                 </tr>
@@ -101,7 +101,7 @@
                             <tbody class="bg-white text-center" id="payablesTableBody">
                             </tbody>
                             <tfoot>
-                                <tr class="text-white font-bold bg-green-700 text-center">
+                                <tr class="text-white font-bold bg-[#1a4d2e] text-center">
                                     <td class="p-2 border border-black">TOTAL</td>
                                     <td class="p-2 border border-black" id="totalAmountPaid">₱0.00</td>
                                 </tr>

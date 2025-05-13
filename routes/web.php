@@ -112,7 +112,7 @@ Route::post('/change/profile', [ProfileController::class, 'store'])->name('image
       Route::get('/admin/remitted/students', [AdminController::class, 'getStudentsWhoPaid']);
       Route::get('/admin/CashOnHand', [AdminController::class, 'CashOnHand']);
       Route::get('/admin/userDetails', [AdminController::class, 'AdUserDetails']);
-      Route::get('/admin/get-user-info', [AdminController::class, 'getUserInfo']);
+      Route::get('/admin/get-user-info', [AdminController::class, 'getAdUserInfo']);
       Route::post('/admin/update-remittance-status', [AdminController::class, 'updateRemittanceStatus']);
       Route::post('/admin/update-user', [AdminController::class, 'update'])->name('user.update');
       Route::post('/admin/disburse/store', [AdminController::class, 'storeExpense'])->name('AdExpenses.store');

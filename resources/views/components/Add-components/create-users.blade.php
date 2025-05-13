@@ -1,7 +1,7 @@
 
 <div id="createUserModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50 hidden">
     <div class="flex flex-col items-center">
-        <div class="bg-green-900 text-white w-full max-w-[90%] md:w-[600px] lg:w-[800px] xl:w-[600px] rounded-lg shadow-lg mt-10">
+        <div class="bg-[#1a4d2e] text-white w-full max-w-[90%] md:w-[600px] lg:w-[800px] xl:w-[600px] rounded-lg shadow-lg mt-10">
 
 
             <div class="p-6 rounded-lg w-full max-w-4xl relative"> 
@@ -28,11 +28,11 @@
                         <label class="block mb-1 text-sm font-semibold">GENDER:</label>
                         <div class="flex items-center space-x-4">
                             <label class="flex items-center space-x-1">
-                                <input type="radio" name="gender" value="MALE" class="accent-green-500" required>
+                                <input type="radio" name="gender" value="MALE" class="accent-[#1a4d2e]" required>
                                 <span>MALE</span>
                             </label>
                             <label class="flex items-center space-x-1">
-                                <input type="radio" name="gender" value="FEMALE" class="accent-green-500" required>
+                                <input type="radio" name="gender" value="FEMALE" class="accent-[#1a4d2e]" required>
                                 <span>FEMALE</span>
                             </label>
                         </div>
@@ -72,7 +72,7 @@
                         <input name="password" type="text" class="w-full p-2 rounded-md text-black uppercase" required id="password" style="text-transform: uppercase;">
                     </div>
                     <div class="text-center">
-                        <button type="button" id="addUserBtn" class="bg-green-700 px-4 py-2 rounded-md hover:bg-green-600">ADD USER</button>
+                        <button type="button" id="addUserBtn" class="bg-[#1a4d2e] border border-white px-4 py-2 rounded-md hover:bg-green-600">ADD USER</button>
                     </div>
 
                     <script>

@@ -18,12 +18,12 @@
     <nav class="mt-10 ml-4 space-y-2 flex flex-col gap-4 justify-center text-[15px] text-bolds pr-5">
 
         <a href="/admin/userDetails" class="flex items-center text-white rounded-md mb-5">
-            <input type="image"   src="{{ asset('storage/' . ($profile ? $profile->profile : 'images/default.jpg')) }}"
+            <input type="image"   src="{{ asset('storage/' . ($profile ? $profile->profile : 'images/1.jpg')) }}"
             alt="Profile" class="rounded-full w-10 h-10 border-2 border-white">
 
             <span 
             :class="sidebarOpen ? 'inline-block ml-4 whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]' : 'hidden'"
-            class="text-white text-[20px] font-bold transition-all duration-300"
+            class="text-white text-[12px] font-bold transition-all duration-300"
             id="userFullName"
             title="{{ $firstname }} {{ $lastname }}"
         >

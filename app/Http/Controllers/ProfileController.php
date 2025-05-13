@@ -12,10 +12,9 @@ class ProfileController extends Controller
     {
         $request->validate([
             'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
-            'student_id' => 'required'
         ]);
 
-        $studentId = $request->student_id;
+        $studentId = session('IDNumber');
 
         $existingProfile = DB::table('avatar')
             ->where('student_id', $studentId)
@@ -28,8 +27,8 @@ class ProfileController extends Controller
         $path = $request->file('image')->store('images', 'public');
 
         DB::table('avatar')->updateOrInsert(
-            ['student_id' => $studentId],   
-            ['profile' => $path]           
+            ['student_id' => $studentId],
+            ['profile' => $path]
         );
 
         return back()->with('success', 'Profile image uploaded successfully!');

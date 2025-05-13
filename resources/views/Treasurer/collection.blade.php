@@ -9,7 +9,7 @@
    
 
         <x-trea-components.nav-link>
-          <a href="/treasurer/collection" class="text-[15px] sm:text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Payment</a>
+          <a href="/treasurer/collection" class="text-[15px] sm:text-[17px] font-semibold text-bg-[#1a4d2e]border-b-2 border-bg-[#1a4d2e] pb-1">Payment</a>
          <a href="/treasurer/remitted" class="text-[15px] sm:text-[17px] text-gray-600"> Remittance</a>
          <a href="/treasurer/CashOnHand" class="text-[17px] text-gray-600">Cash On Hand</a>
         </x-trea-components.nav-link>
@@ -25,8 +25,8 @@
           >
             <x-two-table-scrollable height="max-h-[45vh] overflow-y-auto">
               <thead>
-                <tr class="bg-green-700 text-white border border-black">
-                  <th class="p-2 border border-black">ID NUMBER</th>
+                <tr class="bg-[#1a4d2e] text-center text-white border border-black">
+                  <th class="p-2 border  border-black">ID NUMBER</th>
                   <th class="p-2 border border-black">FIRSTNAME</th>
                   <th class="p-2 border border-black">LASTNAME</th>
                   <th class="p-2 border border-black">YEAR AND BLOCK</th>
@@ -35,7 +35,7 @@
               <tbody id="usersTableBody" x-data="{ activeRow: null }">
                   @foreach ($students as $student)
                       <tr 
-                          class="border border-black cursor-pointer hover:bg-gray-200"
+                          class="border border-black cursor-pointer text-center hover:bg-gray-200"
                           :class="activeRow === '{{ $student->IDNumber }}' ? 'bg-gray-300' : ''"
                           @click="activeRow = '{{ $student->IDNumber }}'; handleClick('{{ $student->IDNumber }}', '{{ strtoupper($student->firstname) }} {{ strtoupper($student->lastname) }}', '{{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}')"
                       >

@@ -9,7 +9,7 @@
             <x-trea-components.year-sorting/>
 
            <x-trea-components.sorting>
-            <a href="#" onclick="openModal()" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-800">
+            <a href="#" onclick="openModal()" class="bg-[#1a4d2e] text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-800">
               Add Expense <i class="fas fa-plus"></i>
             </a>
            </x-trea-components.sorting>
@@ -19,9 +19,9 @@
             <x-two-table-scrollable>
                 <thead>
                     <tr class="bg-white border border-black">
-                        <th class="p-2 border border-black">DATE</th>
-                        <th class="p-2 border border-black bg-green-700 text-white">FUND ALLOCATION</th>
-                        <th class="p-2 border border-black bg-red-700 text-white">AMOUNT</th>
+                        <th class="p-2 border border-black text-center text-white bg-[#1a4d2e]">DATE</th>
+                        <th class="p-2 border border-black text-center text-white bg-[#1a4d2e]">FUND SOURCE</th>
+                        <th class="p-2 border border-black text-center text-white bg-[#1a4d2e]">AMOUNT SPENT</th>
                     </tr>
                 </thead>
                 <tbody x-data="{ selectedDate: null }">
@@ -47,24 +47,24 @@
                                 modalAmount = '{{ $totalAmountForDate }}';
                                 fetchExpenses('{{ $date }}', '{{ implode(', ', $sources) }}')">
                     
-                        <td class="p-2 border border-black">
+                        <td class="p-2 border border-black text-center">
                             {{ \Carbon\Carbon::parse($date)->format('M d, Y') }}
                         </td>
                     
-                        <td class="p-2 border border-black">
+                        <td class="p-2 border border-black text-center">
                             {{ implode(', ', $sources) }} 
                         </td>
-                        <td class="p-2 border border-black">
-                            {{ $totalAmountForDate }}
+                        <td class="p-2 border border-black text-right">₱
+                            {{ number_format($totalAmountForDate, 2) }}
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="2" class="p-2 text-white border border-black text-center font-bold">Total Amount</td>
-                        <td class="p-2 border border-black font-bold text-white">
-                            {{ $groupedExpenses->flatten()->sum('amount') }}
+                        <td colspan="2" class="p-2 bg-[#1a4d2e] text-white border border-black text-center font-bold">TOTAL AMOUNT SPENT</td>
+                        <td class="p-2 border border-black font-bold bg-[#1a4d2e] text-right text-white">₱
+                            {{ number_format($groupedExpenses->flatten()->sum('amount'),2) }}
                         </td>
                     </tr>
                 </tfoot>
@@ -96,7 +96,7 @@
                     <div class="mt-2">
                         <x-scrollable-table height="max-h-[35vh]">
                             <thead>
-                                <tr class="bg-green-700 text-white text-center">
+                                <tr class="bg-[#1a4d2e] text-white text-center">
                                     <th class="p-2 border border-black">DESCRIPTION</th>
                                     <th class="p-2 border border-black">AMOUNT</th>
                                 </tr>
@@ -104,9 +104,9 @@
                             <tbody class="bg-white text-center" id="payablesTableBody">
                             </tbody>
                             <tfoot>
-                                <tr class="text-white font-bold bg-green-700 text-center">
+                                <tr class="text-white font-bold bg-[#1a4d2e] text-center">
                                     <td class="p-2 border border-black">TOTAL</td>
-                                    <td class="p-2 border border-black" id="totalAmountPaid">₱0.00</td>
+                                    <td class="p-2 border border-black text-right" id="totalAmountPaid">₱0.00</td>
                                 </tr>
                             </tfoot>
                         </x-scrollable-table>
@@ -185,7 +185,7 @@
                             const row = `
                                 <tr>
                                     <td class="p-2 border border-black">${description}</td>
-                                    <td class="p-2 border border-black">₱${amount.toFixed(2)}</td>
+                                    <td class="p-2 text-right border border-black">₱${amount.toFixed(2)}</td>
                                 </tr>
                             `;
                             tbody.innerHTML += row;

@@ -22,7 +22,7 @@
 
                         <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
                             <thead>
-                                <tr class="bg-green-700 text-white border border-black">
+                                <tr class="bg-[#1a4d2e] text-white border border-black">
                                     <th class="p-2 border border-black">DATE</th>
                                     <th class="p-2 border border-black">COLLECTED BY</th>
                                     <th class="p-2 border border-black">AMOUNT</th>
@@ -66,10 +66,10 @@
                                             {{ number_format($totalPaid + $totalCollected, 2) }}  
                                         </td>
                                         <td class="p-2 border border-black font-bold {{
-                                            strtoupper($remittance->status) === 'TO TREASURER' ? 'text-orange-500 font-bold drop-shadow-sm' :
+                                            strtoupper($remittance->status) === 'TO TREASURER' ? 'text-purple-600 font-bold drop-shadow-sm' :
                                              (strtoupper($remittance->status) === 'COLLECTED BY TREASURER' ? 'text-blue-600 font-bold drop-shadow-sm' :
-                                            (strtoupper($remittance->status) === 'REMITTED' ? '	text-green-600 font-bold drop-shadow-sm' :
-                                            (strtoupper($remittance->status) === 'COLLECTED' ? 'text-yellow-600 font-bold drop-shadow-sm' : 'text-red-600')))
+                                            (strtoupper($remittance->status) === 'REMITTED' ? '	text-yellow-500 font-bold drop-shadow-sm' :
+                                            (strtoupper($remittance->status) === 'COLLECTED' ? 'text-green-600 font-bold drop-shadow-sm' : 'text-red-600')))
                                         }}">
                                             {{ strtoupper($remittance->status) }}
                                         </td>
@@ -79,8 +79,8 @@
                             
                             <tfoot x-data="{ totalAmount: '{{ number_format($totalAmount, 2) }}' }">
                                 <tr>
-                                    <td class="p-2 border border-black font-bold" colspan="2">Total</td>
-                                    <td class="p-2 border border-black font-bold" x-text="totalAmount"></td>
+                                    <td class="p-2 -border bg-[#1a4d2e] border-black font-bold text-lg text-white " colspan="2" >Total</td>
+                                    <td class="p-2 border border-black font-bold text-lg"  x-text="totalAmount"></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -98,13 +98,13 @@
             x-transition:leave="transition duration-200 transform"
             x-transition:leave-start="translate-y-0 opacity-100"
             x-transition:leave-end="-translate-y-10 opacity-0"
-            class="w-full md:w-1/2 p-4 mt-[4%] bg-gray-400 bg-opacity-40 shadow-md border-green-600 border-2 relative">
+            class="w-full md:w-1/2 p-4 mt-[4%] bg-gray-400 bg-opacity-40 shadow-md border-[#1a4d2e] border-2 relative">
             
             <div x-show="showModal" x-transition>
 
               <div class="flex flex-col md:flex-row items-center md:justify-between">
                 <div class="mb-4 md:mb-0">
-                    <p id="collectedBy" class="text-[25px] font-bold text-green-700" x-text="collectedBy"></p>
+                    <p id="collectedBy" class="text-[25px] font-bold text-[#1a4d2e]" x-text="collectedBy"></p>
                     <p class="text-[18px]"><span x-text="collectorYearLevel + ' - ' + collectorBlock"></span></p>
                 </div>
                     
@@ -113,7 +113,7 @@
                     <table class="w-full border border-black shadow-lg rounded-lg"> 
                         <thead>
                             <tr class="bg-gray-800 text-white text-xs md:text-base">
-                                <th class="p-2 border border-black bg-green-700">CASH ON HAND</th>
+                                <th class="p-2 border border-black bg-[#1a4d2e]">CASH ON HAND</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -130,7 +130,7 @@
                 <div x-show="showPayableDetails" class="mt-4">
                     <table class="w-full text-sm text-center border border-black">
                         <thead>
-                            <tr class="bg-green-700 text-white">
+                            <tr class="bg-[#1a4d2e] text-white">
                                 <th class="p-2 border border-black">Description</th>
                                 <th class="p-2 border border-black">Amount</th>
                                 <th class="p-2 border border-black">Amount Paid</th>
@@ -138,7 +138,7 @@
                         </thead>
                         <tbody>
                             <template x-for="desc in descriptions" :key="desc">
-                                <tr class="cursor-pointer hover:bg-green-100" @click="fetchStudents(desc)">
+                                <tr class="cursor-pointer bg-white text-black" @click="fetchStudents(desc)">
                                     <td class="p-2 border border-black" x-text="desc"></td>
                                     <td class="p-2 border border-black" x-text="getBalance(desc)"></td>
                                     <td class="p-2 border border-black" x-text="getPaid(desc)"></td>
@@ -147,8 +147,8 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td class="p-2 border border-black font-bold" colspan="2">Total</td>
-                                <td class="p-2 border border-black font-bold" x-text="getTotalPaid()"></td>
+                                <td class="p-2 border bg-[#1a4d2e] text-white border-black font-bold" colspan="2">Total</td>
+                                <td class="p-2 border bg-white  border-black font-bold" x-text="getTotalPaid()"></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -170,12 +170,12 @@ animation: checkmark 0.3s ease-out forwards;
 
             <div x-show="showStudentListModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/2" @click.stop>
-                    <h2 class="text-xl font-bold mb-4">Students Who Paid: <span x-text="selectedDescription"></span></h2>
+                    <h2 class="text-xl font-bold mb-4">Payment Record:  <span x-text="selectedDescription"></span></h2>
                     <p class="mb-2"><strong>Date:</strong> <span x-text="selectedDate"></span></p>
 
                     <table class="w-full text-sm text-center border border-black">
                         <thead>
-                            <tr class="bg-green-700 text-white">
+                            <tr class="bg-[#1a4d2e] text-white">
                                 <th class="p-2 border border-black">Name</th>
                                 <th class="p-2 border border-black">Description</th>
                                 <th class="p-2 border border-black">Amount Paid</th>
@@ -191,7 +191,8 @@ animation: checkmark 0.3s ease-out forwards;
                             </template>
                         </tbody>
                     </table>
-                    <button @click="showStudentListModal = false" class="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Close</button>
+                     <div class="flex justify-center">
+                    <button @click="showStudentListModal = false" class="mt-4 px-4 py-2 bg-[#1a4d2e] text-white rounded-md hover:bg-green-700">Close</button>
                 </div>
             </div>
         </div>

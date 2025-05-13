@@ -23,7 +23,7 @@
     </x-trea-components.table-guide>
 
     <x-trea-components.table-dash>
-        <h3 id="groupTitle" class="text-green-800 text-2xl font-bold">ALL YEAR LEVEL</h3>
+        <h3 id="groupTitle" class="text-[#1a4d2e] text-2xl font-bold">ALL YEAR LEVEL</h3>
         <p class="text-[15px] text-gray-700">Representative: <span id="representativeName" class="font-medium"></span></p>
 
         <input type="hidden" id="cashOnHandAmount" value="₱0.00">
@@ -32,7 +32,7 @@
             <table class="w-full md:w-auto border border-black shadow-lg rounded-lg">
                 <thead>
                     <tr class="bg-gray-800 text-white text-xs md:text-base">
-                        <th class="p-3 border border-black bg-green-700">CASH ON HAND</th>
+                        <th class="p-3 border border-black bg-[#1a4d2e]">CASH ON HAND</th>
                         <th class="p-3 border border-black bg-blue-700">REMITTED</th>
                         <th class="p-3 border border-black bg-yellow-500">RECEIVABLE</th>
                     </tr>
@@ -51,7 +51,7 @@
     <div class="mt-4 overflow-auto">
         <x-scrollable-table height="max-h-[45vh] overflow-y-auto">
             <thead>
-                <tr class="bg-green-700 text-white border border-black">
+                <tr class="bg-[#1a4d2e] text-white border border-black">
                     <th class="p-2 border border-black">ID NUMBER</th>
                     <th class="p-2 border border-black">LASTNAME</th>
                     <th class="p-2 border border-black">FIRSTNAME</th>
@@ -85,8 +85,8 @@
 
             <tfoot>
                 <tr class="font-bold text-center text-white">
-                    <td colspan="4" class="p-2 border border-black text-center">TOTAL BALANCE:</td>
-                    <td class="p-2 border border-black text-white">₱{{ number_format($grandTotal, 2) }}</td>
+                    <td colspan="4" class="p-2 border bg-[#1a4d2e] border-black text-center">TOTAL BALANCE:</td>
+                    <td class="p-2 border border-black bg-[#1a4d2e] text-white">₱{{ number_format($grandTotal, 2) }}</td>
                 </tr>
             </tfoot>
         </x-scrollable-table>

@@ -11,7 +11,7 @@
             <x-trea-components.year-sorting/>
 
            <x-trea-components.sorting>
-            <a href="#" onclick="openModal()" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
+            <a href="#" onclick="openModal()" class="bg-[#1a4d2e] text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
                 Add Payable <i class="fas fa-plus"></i>
             </a>
            </x-trea-components.sorting>
@@ -20,12 +20,12 @@
      <div x-data="{ showDetails: false, selectedPayable: {} }" class="flex flex-col md:flex-row">
         <x-two-table-scrollable height="max-h-[45vh] overflow-y-auto"> 
             <thead>
-                <tr class="bg-white text-black border border-black">
+                <tr class="bg-white text-center text-white border border-black">
                     <th class="p-2 border border-black"><input type="checkbox" id="selectAll"></th>
-                    <th class="p-2 border border-black">DESCRIPTION</th>
-                    <th class="p-2 border border-black bg-green-700">AMOUNT</th>
-                    <th class="p-2 border border-black bg-yellow-500">EXPECTED RECEIVABLE</th>
-                    <th class="p-2 border border-black bg-red-700">DUE DATE</th>
+                    <th class="p-2 border text-black border-black bg-[#1a4d2e] w-[300px]">DESCRIPTION</th>
+                    <th class="p-2 border border-black bg-[#1a4d2e] w-[120px]">AMOUNT</th>
+                    <th class="p-2 border border-black bg-yellow-500 w-[120px]">EXPECTED RECEIVABLE</th>
+                    <th class="p-2 border border-black bg-red-700 text-center">DUE DATE</th>
                 </tr>
             </thead>
             <tbody id="usersTableBody">
@@ -42,10 +42,10 @@
                 <td class="p-2 border border-black">
                     <input type="checkbox" class="rowCheckbox" @click.stop>
                 </td>
-                <td class="p-2 border border-black">{{ $payable->description }}</td>
-                <td class="p-2 border border-black">₱{{ number_format(floor($payable->input_balance), 2) }}</td>
-                <td class="p-2 border border-black">₱{{ number_format(floor($payable->expected_receivable), 2) }}</td>
-                <td class="p-2 border border-black">{{ $payable->dueDate }}</td>
+                <td class="p-2 border text-black bg-white border-black">{{ $payable->description }}</td>
+                <td class="p-2 border text-right border-black">₱{{ number_format(floor($payable->input_balance), 2) }}</td>
+                <td class="p-2 border text-right border-black">₱{{ number_format(floor($payable->expected_receivable), 2) }}</td>
+                <td class="p-2 border text-right border-black">{{ $payable->dueDate }}</td>
             </tr>
         @endforeach
 </tbody>

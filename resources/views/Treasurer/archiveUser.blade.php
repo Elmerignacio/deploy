@@ -14,7 +14,7 @@
             </div>
 
             <x-trea-components.sorting class="mt-4">
-                <a href="createUser" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
+                <a href="createUser" class="bg-[#1a4d2e] text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700">
                     Add Users <i class="fas fa-plus"></i>
                 </a>
             </x-trea-components.sorting>
@@ -27,7 +27,7 @@
                 <div class="mt-4 overflow-auto">
                     <x-trea-components.table class="w-full min-w-[600px]">   
                     <thead>
-                        <tr class="bg-green-700 text-white border border-black">
+                        <tr class="bg-[#1a4d2e] text-white border border-black">
                             <th class="p-2 border border-black"><input type="checkbox" id="selectAll"></th>
                             <th class="p-2 border border-black">FIRSTNAME</th>
                             <th class="p-2 border border-black">LASTNAME</th>

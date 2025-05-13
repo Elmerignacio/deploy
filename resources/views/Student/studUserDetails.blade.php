@@ -13,7 +13,7 @@
         
                     <div class="relative flex justify-center -mt-24">
                         <img id="previewImage" class="w-32 h-32 rounded-full border-4 border-white"
-                            src="{{ asset('storage/' . ($profile ? $profile->profile : 'images/default.jpg')) }}"
+                            src="{{ asset('storage/' . ($profile ? $profile->profile : 'images/1.jpg')) }}"
                             alt="User Profile">
                         <label for="profileImage"
                             class="absolute bottom-1 right-2 bg-gray-800 text-white p-2 rounded-full cursor-pointer">
@@ -105,7 +105,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <input type="file" id="profileImage" name="image" class="hidden" onchange="previewImage(event)">
-                        <input type="hidden" name="student_id" value="{{ $id }}">
+                        <input type="hidden" name="student_id" value="{{ $IDNumber }}">
 
                         <button id="uploadBtn" type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md hidden"
                             onclick="confirmUpload()">

@@ -8,7 +8,7 @@
             <x-trea-components.content-header>REPORTS</x-trea-components.content-header>
 
             <x-trea-components.nav-link>
-                <a href="/treasurer/report" class="text-[15px] sm:text-[17px] font-semibold text-green-700 border-b-2 border-green-700 pb-1">Monthly Report</a>
+                <a href="/treasurer/report" class="text-[15px] sm:text-[17px] font-semibold text-[#1a4d2e] border-b-2 border-[#1a4d2e] pb-1">Monthly Report</a>
                <a href="/treasurer/fund" class="text-[15px] sm:text-[17px] text-gray-600"> Funds</a>
               </x-trea-components.nav-link>
             
@@ -21,9 +21,9 @@
                 <x-two-table-scrollable>
                     <thead>
                         <tr class="bg-white border border-black">
-                            <th class="p-2 border border-black">YEAR AND BLOCK</th>
-                            <th class="p-2 border border-black bg-green-700 text-white">TOTAL RECEIVABLE</th>
-                            <th class="p-2 border border-black text-black">TOTAL REMITTED</th>
+                            <th class="p-2 border border-black bg-[#1a4d2e] text-center text-white">YEAR AND BLOCK</th>
+                            <th class="p-2 border border-black bg-[#1a4d2e] text-center text-white">TOTAL RECEIVABLE</th>
+                            <th class="p-2 border border-black bg-[#1a4d2e] text-center text-white">TOTAL REMITTED</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,22 +35,22 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="p-2 text-center text-gray-500">No data available</td>
+                                <td colspan="3" class="p-2 text-center text-red-500">No data available</td>
                             </tr>
                         @endforelse
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td class="p-2 text-white border border-black text-center font-bold">Grand Total</td>
-                            <td class="p-2 border border-black font-bold text-white">{{ number_format($groupedData->sum('total_receivable'), 2) }}</td>
-                            <td class="p-2 border border-black font-bold text-white">{{ number_format($groupedData->sum('total_remitted'), 2) }}</td>
+                            <td class="p-2 text-white border border-black bg-[#1a4d2e] text-center text-xl font-bold">Total</td>
+                            <td class="p-2 border border-black font-bold bg-[#1a4d2e] text-right text-xl text-white">{{ number_format($groupedData->sum('total_receivable'), 2) }}</td>
+                            <td class="p-2 border border-black font-bold bg-[#1a4d2e] text-right text-xl text-white">{{ number_format($groupedData->sum('total_remitted'), 2) }}</td>
                         </tr>
                     </tfoot>
                 </x-two-table-scrollable>
 
-                <div x-show="showDetails" x-transition:enter="transition duration-300 transform" x-transition:enter-start="-translate-y-10 opacity-0" x-transition:enter-end="translate-y-0 opacity-100" x-transition:leave="transition duration-200 transform" x-transition:leave-start="translate-y-0 opacity-100" x-transition:leave-end="-translate-y-10 opacity-0" class="h-[100%] w-full md:w-1/2 mx-auto p-6 mt-4 bg-gray-300 bg-opacity-40 shadow-lg border-2 border-green-700 rounded-lg relative">
+                <div x-show="showDetails" x-transition:enter="transition duration-300 transform" x-transition:enter-start="-translate-y-10 opacity-0" x-transition:enter-end="translate-y-0 opacity-100" x-transition:leave="transition duration-200 transform" x-transition:leave-start="translate-y-0 opacity-100" x-transition:leave-end="-translate-y-10 opacity-0" class="h-[100%] w-full md:w-1/2 mx-auto p-6 mt-4 bg-gray-300 bg-opacity-40 shadow-lg border-2 border-[#1a4d2e] rounded-lg relative">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-lg font-bold text-green-800">
+                        <h2 class="text-lg font-bold text-[#1a4d2e]">
                             Details for <span x-text="selectedYearBlock"></span>
                         </h2>
                         <button @click="showDetails = false" class="text-red-600 font-bold">X</button>
@@ -60,7 +60,7 @@
                     <span id="adminName" class="hidden">{{ $admin->firstname }} {{ $admin->lastname }}</span>
                     
                     <div class="mb-2 flex justify-left">
-                        <select x-model="selectedDescription" class="w-1/3 p-2 border border-green-700 rounded">
+                        <select x-model="selectedDescription" class="w-1/3 p-2 border border-[#1a4d2e] rounded">
                             <option value="" disabled selected>Select Description</option>
                             <template x-for="desc in [...new Set(remittances.filter(r => r.yearLevel + ' - ' + r.block === selectedYearBlock).map(r => r.description))]" :key="desc">
                                 <option x-text="desc" :value="desc"></option>
@@ -69,7 +69,7 @@
                     </div>
 
                     <div class="mb-2 flex justify-left mt-2">
-                        <select x-model="selectedMonth" class="w-1/3 p-2 border border-green-700 rounded">
+                        <select x-model="selectedMonth" class="w-1/3 p-2 border border-[#1a4d2e] rounded">
                             <option value="" disabled selected>ALL MONTH</option>
                             <template x-for="month in Array.from({length: 12}, (_, i) => i + 1)">
                                 <option :value="month" x-text="new Date(0, month - 1).toLocaleString('en-US', { month: 'long' })"></option>
@@ -80,7 +80,7 @@
                     <!-- Remittance Table -->
                     <x-scrollable-table height="max-h-[40vh]">
                         <thead>
-                            <tr class="bg-green-700 text-white text-center">
+                            <tr class="bg-[#1a4d2e] text-white text-center">
                                 <th class="p-2 border border-black">DATE REMITTED</th>
                                 <th class="p-2 border border-black">PAID</th>
                             </tr>
@@ -117,7 +117,7 @@
                 <div x-show="modalOpen" x-transition class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50" style="display: none;">
                     <div class="modal bg-white rounded-md w-full md:w-2/3 lg:w-1/2 p-6 relative text-white shadow-lg">
                         <div class="flex justify-end mb-4">
-                            <button @click="closeModal" class="text-green-700 text-xl font-bold">✕</button>
+                            <button @click="closeModal" class="text-[#1a4d2e] text-xl font-bold">✕</button>
                         </div>
                         
                         <div class="text-center mb-4">
@@ -127,16 +127,16 @@
                         </div>
 
                         <div class="overflow-y-auto max-h-[50vh]">
-                            <table class="w-full bg-green-700 text-white border border-white text-sm">
+                            <table class="w-full bg-[#1a4d2e] text-white border border-white text-sm">
                                 <thead>
-                                    <tr class="text-center bg-green-700">
+                                    <tr class="text-center bg-[#1a4d2e]">
                                         <th class="p-2 border border-black">NAME</th>
                                         <th class="p-2 border border-black">AMOUNT PAID</th>
                                     </tr>
                                 </thead>
                                 <tbody id="remittancesTable" class="bg-white text-black"></tbody>
                                 <tfoot>
-                                    <tr class="bg-green-700 text-center font-bold">
+                                    <tr class="bg-[#1a4d2e] text-center font-bold">
                                         <td class="p-2 border border-black">TOTAL</td>
                                         <td class="p-2 border border-black" id="totalAmount"></td> 
                                     </tr>
@@ -145,8 +145,8 @@
                         </div>
 
                         <div class="btn flex justify-center gap-4 mt-6">
-                            <button @click="printModal" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-gray-200 font-bold">🖨 PRINT</button>
-                            <button @click="exportModal" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-gray-200 font-bold">📁 EXPORT</button>
+                            <button @click="printModal" class="bg-[#1a4d2e] text-white px-4 py-2 rounded hover:bg-gray-200 font-bold">🖨 PRINT</button>
+                            <button @click="exportModal" class="bg-[#1a4d2e] text-white px-4 py-2 rounded hover:bg-gray-200 font-bold">📁 EXPORT</button>
                         </div>
                     </div>
                 </div>

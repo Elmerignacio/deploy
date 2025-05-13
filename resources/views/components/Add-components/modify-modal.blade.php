@@ -10,7 +10,7 @@
 >
  
     <button 
-        class="absolute top-2 right-2 text-green-700 hover:text-red-500 p-4"
+        class="absolute top-2 right-2 text-[#1a4d2e] hover:text-red-500 p-4"
         @click="showDetails = false"
     >
         <i class="fas fa-times text-lg"></i>
@@ -31,7 +31,7 @@
                         readonly
                         x-model="selectedPayable.id" 
                         @input="selectedPayable.id = $event.target.value.toUpperCase()" 
-                        class="w-full p-2 border-2 border-green-700 text-black rounded-md focus:ring-0 focus:outline-none"
+                        class="w-full p-2 border-2 border-[#1a4d2e] text-black rounded-md focus:ring-0 focus:outline-none"
                     >
                 </div>
                 <div class="w-full md:w-1/2">
@@ -119,7 +119,7 @@
                     type="submit" 
                     name="action" 
                     value="modify" 
-                    class="bg-green-700 px-4 py-2 rounded-md text-white font-bold w-full md:w-auto"
+                    class="bg-[#1a4d2e] px-4 py-2 rounded-md text-white font-bold w-full md:w-auto"
                 >
                     MODIFY
                 </button>

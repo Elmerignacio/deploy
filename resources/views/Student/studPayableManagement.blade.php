@@ -4,7 +4,7 @@
 <x-Student-components.sidebar :profile="$profile" :firstname="$firstname" :lastname="$lastname">
 
             <div class="mt-4">
-            <x-trea-components.content-header>PAYABLE MANAGEMENT</x-trea-components.content-header>
+            <x-trea-components.content-header>PAYABLES</x-trea-components.content-header>
                 
             <x-trea-components.year-sorting/>
 
@@ -16,11 +16,11 @@
         <x-two-table-scrollable height="max-h-[45vh] overflow-y-auto"> 
 
                     <thead>
-                        <tr class="bg-white text-black border border-black">
-                            <th class="p-2 border border-black">DESCRIPTION</th>
-                            <th class="p-2 border border-black bg-green-700">AMOUNT</th>
-                            <th class="p-2 border border-black bg-yellow-500">EXPECTED RECEIVABLE</th>
-                            <th class="p-2 border border-black bg-red-700">DUE DATE</th>
+                        <tr class="bg-white text-center text-white border border-black">
+                            <th class="p-2 border border-black bg-[#1a4d2e] w-[300px]">DESCRIPTION</th>
+                            <th class="p-2 border border-black bg-[#1a4d2e] w-[120px]">AMOUNT</th>
+                            <th class="p-2 border border-black bg-yellow-500 w-[120px]">EXPECTED RECEIVABLE</th>
+                            <th class="p-2 border border-black bg-red-700 text-center">DUE DATE</th>
                         </tr>
                     </thead>
                     <tbody id="usersTableBody">

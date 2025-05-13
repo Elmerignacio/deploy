@@ -4,13 +4,13 @@
 <x-Student-components.sidebar :profile="$profile"  :firstname="$firstname" :lastname="$lastname">
     
     <div>
-        <h2 class="text-3xl font-bold">{{$firstname}} {{$lastname}}</h2>
-        <p class="text-gray-600 text-sm">DEPARTMENT {{$role}}</p>
+        <h2 class="text-3xl text-[#1a4d2e] font-bold">WELCOME, {{$firstname}} {{$lastname}}!</h2>
+        <p class="text-gray-600 text-xl">DEPARTMENT {{$role}}</p>
     </div>
 
     <div class="grid lg:grid-cols-3 md:grid-cols-3 gap-4 mt-6">
 
-        <div class="bg-green-500 text-white p-6 rounded-lg shadow-lg text-center ">
+        <div class="bg-[#1a4d2e] text-white p-6 rounded-lg shadow-lg text-center ">
             <div class="flex justify-center mt-[15px]">
                 <img src="{{ asset('images/cashonhand.png') }}"
                 class="w-[30%] h-[30%]" alt="Cash on Hand">
@@ -42,6 +42,10 @@
         <p class="text-3xl font-bold"  style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">  ₱{{ number_format($studentBalance, 2) }}</p>
         </div>  
     </div>
+
+
+
+    
 
  
 

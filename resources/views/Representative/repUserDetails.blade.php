@@ -13,7 +13,7 @@
         
                     <div class="relative flex justify-center -mt-24">
                         <img id="previewImage" class="w-32 h-32 rounded-full border-4 border-white"
-                            src="{{ asset('storage/' . ($profile ? $profile->profile : 'images/default.jpg')) }}"
+                            src="{{ asset('storage/' . ($profile ? $profile->profile : 'images/1.jpg')) }}"
                             alt="User Profile">
                         <label for="profileImage"
                             class="absolute bottom-1 right-2 bg-gray-800 text-white p-2 rounded-full cursor-pointer">
