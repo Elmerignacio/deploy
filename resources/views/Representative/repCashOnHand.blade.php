@@ -20,7 +20,7 @@
                             <x-trea-components.sorting class="w-full md:w-auto" />
                             <x-trea-components.year-sorting class="w-full md:w-auto" />
                         </div>
-                        
+
                         <div x-data="{
                             activeRow: null,
                             checkedRows: [],
@@ -33,7 +33,7 @@
                                     this.checkedRows = this.checkedRows.filter(id => id !== remittanceId);
                                     this.selectedDates = this.selectedDates.filter(d => d !== date);
                                 }
-                                console.log(this.selectedDates); 
+                                console.log(this.selectedDates);
                             }
                          }">
                             <table class="w-full min-w-[600px] border border-black rounded-lg text-sm text-center">
@@ -52,7 +52,7 @@
                                             return \Carbon\Carbon::parse($remittance->date)->format('Y-m-d') . '-' . $remittance->collectedBy;
                                         });
                                     @endphp
-                                
+
                                     @foreach ($groupedRemittances as $group => $remittanceGroup)
                                         @php
                                             $remittance = $remittanceGroup->first();
@@ -62,7 +62,7 @@
                                             $totalCollected = $remittanceGroup->sum('amountCollected');
                                             $totalAmount += $totalPaid + $totalCollected;
                                         @endphp
-                                
+
                                         <tr :class="{'bg-gray-300': checkedRows.includes('{{ $remittance->id }}')}"
                                             class="border border-black hover:bg-gray-200 cursor-pointer"
                                             x-on:click="
@@ -110,8 +110,8 @@
                         </div>
                     </div>
                 </div>
-            
-                <div x-show="showModal" 
+
+                <div x-show="showModal"
                 x-transition:enter="transition duration-300 transform"
                 x-transition:enter-start="-translate-y-10 opacity-0"
                 x-transition:enter-end="translate-y-0 opacity-100"
@@ -123,13 +123,13 @@
                     <div class="mb-4 md:mb-0">
                         <p id="studentName" class="text-[25px] font-bold text-green-700" x-text="studentName"></p>
                         <p class="text-[18px]"><span x-text="collectorYearLevel + ' - ' + collectorBlock"></span></p>
-            
-                     
+
+
                             <div class="flex items-center space-x-2 mt-2">
                                 <input type="date" id="selectedyear" name="date" class="border border-black rounded-md px-3 py-1 text-sm focus:ring-2 focus:ring-green-500" required>
                             </div>
                     </div>
-            
+
                     <div class="w-full md:w-auto overflow-x-auto flex md:text-center md:justify-end">
                         <table class="w-full border border-black shadow-lg rounded-lg">
                             <thead>
@@ -145,7 +145,7 @@
                         </table>
                     </div>
                 </div>
-            
+
                 <!-- Payable Table -->
                 <div x-show="showPayableDetails" class="mt-4">
 
@@ -158,7 +158,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                                        
+
                             <template x-for="desc in getAllUniqueDescriptions()" :key="desc">
                                 <tr>
                                     <td class="border p-2 border-black font-bold" x-text="desc"></td>
@@ -174,34 +174,24 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        <div class="mt-4 text-left">
+                        <div class="mt-4 text-center">
                             <button id="remitButton" type="button"
                             class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md transition duration-200">
                             REMIT
                         </button>
                         </div>
-                        
-            
-                  
+
+
+
                 </div>
             </div>
 
-<style>
-@keyframes checkmark {
-0% { opacity: 0; transform: scale(0.5); }
-100% { opacity: 1; transform: scale(1); }
-}
-
-.checkmark-animate {
-animation: checkmark 0.3s ease-out forwards;
-}
-</style>
 
 <x-confirm-denomitation/>
 
 
 
-  
+
 </x-Repre-components.sidebar>
 </x-trea-components.content>
 
@@ -231,7 +221,7 @@ animation: checkmark 0.3s ease-out forwards;
             selectedRemittances: [],
             selectedCheckedIds: [],
             denominations: {},
-    
+
             openModal(data) {
                 this.selectedId = data.id;
                 this.selectedDate = data.date;
@@ -247,7 +237,7 @@ animation: checkmark 0.3s ease-out forwards;
                 this.collectorYearLevel = data.yearLevel;
                 this.collectorBlock = data.block;
                 this.collectorDate = formattedDate;
-    
+
                 const alreadyExists = this.selectedRemittances.some(r => r.id === data.id);
                 if (!alreadyExists) {
                     this.selectedRemittances.push({
@@ -262,25 +252,22 @@ animation: checkmark 0.3s ease-out forwards;
                         role: data.role
                     });
                 }
-    
-                // ✅ Add date if not yet included
+
                 if (!this.selectedDates.includes(formattedDate)) {
                     this.selectedDates.push(formattedDate);
                 }
-    
-                // ✅ Update hidden input value
+
                 document.getElementById('selectedDatesInput').value = this.selectedDates.join(',');
-    
+
                 this.selectedCheckedIds = this.selectedRemittances.map(r => r.id);
             },
-    
+
             removeRemittance(id) {
                 const removed = this.selectedRemittances.find(r => r.id === id);
-    
+
                 this.selectedRemittances = this.selectedRemittances.filter(remittance => remittance.id !== id);
                 this.selectedCheckedIds = this.selectedCheckedIds.filter(checkedId => checkedId !== id);
-    
-                // ✅ Remove date if no more remittances with that date
+
                 if (removed) {
                     const stillExists = this.selectedRemittances.some(r => r.date === removed.date);
                     if (!stillExists) {
@@ -289,17 +276,17 @@ animation: checkmark 0.3s ease-out forwards;
                     }
                 }
             },
-    
+
             formatDateForRequest(date) {
                 const d = new Date(date);
                 return d.toISOString().split('T')[0];
             },
-    
+
             getAllUniqueDescriptions() {
                 const allDescriptions = this.selectedRemittances.flatMap(r => r.descriptions);
                 return [...new Set(allDescriptions)];
             },
-    
+
             getCombinedBalance(desc) {
                 const match = this.balances.find(b =>
                     b.description === desc &&
@@ -308,7 +295,7 @@ animation: checkmark 0.3s ease-out forwards;
                 );
                 return match ? parseFloat(match.balance).toFixed(2) : '0.00';
             },
-    
+
             getCombinedPaid(desc) {
                 let total = 0;
                 this.selectedRemittances.forEach(remit => {
@@ -323,7 +310,7 @@ animation: checkmark 0.3s ease-out forwards;
                 });
                 return total.toFixed(2);
             },
-    
+
             getTotalPaid() {
                 return this.getAllUniqueDescriptions().reduce((sum, desc) => {
                     return sum + parseFloat(this.getCombinedPaid(desc));
@@ -332,19 +319,19 @@ animation: checkmark 0.3s ease-out forwards;
         };
     }
     </script>
-    
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const archiveModal = document.getElementById("archiveModalMale");
-    const successModal = document.getElementById("successModalMale");        
+    const successModal = document.getElementById("successModalMale");
     const confirmButton = archiveModal.querySelector(".confirmBtn");
     const cancelButton = archiveModal.querySelector(".cancelBtn");
     const Confirm = document.getElementById("confirm");
     const successConfirmButton = successModal.querySelector("button[type='submit']");
-    
 
-    
+
+
     confirmButton.addEventListener("click", function () {
         successModalMale.classList.add("hidden");
     });
@@ -360,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
         successModalMale.classList.remove("hidden");
     });
 
-    
+
 
     cancelButton.addEventListener("click", function () {
         archiveModal.classList.add("hidden");
@@ -374,15 +361,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-<style>
-@keyframes checkmark {
-    0% { opacity: 0; transform: scale(0.5); }
-    100% { opacity: 1; transform: scale(1); }
-}
 
-.checkmark-animate {
-    animation: checkmark 0.3s ease-out forwards;
-}
-</style>
+
+
+
 
 

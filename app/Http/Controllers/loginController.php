@@ -21,7 +21,7 @@ public function authenticate(Request $request)
     ]);
 
     $user = DB::table('createuser') 
-        ->select('id','IDNumber', 'username', 'role', 'firstname', 'lastname', 'yearLevel', 'block', 'gender', 'password')
+        ->select('id','student_id', 'username', 'role', 'firstname', 'lastname', 'yearLevel', 'block', 'gender', 'password')
         ->where('username', $credentials['username'])
         ->first();
 
@@ -33,10 +33,10 @@ public function authenticate(Request $request)
         return back()->withErrors(['loginError' => 'Incorrect password.']);
     }
 
-    Auth::loginUsingId($user->IDNumber);
+    Auth::loginUsingId($user->student_id);
     session([
         'id'  => $user->id,
-        'IDNumber'  => $user->IDNumber,
+        'student_id'  => $user->student_id,
         'username'  => $user->username,
         'role'      => $user->role,
         'firstname' => $user->firstname,
@@ -73,4 +73,3 @@ public function logout(Request $request)
 
 
 }
-

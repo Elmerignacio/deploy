@@ -16,23 +16,23 @@ class StudentController extends Controller
         $role = session('role', 'Guest');
         $yearLevel = session('yearLevel');
         $block = session('block');
-        $idNumber = session('IDNumber');
+        $student_id = session('student_id');
     
         $profile = DB::table('avatar')
-        ->where('student_id', session('IDNumber'))
+        ->where('student_id', session('student_id'))
         ->select('profile')
         ->first();
     
         $totalExpenses = DB::table('expenses')->sum('amount');
     
         $studentBalance = DB::table('createpayable')
-            ->where('IDNumber', $idNumber)
+            ->where('student_id', $student_id)
             ->where('yearLevel', $yearLevel)
             ->where('block', $block)
             ->sum('amount');
   
         $totalPaid = DB::table('remittance')
-            ->where('IDNumber', $idNumber)
+            ->where('student_id', $student_id)
             ->whereIn('status', ['REMITTED', 'TO TREASURER', 'COLLECTED', 'COLLECTED BY TREASURER'])
             ->sum('paid');
     
@@ -45,7 +45,7 @@ class StudentController extends Controller
     public function studLedger()
     {
         $student = DB::table('createuser')
-            ->where('IDNumber', session('IDNumber')) 
+            ->where('student_id', session('student_id')) 
             ->first();
     
 
@@ -54,19 +54,19 @@ class StudentController extends Controller
         }
     
         $payables = DB::table('createpayable')
-            ->where('IDNumber', session('IDNumber'))  
+            ->where('student_id', session('student_id'))  
             ->select('description', DB::raw('COALESCE(SUM(amount), 0) as total_balance'))
             ->groupBy('description')
             ->get();
     
         $settledPayables = DB::table('remittance')
-            ->where('IDNumber', session('IDNumber'))  
+            ->where('student_id', session('student_id'))  
             ->select('date', 'description', 'paid', 'collectedBy', 'status')
             ->orderBy('date', 'asc')
             ->get();
     
             $profile = DB::table('avatar')
-            ->where('student_id', session('IDNumber'))
+            ->where('student_id', session('student_id'))
             ->select('profile')
             ->first();
 
@@ -101,7 +101,7 @@ class StudentController extends Controller
         $lastname = session('lastname');
     
         $profile = DB::table('avatar')
-        ->where('student_id', session('IDNumber'))
+        ->where('student_id', session('student_id'))
         ->select('profile')
         ->first();
 
@@ -134,7 +134,7 @@ class StudentController extends Controller
         $sourcesByDate[$date] = array_keys($expensesForDate->toArray()); 
     }
      $profile = DB::table('avatar')
-            ->where('student_id', session('IDNumber'))
+            ->where('student_id', session('student_id'))
             ->select('profile')
             ->first();
 
@@ -163,7 +163,7 @@ public function getStudExpensesByDateAndSource($date, $source)
     {
         $role = session('role', 'Guest');
         $id = session('id', '');
-        $IDNumber = session('IDNumber', '');
+        $student_id = session('student_id', '');
         $firstname = session('firstname', '');
         $lastname = session('lastname', '');
         $yearLevel = session('yearLevel', '');
@@ -173,11 +173,11 @@ public function getStudExpensesByDateAndSource($date, $source)
         $password = session('password', '');
 
         $profile = DB::table('avatar')
-            ->where('student_id', session('IDNumber'))
+            ->where('student_id', session('student_id'))
             ->select('profile')
             ->first();
 
-        return view('Student.studUserDetails', compact('profile', 'IDNumber', 'firstname', 'lastname', 'role', 'yearLevel', 'block', 'username', 'password', 'gender'));
+        return view('Student.studUserDetails', compact('profile', 'student_id', 'firstname', 'lastname', 'role', 'yearLevel', 'block', 'username', 'password', 'gender'));
     }
 
     public function studChange(Request $request)

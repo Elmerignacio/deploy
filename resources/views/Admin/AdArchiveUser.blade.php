@@ -43,7 +43,7 @@
                         @foreach ($archivedStudents as $archived)
                         <tr class="border border-black cursor-pointer" onclick="toggleCheckbox(event, this)">
                             <td class="p-2 border border-black">
-                                <input type="checkbox" name="archived[]" value="{{ $archived->IDNumber }}" class="rowCheckbox">
+                                <input type="checkbox" name="archived[]" value="{{ $archived->student_id }}" class="rowCheckbox">
                             </td>
                             <td class="p-2 border border-black">{{ strtoupper($archived->firstname) }}</td>
                             <td class="p-2 border border-black">{{ strtoupper($archived->lastname) }}</td>

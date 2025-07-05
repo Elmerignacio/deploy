@@ -3,7 +3,7 @@
 <x-trea-components.content>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
 
-    <x-trea-components.sidebar :profile="$profile" :firstname="$firstname" :lastname="$lastname">
+    <x-Add-components.sidebar :profile="$profile" :firstname="$firstname" :lastname="$lastname">
         <div class="mt-4">
             <x-trea-components.content-header>REPORTS</x-trea-components.content-header>
 
@@ -151,7 +151,7 @@
                     </div>
                 </div>
             </div>
-        </x-trea-components.sidebar>
+        </x-Add-components.sidebar>
     </x-trea-components.content>
 
     <script>

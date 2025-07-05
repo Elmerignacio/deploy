@@ -14,7 +14,7 @@ class ProfileController extends Controller
             'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
-        $studentId = session('IDNumber');
+        $studentId = session('student_id');
 
         $existingProfile = DB::table('avatar')
             ->where('student_id', $studentId)

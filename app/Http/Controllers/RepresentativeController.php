@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Log;
 
 
 
@@ -13,20 +13,20 @@ class RepresentativeController extends Controller
 {
 public function RepDashboard()
     {
-        $firstname = session('firstname', 'Guest'); 
+        $firstname = session('firstname', 'Guest');
         $lastname = session('lastname', '');
         $role = session('role', 'Guest');
-        
+
         $yearLevel = session('yearLevel');
         $block = session('block');
-        
+
         $remittedTotal = DB::table('remittance')
             ->where('status', ['COLLECTED','TO TREASURER'])
             ->where('yearLevel', $yearLevel)
             ->where('block', $block)
             ->select(DB::raw('SUM(paid) as total'))
             ->value('total');
-        
+
         $totalBalance = DB::table('createpayable')
             ->where('yearLevel', $yearLevel)
             ->where('block', $block)
@@ -34,25 +34,27 @@ public function RepDashboard()
 
             $Payables = DB::table('createpayable')
             ->select(
-                'description', 
-                'dueDate', 
-                'balance as input_balance', 
+                'description',
+                'dueDate',
+                'balance as input_balance',
                 DB::raw('COUNT(id) as student_count'),
-                DB::raw('(balance * COUNT(id)) as expected_receivable') 
+                DB::raw('(balance * COUNT(id)) as expected_receivable')
             )
-            ->groupBy('description', 'dueDate', 'balance') 
+            ->groupBy('description', 'dueDate', 'balance')
             ->get();
 
-            $profile = DB::table('avatar')
-            ->where('student_id', session('id'))
-            ->select('profile')
-            ->first();
+
+        $profile = DB::table('avatar')
+        ->where('student_id', session('student_id'))
+        ->select('profile')
+        ->first();
+
             $firstname = session('firstname', 'Guest');
             $lastname = session('lastname', '');
 
-            $totalExpenses = DB::table('expenses')->sum('amount');  
-      
-        
+            $totalExpenses = DB::table('expenses')->sum('amount');
+
+
         return view('representative.repdashboard', compact('firstname', 'lastname', 'role', 'remittedTotal', 'totalBalance','Payables','profile','totalExpenses'));
     }
 
@@ -68,10 +70,12 @@ public function RepDashboard()
         $username = session('username', '');
         $password = session('password', '');
 
+
         $profile = DB::table('avatar')
-            ->where('student_id', $id)
+            ->where('student_id', session('student_id'))
             ->select('profile')
             ->first();
+
         //    dd()
 
 
@@ -88,18 +92,19 @@ function repCollection() {
         ->where('yearLevel', $yearLevel)
         ->where('block', $block)
         ->orderBy('lastname', 'asc')
-        ->get(); 
+        ->get();
 
-        
+
         $firstname = session('firstname');
         $lastname = session('lastname');
 
 
 
         $profile = DB::table('avatar')
-        ->where('student_id', session('id'))
-        ->select('profile')
-        ->first();
+            ->where('student_id', session('student_id'))
+            ->select('profile')
+            ->first();
+
 
     return view('representative.repCollection', compact('students','profile','firstname','lastname'));
 }
@@ -109,7 +114,7 @@ public function RepRemitted()
 {
     $userYearLevel = session('yearLevel');
     $userBlock = session('block');
-    
+
     $remittances = DB::table('remittance')
         ->leftJoin('createuser', function ($join) {
             $join->on('remittance.yearLevel', '=', 'createuser.yearLevel')
@@ -124,8 +129,8 @@ public function RepRemitted()
             'remittance.lastname',
             'remittance.collectedBy'
         )
-        ->where('remittance.yearLevel', $userYearLevel)  
-        ->where('remittance.block', $userBlock)  
+        ->where('remittance.yearLevel', $userYearLevel)
+        ->where('remittance.block', $userBlock)
         ->orderBy('remittance.status', 'asc')
         ->get();
 
@@ -154,16 +159,18 @@ public function RepRemitted()
         ->select('firstname', 'lastname', 'role', 'yearLevel', 'block')
         ->get();
 
-              
+
         $firstname = session('firstname');
         $lastname = session('lastname');
 
 
 
+
         $profile = DB::table('avatar')
-        ->where('student_id', session('id'))
-        ->select('profile')
-        ->first();
+            ->where('student_id', session('student_id'))
+            ->select('profile')
+            ->first();
+
 
 
     return view('representative.repRemitted', compact('remittances', 'collectors', 'balances','paids','profile','firstname','lastname'));
@@ -171,10 +178,10 @@ public function RepRemitted()
 
 public function RepCashOnHand()
 {
-    
+
     $userYearLevel = session('yearLevel');
     $userBlock = session('block');
-    
+
     $remittances = DB::table('remittance')
         ->leftJoin('createuser', function ($join) {
             $join->on('remittance.yearLevel', '=', 'createuser.yearLevel')
@@ -183,7 +190,7 @@ public function RepCashOnHand()
                  ->whereIn('createuser.role', ['TREASURER', 'REPRESENTATIVE']);
         })
 
-        
+
         ->select(
             'remittance.*',
             'createuser.yearLevel as userYearLevel',
@@ -192,8 +199,8 @@ public function RepCashOnHand()
             'remittance.lastname',
             'remittance.collectedBy'
         )
-        ->where('remittance.yearLevel', $userYearLevel)  
-        ->where('remittance.block', $userBlock)  
+        ->where('remittance.yearLevel', $userYearLevel)
+        ->where('remittance.block', $userBlock)
         ->where('remittance.status', 'COLLECTED')
         ->orderBy('remittance.date', 'asc')
         ->get();
@@ -213,7 +220,7 @@ public function RepCashOnHand()
     }
 
     $paids = DB::table('remittance')
-        ->select('paid', 'description', 'yearLevel', 'block', 'date','status') 
+        ->select('paid', 'description', 'yearLevel', 'block', 'date','status')
         ->get();
 
     $groupedRemittances = $remittances->groupBy(function ($remittance) {
@@ -242,12 +249,15 @@ public function RepCashOnHand()
 
 
 
-    $profile = DB::table('avatar')
-        ->where('student_id', session('id'))
-        ->select('profile')
-        ->first();
 
-        
+        $profile = DB::table('avatar')
+            ->where('student_id', session('student_id'))
+            ->select('profile')
+            ->first();
+
+
+
+
     return view('representative.repCashOnHand', compact('remittances', 'collectors', 'balances', 'paids', 'groupedRemittances', 'totalAmount','firstname', 'lastname', 'profile'));
 }
 public function RepSavePayment(Request $req)
@@ -309,7 +319,7 @@ public function RepSavePayment(Request $req)
 
                 if (!$existingPayment) {
                     DB::table('remittance')->insert([
-                        'IDNumber' => $payable->IDNumber,
+                        'student_id' => $payable->student_id,
                         'firstName' => $firstname,
                         'lastName' => $lastname,
                         'yearLevel' => $payable->yearLevel,
@@ -435,7 +445,7 @@ public function denomination(Request $request)
     $selectedDates = $request->input('selectedDates');
     if (!empty($selectedDates)) {
         $selectedDates = explode(',', $selectedDates);
-    
+
         DB::table('remittance')
             ->whereIn('date', $selectedDates)
             ->where('status', 'COLLECTED')
@@ -491,13 +501,13 @@ function repPayableManagement() {
 
     $Payables = DB::table('createpayable')
         ->select(
-            'description', 
-            'dueDate', 
-            'balance as input_balance', 
+            'description',
+            'dueDate',
+            'balance as input_balance',
             DB::raw('COUNT(id) as student_count'),
-            DB::raw('(balance * COUNT(id)) as expected_receivable') 
+            DB::raw('(balance * COUNT(id)) as expected_receivable')
         )
-        ->groupBy('description', 'dueDate', 'balance') 
+        ->groupBy('description', 'dueDate', 'balance')
         ->get();
 
 
@@ -505,10 +515,12 @@ function repPayableManagement() {
         $lastname = session('lastname');
 
 
-    $profile = DB::table('avatar')
-        ->where('student_id', session('id'))
-        ->select('profile')
-        ->first();
+
+        $profile = DB::table('avatar')
+            ->where('student_id', session('student_id'))
+            ->select('profile')
+            ->first();
+
 
     return view('representative/RepPayableManagement', compact('Payables', 'yearLevels','profile','firstname','lastname'));
 }
@@ -516,26 +528,29 @@ function repPayableManagement() {
 public function RepStudentPayables($studentId)
 {
     $payables = DB::table('createpayable')
-        ->where('IDNumber', $studentId)
-        ->select('IDNumber', 'description', 'amount', 'id')
+        ->where('student_id', $studentId)
+        ->select('student_id', 'description', 'amount', 'id')
         ->get();
+
+    \Log::info('Returning payables:', $payables->toArray());
 
     return response()->json($payables);
 }
 
+
 public function RepStudentbalance()
 {
     $students = DB::table('createuser')
-        ->select('IDNumber', 'lastname', 'firstname', 'yearLevel', 'block', 'role')
+        ->select('student_id', 'lastname', 'firstname', 'yearLevel', 'block', 'role')
         ->whereIn('role', ['student', 'treasurer', 'representative'])
         ->orderBy('lastname', 'asc')
         ->get();
 
     $payables = DB::table('createpayable')
-        ->select('IDNumber', DB::raw('COALESCE(SUM(amount), 0) as total_balance'))
-        ->groupBy('IDNumber')
+        ->select('student_id', DB::raw('COALESCE(SUM(amount), 0) as total_balance'))
+        ->groupBy('student_id')
         ->get()
-        ->keyBy('IDNumber');
+        ->keyBy('student_id');
 
     $yearLevels = DB::table('createuser')
         ->select('yearLevel')
@@ -581,9 +596,10 @@ public function RepStudentbalance()
     }
 
     $profile = DB::table('avatar')
-        ->where('student_id', session('id'))
-        ->select('profile')
-        ->first();
+    ->where('student_id', session('student_id'))
+    ->select('profile')
+    ->first();
+
 
         $firstname = session('firstname');
         $lastname = session('lastname');
@@ -605,25 +621,27 @@ public function RepStudentbalance()
 public function RepShowLedger($id)
 {
     $student = DB::table('createuser')
-        ->where('IDNumber', $id)
+        ->where('student_id', $id)
         ->first();
 
     $payables = DB::table('createpayable')
-        ->where('IDNumber', $id)
+        ->where('student_id', $id)
         ->select('description', DB::raw('COALESCE(SUM(amount), 0) as total_balance'))
         ->groupBy('description')
         ->get();
 
     $settledPayables = DB::table('remittance')
-        ->where('IDNumber', $id)
+        ->where('student_id', $id)
         ->select('date', 'description', 'paid', 'collectedBy', 'status')
         ->orderBy('date', 'asc')
         ->get();
 
-    $profile = DB::table('avatar')
-        ->where('student_id', session('id'))
-        ->select('profile')
-        ->first();
+
+        $profile = DB::table('avatar')
+            ->where('student_id', session('student_id'))
+            ->select('profile')
+            ->first();
+
 
         $firstname = session('firstname');
         $lastname = session('lastname');
@@ -655,12 +673,14 @@ public function RepExpense()
     }
     $sourcesByDate = [];
     foreach ($groupedExpenses as $date => $expensesForDate) {
-        $sourcesByDate[$date] = array_keys($expensesForDate->toArray()); 
+        $sourcesByDate[$date] = array_keys($expensesForDate->toArray());
     }
-    $profile = DB::table('avatar')
-        ->where('student_id', session('id'))
-        ->select('profile')
-        ->first();
+
+        $profile = DB::table('avatar')
+            ->where('student_id', session('student_id'))
+            ->select('profile')
+            ->first();
+
 
     $firstname = session('firstname');
     $lastname = session('lastname');
@@ -673,13 +693,13 @@ public function RepExpense()
 
 public function getRepExpensesByDateAndSource($date, $source)
 {
-    
+
     $expenses = DB::table('expenses')
         ->whereDate('date', $date)
         ->where('source', $source)
         ->get(['description', 'amount']);
-    
-    return response()->json($expenses); 
+
+    return response()->json($expenses);
 }
 
 public function RepChange(Request $request)

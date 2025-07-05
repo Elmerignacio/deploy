@@ -31,11 +31,11 @@
             }
         </script>
 
-<div x-data="{
+<div x-data="{  
         showDetails: false,
         selectedPayable: {
           id: '',
-          IDNumber: '',
+          student_id: '',
           firstname: '',
           lastname: '',
           yearLevel: '',
@@ -44,7 +44,7 @@
           description: '',
           amount: '',
           dueDate: '',
-          profile_url: '',       // Will be empty string if no profile
+          profile_url: '',     
           defaultImage: '{{ asset("storage/images/1.jpg") }}'
         },
         selectUser(user) {
@@ -66,13 +66,13 @@
                     </thead>
                     <tbody id="usersTableBody" x-data="{ selectedRow: null }">
                         @foreach ($studentsWithProfile as $student)
-                                    <tr :class="selectedRow === '{{ $student->IDNumber }}' ? 'bg-gray-300' : 'hover:bg-gray-200'"
+                                    <tr :class="selectedRow === '{{ $student->student_id }}' ? 'bg-gray-300' : 'hover:bg-gray-200'"
                                         class="border border-black cursor-pointer text-sm sm:text-base transition-colors duration-150"
                                         @click="
-                              selectedRow = '{{ $student->IDNumber }}';
+                              selectedRow = '{{ $student->student_id }}';
                               selectUser({
-                                id: '{{ $student->IDNumber }}',
-                                IDNumber: '{{ $student->IDNumber }}',
+                                id: '{{ $student->student_id }}',
+                                student_id: '{{ $student->student_id }}',
                                 firstname: '{{ strtoupper($student->firstname) }}',
                                 lastname: '{{ strtoupper($student->lastname) }}',
                                 yearLevel: '{{ strtoupper($student->yearLevel) }}',
@@ -85,8 +85,8 @@
                               })
                             ">
                                         <td class="p-2 border border-black text-center"><input type="checkbox" name="students[]"
-                                                value="{{ $student->IDNumber }}" class="rowCheckbox accent-[#1a4d2e]"></td>
-                                        <td class="p-2 border border-black">{{ $student->IDNumber }}</td>
+                                                value="{{ $student->student_id }}" class="rowCheckbox accent-[#1a4d2e]"></td>
+                                        <td class="p-2 border border-black">{{ $student->student_id }}</td>
                                         <td class="p-2 border border-black">{{ strtoupper($student->firstname) }}</td>
                                         <td class="p-2 border border-black">{{ strtoupper($student->lastname) }}</td>
                                         <td class="p-2 border border-black">{{ strtoupper($student->yearLevel) }} -
@@ -96,13 +96,12 @@
                     </tbody>
                 </x-two-table-scrollable>
 
-                <x-trea-components.modify-modal>
+                <x-trea-components.modify-table>
                     <div class="relative flex justify-center">
-                        <img id="previewImage" class="w-32 h-32  rounded-full border-4 border-white"
+                        <img id="previewImage" class="w-32 h-32  rounded-full border-2 border-green-700"
                             :src="!selectedPayable . profile_url || selectedPayable . profile_url === 'null' ? selectedPayable . defaultImage : selectedPayable . profile_url" alt="User Profile" />
                     </div>
-
-                </x-trea-components.modify-modal>
+                </x-trea-components.modify-table>
             </div>
     </div>
     

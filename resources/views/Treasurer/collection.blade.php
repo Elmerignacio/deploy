@@ -16,9 +16,6 @@
       
               
         <x-trea-components.sorting/>
-
-
-        
           <div 
             x-data="collectionsApp()" 
             class="flex flex-col md:flex-row overflow-auto"
@@ -36,10 +33,10 @@
                   @foreach ($students as $student)
                       <tr 
                           class="border border-black cursor-pointer text-center hover:bg-gray-200"
-                          :class="activeRow === '{{ $student->IDNumber }}' ? 'bg-gray-300' : ''"
-                          @click="activeRow = '{{ $student->IDNumber }}'; handleClick('{{ $student->IDNumber }}', '{{ strtoupper($student->firstname) }} {{ strtoupper($student->lastname) }}', '{{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}')"
+                          :class="activeRow === '{{ $student->student_id }}' ? 'bg-gray-300' : ''"
+                          @click="activeRow = '{{ $student->student_id }}'; handleClick('{{ $student->student_id }}', '{{ strtoupper($student->firstname) }} {{ strtoupper($student->lastname) }}', '{{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}')"
                       >
-                          <td class="p-2 border border-black">{{ $student->IDNumber }}</td>
+                          <td class="p-2 border border-black">{{ $student->student_id }}</td>
                           <td class="p-2 border border-black">{{ strtoupper($student->firstname) }}</td>
                           <td class="p-2 border border-black">{{ strtoupper($student->lastname) }}</td>
                           <td class="p-2 border border-black">

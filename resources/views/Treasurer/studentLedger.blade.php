@@ -18,7 +18,7 @@
         
         
         <h3 class="text-4xl font-extrabold mt-2 text-[#1a4d2e] pt-4">{{ strtoupper($student->firstname) }} {{ strtoupper($student->lastname) }}</h3>
-        <p class="text-black font-medium text-2xl">ID: {{ $student->IDNumber }}</p>
+        <p class="text-black font-medium text-2xl">ID: {{ $student->student_id }}</p>
         <p class="text-black font-medium text-2xl">{{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}</p>
     </div>
     

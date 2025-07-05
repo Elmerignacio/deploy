@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('archive', function (Blueprint $table) {
-            $table->id();
-            $table->integer('IDNumber');
+            $table->id('id');   
+            $table->integer('student_id');   
             $table->string('firstname');
             $table->string('lastname');
             $table->enum('gender', ['male', 'female', 'other']);

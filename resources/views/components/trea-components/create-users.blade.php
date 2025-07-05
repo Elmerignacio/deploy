@@ -14,7 +14,7 @@
                     @csrf 
                     <div>
                         <label class="block mb-1 text-sm font-semibold">ID NUMBER:</label>
-                        <input name="IDNumber" type="number" class="w-full p-2 rounded-md text-black uppercase" required id="idNumber" style="text-transform: uppercase;">
+                        <input name="student_id" type="number" class="w-full p-2 rounded-md text-black uppercase" required id="student_id" style="text-transform: uppercase;">
                     </div>
                     <div>
                         <label class="block mb-1 text-sm font-semibold">FIRSTNAME:</label>
@@ -48,10 +48,17 @@
                                 <option value="4th Year">4TH YEAR</option>
                             </select>
                         </div>
-                        <div class="w-[50%]">
-                            <label class="block mb-1 text-sm font-semibold">BLOCK:</label>
-                            <input name="block" type="text" class="w-full p-2 rounded-md text-black uppercase" required style="text-transform: uppercase;">
-                        </div>
+                             <div class="w-[50%]">
+                                <label class="block mb-1 text-sm font-semibold">BLOCK:</label>
+                                <select name="block" id="block" class="w-full p-2 rounded-md text-black uppercase" required>
+                                    <option value="" disabled selected>SELECT BLOCK</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                </select>
+                            </div>
                     </div>
                     <div>
                         <label class="block mb-1 text-sm font-semibold">USER ROLE:</label>
@@ -123,7 +130,7 @@
                     </script>
     
                     <script>
-                        document.getElementById("idNumber").addEventListener("input", function() {
+                        document.getElementById("student_id").addEventListener("input", function() {
                             document.getElementById("username").value = this.value; 
                         });
                     
@@ -132,8 +139,9 @@
                         });
                     </script>
 
-                    <x-trea-components.male-modal/>
-                    <x-trea-components.female-modal/>
+                 <x-trea-components.adduser-modal/>
+
+              
                 </form>
             </div>
         </div>

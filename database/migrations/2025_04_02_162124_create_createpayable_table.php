@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('createpayable', function (Blueprint $table) {
-            $table->id();
-            $table->integer('IDNumber');
+            $table->id('id');   
+            $table->integer('student_id');   
             $table->string('studentName');
             $table->text('description');
             $table->decimal('amount', 8, 2);

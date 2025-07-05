@@ -109,7 +109,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <input type="file" id="profileImage" name="image" class="hidden" onchange="previewImage(event)">
-                        <input type="hidden" name="student_id" value="{{ $IDNumber }}">
+                        <input type="hidden" name="student_id" value="{{ $student_id}}">
 
                         <button id="uploadBtn" type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md hidden"
                             onclick="confirmUpload()">
@@ -123,7 +123,7 @@
         <div id="popupModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
             <div class="bg-white p-6 rounded-md shadow-md text-center">
                 <p class="text-lg font-semibold mb-4">Are you sure you want to upload this image?</p>
-                <button onclick="submitImage()" class="bg-bg-[#1a4d2e] text-white px-4 py-2 rounded-md">Yes</button>
+                <button onclick="submitImage()" class="bg-[#1a4d2e] text-white px-4 py-2 rounded-md">Yes</button>
                 <button onclick="closePopup()" class="bg-red-500 text-white px-4 py-2 rounded-md ml-2">Cancel</button>
             </div>
         </div>
@@ -156,7 +156,8 @@
 
 
 
-        <div id="changePasswordModal"class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div id="changePasswordModal"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
 
             <div class="bg-[#1a4d2e] text-white rounded-xl w-full max-w-md shadow-xl p-8 relative">
 

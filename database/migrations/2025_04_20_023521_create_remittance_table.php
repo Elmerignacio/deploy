@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('remittance', function (Blueprint $table) {
-            $table->id();
-            $table->integer('IDNumber');
+            $table->id('id');   
+            $table->integer('student_id');     
             $table->string('firstName');
             $table->string('lastName');
             $table->string('yearLevel');  

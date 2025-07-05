@@ -51,13 +51,13 @@
                 @php $grandTotal = 0; @endphp
                 @forelse($students as $student)
                     @php
-                        $totalBalance = $payables[$student->IDNumber]->total_balance ?? 0;
+                        $totalBalance = $payables[$student->student_id]->total_balance ?? 0;
                         $grandTotal += $totalBalance;
                     @endphp
                     @if(strtoupper($student->yearLevel) == strtoupper(session('yearLevel')) && strtoupper($student->block) == strtoupper(session('block')))
                         <tr class="border border-black cursor-pointer student-row hover:bg-gray-200"
-                            onclick="routeToStudentLedger('{{ $student->IDNumber }}')">
-                            <td class="p-2 border border-black">{{ $student->IDNumber }}</td>
+                            onclick="routeToStudentLedger('{{ $student->student_id }}')">
+                            <td class="p-2 border border-black">{{ $student->student_id }}</td>
                             <td class="p-2 border border-black">{{ strtoupper($student->lastname) }}</td>
                             <td class="p-2 border border-black">{{ strtoupper($student->firstname) }}</td>
                             <td class="p-2 border border-black">{{ strtoupper($student->yearLevel) }} - {{ strtoupper($student->block) }}</td>
@@ -81,8 +81,8 @@
     </div>
 
     <script>
-        function routeToStudentLedger(idNumber) {
-            window.location.href = "/representative/student-ledger/" + idNumber;
+        function routeToStudentLedger(student_id) {
+            window.location.href = "/representative/student-ledger/" + student_id;
         }
 
         const cashOnHand = @json($cashOnHand);
@@ -103,8 +103,8 @@
         const receivableDisplay = document.getElementById('receivableDisplay');
         receivableDisplay.textContent = `₱${totalBalance.toFixed(2)}`;
 
-        totalCash = parseFloat(cashOnHand[session('IDNumber')] ?? 0);
-        totalRemitted = parseFloat(remitted[session('IDNumber')] ?? 0);
+        totalCash = parseFloat(cashOnHand[session('student_id')] ?? 0);
+        totalRemitted = parseFloat(remitted[session('student_id')] ?? 0);
 
         document.getElementById('cashOnHandDisplay').textContent = `₱${totalCash.toFixed(2)}`;
         document.getElementById('remittedDisplay').textContent = `₱${totalRemitted.toFixed(2)}`;
