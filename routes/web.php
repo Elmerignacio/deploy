@@ -11,8 +11,8 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\AdminController;
 
 
-Route::get('/login', [loginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [loginController::class, 'authenticate']);
+Route::get('/', [loginController::class, 'showLoginForm'])->name('login');
+Route::post('/', [loginController::class, 'authenticate']);
 Route::post('/logout', [loginController::class, 'logout'])->name('logout');
 
 //TREASURER
